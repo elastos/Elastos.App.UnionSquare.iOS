@@ -1324,7 +1324,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
            return @"http://54.223.244.60";
            }else if ([sdknet isEqualToString:@"PrvNet"] ){
-               return @"http://172.26.0.207:3000";
+               return @"http://node.longrunweather.com:18080";
               
            }else if ([sdknet isEqualToString:@"TestNet"] ){
                return @"http://54.223.244.60";
@@ -1338,7 +1338,7 @@ void ProViderReleaseData (void *info,const void *data,size_t size) {
     if ([sdknet isEqualToString:@"RegTest"] ) {
              return  @"https://blockchain-beta.elastos.org/tx/";
              }else if ([sdknet isEqualToString:@"PrvNet"] ){
-                 return  @"http://172.26.0.207:3000";
+                 return  @"http://node.longrunweather.com:18080";
                 
              }else if ([sdknet isEqualToString:@"TestNet"] ){
                  return  @"https://blockchain-beta.elastos.org/tx/";
