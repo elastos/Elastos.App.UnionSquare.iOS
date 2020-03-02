@@ -175,7 +175,7 @@
 -(void)getNetCoinPointArrayWithPubKey:(NSString *)OwnerPublickKey{
 NSString *httpIP=[[FLTools share]http_IpFast];
     
-    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+    [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all",@"pageNum":@1,@"pageSzie":@"10000"} showHUD:NO WithSuccessBlock:^(id data) {
         NSDictionary *param = data[@"data"];
         NSArray *dataSource= [NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
         for (FLCoinPointInfoModel *model in dataSource) {

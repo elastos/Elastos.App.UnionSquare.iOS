@@ -2,7 +2,7 @@
 //  HWMDIDManager.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2020/2/18.
+//  Created by  on 2020/2/18.
 //
 
 #import "HWMDIDManager.h"

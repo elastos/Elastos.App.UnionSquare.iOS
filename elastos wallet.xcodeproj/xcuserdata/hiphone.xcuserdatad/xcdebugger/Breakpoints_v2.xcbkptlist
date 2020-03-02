@@ -253,38 +253,6 @@
             endingLineNumber = "1630"
             landmarkName = "-UpdateProducerWithMainchainSubWallet:With:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - 19b25342bdacb044"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager UpdateProducerWithMainchainSubWallet:With:]"
-                  moduleName = "REGNET"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1631"
-                  endingLineNumber = "1631"
-                  offsetFromSymbolStart = "1888">
-               </Location>
-               <Location
-                  uuid = "BD0D8FE3-5746-46B8-9C81-64A0FCF898F5 - 19b25342bdacb044"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ELWalletManager UpdateProducerWithMainchainSubWallet:With:]"
-                  moduleName = "REGNET"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1631"
-                  endingLineNumber = "1631"
-                  offsetFromSymbolStart = "1904">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -413,6 +381,38 @@
             endingLineNumber = "1504"
             landmarkName = "-mainChainWithdrawalFee:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "837EC17F-BBA4-4007-836F-A8E4B0A01D06 - b0807b080c41105b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ELWalletManager RegisterCRWithMainchainSubWallet:With:]"
+                  moduleName = "ELA Wallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1504"
+                  endingLineNumber = "1504"
+                  offsetFromSymbolStart = "1488">
+               </Location>
+               <Location
+                  uuid = "837EC17F-BBA4-4007-836F-A8E4B0A01D06 - b0807b080c41105b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ELWalletManager RegisterCRWithMainchainSubWallet:With:]"
+                  moduleName = "ELA Wallet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiphone/Documents/ElastosApp/Elastos.App.UnionSquare.iOS.github/WalletManager/ELWalletManager.mm"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1504"
+                  endingLineNumber = "1504"
+                  offsetFromSymbolStart = "2536">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -443,7 +443,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "443"
             endingLineNumber = "443"
-            landmarkName = "-updateInfoSelf"
+            landmarkName = "-setNodeName:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -556,22 +556,6 @@
             startingLineNumber = "213"
             endingLineNumber = "213"
             landmarkName = "-errInfoToDic:with:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "22F7BBCB-0E80-4C1B-8CF9-68D552474A10"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ELA/Wallet/ViewController/FirstViewController.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "322"
-            endingLineNumber = "322"
-            landmarkName = "-iconInfoUpdate:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

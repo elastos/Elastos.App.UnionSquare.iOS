@@ -2,7 +2,7 @@
 //  HWMCRCCommitteeElectionListViewController.m
 //  elastos wallet
 //
-//  Created by 韩铭文 on 2019/9/5.
+//  Created by  on 2019/9/5.
 //
 
 #import "HWMCRCCommitteeElectionListViewController.h"
@@ -975,7 +975,7 @@ NSArray *DorpVotes=dic[@"DorpVotes"];
 }
 -(void)LoadInvalidDops{
         NSString *httpIP=[[FLTools share]http_IpFast];
-        [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all"} showHUD:NO WithSuccessBlock:^(id data) {
+        [HttpUrl NetPOSTHost:httpIP url:@"/api/dposnoderpc/check/listproducer" header:@{} body:@{@"moreInfo":@"1",@"state":@"all",@"pageNum":@1,@"pageSzie":@"10000"} showHUD:NO WithSuccessBlock:^(id data) {
             NSDictionary *param = data[@"data"];
             NSArray *dataArray =[NSArray modelArrayWithClass:FLCoinPointInfoModel.class json:param[@"result"][@"producers"]];
            

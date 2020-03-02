@@ -113,7 +113,7 @@
       buildConfiguration = "Release(MainNet)">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "PrvNet "
+      buildConfiguration = "Release(MainNet)"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
