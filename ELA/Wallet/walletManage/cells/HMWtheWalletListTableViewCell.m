@@ -28,32 +28,38 @@
 -(void)setModel:(FMDBWalletModel *)model{
     _model=model;
     
- 
-   
-//       self.walletAddressLabel.text=model.walletAddress;
-    NSString *imageName=@"single_wallet";
-    switch (model.TypeW) {
-        case SingleSign:
-            imageName=@"single_wallet";
-         self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
-            break;
-        case SingleSignReadonly:
-            imageName=@"single_walllet_readonly";
+    if (model.TypeW) {
+        //       self.walletAddressLabel.text=model.walletAddress;
+        NSString *imageName=@"single_wallet";
+        switch (model.TypeW) {
+            case SingleSign:
+                imageName=@"single_wallet";
              self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
-            break;
-        case HowSign:
-            imageName=@"multi_wallet";
-            self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
-            break;
-        case HowSignReadonly:
-            imageName=@"multi_wallet_readonly";
-             self.walletNameLabel.text=[NSString stringWithFormat:@"%@",model.walletName];
-            break;
-            
-        default:
-            break;
+                break;
+            case SingleSignReadonly:
+                imageName=@"single_walllet_readonly";
+                 self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
+                break;
+            case HowSign:
+                imageName=@"multi_wallet";
+                self.walletNameLabel.text=  [NSString stringWithFormat:@"%@",model.walletName];
+                break;
+            case HowSignReadonly:
+                imageName=@"multi_wallet_readonly";
+                 self.walletNameLabel.text=[NSString stringWithFormat:@"%@",model.walletName];
+                break;
+                
+            default:
+                break;
+        }
+        self.iconImageVIew.image=[UIImage imageNamed:imageName];
+    }else{
+        self.iconImageVIew.alpha=0.f;
+        self.labeSuperLeftOffSet.constant=15.f;
+         self.walletNameLabel.text=[NSString stringWithFormat:@"%@",model.walletName];
     }
-    self.iconImageVIew.image=[UIImage imageNamed:imageName];
+   
+
     
     
 }

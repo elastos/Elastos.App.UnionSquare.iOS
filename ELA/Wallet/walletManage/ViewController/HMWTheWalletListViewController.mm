@@ -45,7 +45,7 @@ static NSString *celladdString=@"HMWaddWalletListTableViewCell";
     self.title=NSLocalizedString(@"钱包列表", nil);
     [self makeView];
     self.selectIndex=[NSIndexPath indexPathForRow:0 inSection:self.currentWalletIndex];
-    [self loadAddress];
+//    [self loadAddress];
 }
 -(void)setWalletIDListArray:(NSMutableArray *)walletIDListArray{
     _walletIDListArray =walletIDListArray;
