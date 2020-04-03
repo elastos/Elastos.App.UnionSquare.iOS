@@ -308,6 +308,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }else{
 =======
         
+<<<<<<< HEAD
 //        if (self.isOpen) {
 //
 //            if (self.currentWallet.didString.length>5) {
@@ -324,6 +325,18 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 //            }
 //        }else{
 >>>>>>> Complete voucher function
+=======
+        if (self.isOpen) {
+            if (self.currentWallet.didString.length>5) {
+                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+                DIDInfoVC.currentWallet=self.currentWallet;
+                [self.navigationController pushViewController:DIDInfoVC animated:YES];
+            }else{
+                [self showDIDInfoOrCreateDIDInfo];
+
+            }
+        }else{
+>>>>>>> Wallet management code releaseManager
             
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
@@ -331,6 +344,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.top.bottom.equalTo(mainView);
             }];
+<<<<<<< HEAD
 <<<<<<< HEAD
         }
         
@@ -341,6 +355,9 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 //
 //
 >>>>>>> Complete voucher function
+=======
+        }
+>>>>>>> Wallet management code releaseManager
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
