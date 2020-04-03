@@ -310,8 +310,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.top.bottom.equalTo(mainView);
             }];
-        }
-
+      }
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
