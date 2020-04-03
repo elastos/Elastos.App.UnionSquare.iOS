@@ -294,6 +294,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
+<<<<<<< HEAD
     
         if (self.isOpen) {
             if (self.currentWallet.didString.length>5) {
@@ -305,6 +306,24 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
             }
         }else{
+=======
+        
+//        if (self.isOpen) {
+//
+//            if (self.currentWallet.didString.length>5) {
+//
+//
+//
+//
+//                HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
+//                DIDInfoVC.currentWallet=self.currentWallet;
+//                [self.navigationController pushViewController:DIDInfoVC animated:YES];
+//            }else{
+//                [self showDIDInfoOrCreateDIDInfo];
+//
+//            }
+//        }else{
+>>>>>>> Complete voucher function
             
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
@@ -312,8 +331,16 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
             [self.toDeleteTheWalletPopV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.top.bottom.equalTo(mainView);
             }];
+<<<<<<< HEAD
         }
         
+=======
+            
+//
+//        }
+//
+//
+>>>>>>> Complete voucher function
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
