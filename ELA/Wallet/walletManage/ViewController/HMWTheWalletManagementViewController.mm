@@ -294,7 +294,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         
     }else if ([title isEqualToString:NSLocalizedString(@"DID",nil)]){
-        
+    
         if (self.isOpen) {
             if (self.currentWallet.didString.length>5) {
                 HWMDIDInfoViewController *DIDInfoVC=[[HWMDIDInfoViewController alloc]init];
@@ -314,7 +314,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
         }
-
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
