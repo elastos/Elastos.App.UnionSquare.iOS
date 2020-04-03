@@ -311,7 +311,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 make.left.right.top.bottom.equalTo(mainView);
             }];
         }
-
     }
 }
 -(void)showDIDInfoOrCreateDIDInfo{
