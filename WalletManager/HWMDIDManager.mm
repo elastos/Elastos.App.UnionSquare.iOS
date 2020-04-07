@@ -300,6 +300,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Issuer_Destroy(isser);
     DIDURL_Destroy(creatCredentialID);
     Credential_Destroy(c);
+    NSLog(@"saveDIDCredentialWithDIDModel=====%d",r);
     if (r==0) {
         return YES;
     }else{
