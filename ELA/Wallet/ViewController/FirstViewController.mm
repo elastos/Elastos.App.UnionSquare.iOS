@@ -121,7 +121,6 @@
         [self loadNetWorkingPong];
     }
     
-    
 }
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
@@ -765,7 +764,8 @@
 }
 -(void)SweepCodeProcessingResultsWithQRCodeString:(NSString*)QRCodeString{
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
-        if (self.currentWallet.didString.length==0) {
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        if (![[HWMDIDManager shareDIDManager]HasBeenOnTheChain]) {
             [[FLTools share]showErrorInfo:NSLocalizedString(@"当前钱包未创建DID", nil)];
             return;
         }
@@ -778,41 +778,39 @@
             [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
         }
     }
-//    else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-//       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
-//        HMWtransferVC.currentWallet=self.currentWallet;
-//        assetsListModel *model=self.dataSoureArray[0];
-//        HMWtransferVC.model=model;
-//        HMWtransferVC.toAddressString=QRCodeString;
-//        [self.navigationController pushViewController:HMWtransferVC animated:NO];
-//
-//    }
+    //    else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
+    //       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
+    //        HMWtransferVC.currentWallet=self.currentWallet;
+    //        assetsListModel *model=self.dataSoureArray[0];
+    //        HMWtransferVC.model=model;
+    //        HMWtransferVC.toAddressString=QRCodeString;
+    //        [self.navigationController pushViewController:HMWtransferVC animated:NO];
+    //
+    //    }
     else{
-    [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
-}
-
-
-
-
-//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
-//        self.QRCoreDic=nil;
-//    }
-//    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
-//    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
-//    if (![self TypeJudgment:dic]){
-//        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
-//        QrCodeScanningResultsVC.resultString=QRCodeString;
-//        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
-//        return;
-//    }
-//    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
-//
-//        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
-//           [self GetTransactionSignedInfoWhereForm:NO];
-//        }
-//    }
-
-
+        [self QrCodeScanningResultsWithString:QRCodeString withVC:self];
+    }
+    
+    
+    
+    
+    //    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic] ) {
+    //        self.QRCoreDic=nil;
+    //    }
+    //    NSDictionary *dic =[NSMutableDictionary dictionaryWithDictionary:[[FLTools share]QrCodeImageFromDic:QRCodeString fromVC:self oldQrCodeDic:self.QRCoreDic]];
+    //    self.QRCoreDic=[[NSMutableDictionary alloc]initWithDictionary:dic];
+    //    if (![self TypeJudgment:dic]){
+    //        HWMQrCodeScanningResultsViewController *QrCodeScanningResultsVC=[[HWMQrCodeScanningResultsViewController alloc]init];
+    //        QrCodeScanningResultsVC.resultString=QRCodeString;
+    //        [self.navigationController pushViewController:QrCodeScanningResultsVC animated:NO];
+    //        return;
+    //    }
+    //    if ([[FLTools share]SCanQRCodeWithDicCode:self.QRCoreDic]) {
+    //
+    //        if ([self QrCodepushVC:self.QRCoreDic WithCurrWallet:self.currentWallet]) {
+    //           [self GetTransactionSignedInfoWhereForm:NO];
+    //        }
+    //    }
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
     
