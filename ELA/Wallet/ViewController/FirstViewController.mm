@@ -783,8 +783,7 @@
     }else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
        HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
         HMWtransferVC.currentWallet=self.currentWallet;
-        assetsListModel *model=self.walletIDListArray[0];
-        model.iconName=model.iconName;
+        assetsListModel *model=self.dataSoureArray[0];
         HMWtransferVC.model=model;
         HMWtransferVC.toAddressString=QRCodeString;
         [self.navigationController pushViewController:HMWtransferVC animated:NO];

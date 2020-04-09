@@ -404,13 +404,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 - (IBAction)nextAndSkipEvent:(id)sender {
     NSMutableArray  *nextArr=[[NSMutableArray alloc]init];
-    self.showInfoListAarry=[self bubblingSort:self.showInfoListAarry];
-    
-    
-    for (NSString *index in self.showInfoListAarry) {
-        [nextArr addObject:self.allInfoListArray[[index intValue]]];
+    if (self.showInfoListAarry.count>0) {
+        self.showInfoListAarry=[self bubblingSort:self.showInfoListAarry];
+        for (NSString *index in self.showInfoListAarry) {
+            [nextArr addObject:self.allInfoListArray[[index intValue]]];
+        }
     }
-    
     UIView *mainView =[self mainWindow];
     self.showAllInfoView.dataSourceArray=nextArr;
     [mainView addSubview:self.showAllInfoView];

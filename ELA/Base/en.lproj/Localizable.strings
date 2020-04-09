@@ -718,8 +718,10 @@
 "请输入微信账号"="Enter Wechat account";
 "请输入支付宝账号"="Enter Alipay account";
 "发布"="Release";
-
-
+"有效期"="Valid until";
+"有效期至"="Valid until";
+"至"="to";
+"请选择失效日期"="Select an expiration date";
 
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
