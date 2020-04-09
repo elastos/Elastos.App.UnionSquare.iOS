@@ -693,7 +693,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     });
     
 }
--(void)makeSureWithPWD:(NSString*)pwd{
+-(void)makeSureWithPWD:(NSString*)pwd{    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (privatekeyString.length==0) {
@@ -713,9 +713,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             [[FLTools share]showErrorInfo:@"保存失败"];
         }
     }else{
+        
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]updateInfoWithInfo: self.model];
-        [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
         if (isSucess) {
+            [[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:0];
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
@@ -729,8 +730,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 weakSelf.successBlock(self.currentWallet.didString);
                 [weakSelf.navigationController popViewControllerAnimated:NO];
             }
-        }
-        else{
+        }else{
             [[FLTools share]showErrorInfo:@"发布失败"];
         }
     }
