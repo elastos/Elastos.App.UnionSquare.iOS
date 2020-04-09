@@ -748,7 +748,6 @@
 "请输入区号（如+86）"="Enter country code（e.g +86）";
 "添加信息"="Add information";
 
-
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";
