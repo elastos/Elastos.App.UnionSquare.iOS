@@ -212,7 +212,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Credential * cre= DIDDocument_GetCredential(doc,url);
     const char * suInfo = Credential_GetProperty(cre, "name");
     NSDictionary *reDic=@{@"nickName":[self charToString:suInfo],@"endTime":[NSString stringWithFormat:@"%@",@(endTime)],@"DIDString":self.DIDString};
-    NSLog(@"didInfo====%@-----subInf====%s",reDic,suInfo);
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
     
@@ -301,7 +300,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Issuer_Destroy(isser);
     DIDURL_Destroy(creatCredentialID);
     Credential_Destroy(c);
-    NSLog(@"saveDIDCredentialWithDIDModel=====%d",r);
     if (r==0) {
         return YES;
     }else{
