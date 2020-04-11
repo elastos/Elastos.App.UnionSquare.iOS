@@ -778,7 +778,7 @@
             [self ShowPlayInfoText:playInfoDic withJWTString:QRCodeString];
         }
     }else if ([[ELWalletManager share]IsAddressValidWithMastID:self.currentWallet.masterWalletID WithAddress:QRCodeString]){
-        HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
+       HMWtransferViewController *HMWtransferVC=[[HMWtransferViewController alloc]init];
         HMWtransferVC.currentWallet=self.currentWallet;
         assetsListModel *model=self.dataSoureArray[0];
         HMWtransferVC.model=model;
