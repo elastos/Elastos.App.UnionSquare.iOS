@@ -811,8 +811,6 @@
     //           [self GetTransactionSignedInfoWhereForm:NO];
     //        }
     //    }
-    
-    
 }
 -(void)ShowPlayInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString{
     

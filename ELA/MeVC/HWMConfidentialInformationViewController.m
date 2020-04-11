@@ -103,6 +103,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
         [self.navigationController pushViewController:WExportCertificateMVC animated:YES];
     }else{
         [[FLTools share]showErrorInfo:@"暂无"];
+        
     }
 }
 - (IBAction)TheImportEvent:(id)sender {
