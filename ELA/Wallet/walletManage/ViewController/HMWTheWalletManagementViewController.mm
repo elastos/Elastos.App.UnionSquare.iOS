@@ -304,8 +304,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
 
             }
         }else{
-
-            
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
             [mainView addSubview:self.toDeleteTheWalletPopV];
@@ -463,6 +461,9 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         }
         
         NSString *didString=  [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwdString withDIDString:@"" WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        
+        NSLog(@"didString----%@",didString);
+        
         if (didString.length>0) {
             FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
             model.walletID=self.currentWallet.masterWalletID;
