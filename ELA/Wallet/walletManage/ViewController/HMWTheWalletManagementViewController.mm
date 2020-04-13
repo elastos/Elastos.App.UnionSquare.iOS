@@ -312,8 +312,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 
             }
         }else{
-
-            
             UIView *mainView =[self mainWindow];
             self.toDeleteTheWalletPopV.deleteType=openIDChainType;
             [mainView addSubview:self.toDeleteTheWalletPopV];
@@ -469,7 +467,6 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         if (privatekeyString.length==0) {
             return;
         }
-        
         NSString *didString= [[HWMDIDManager shareDIDManager]hasDIDWithPWD:@"" withDIDString:self.currentWallet.didString WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
         BOOL hasChain=[[HWMDIDManager shareDIDManager]HasBeenOnTheChain];
         if (hasChain&&didString.length>5) {

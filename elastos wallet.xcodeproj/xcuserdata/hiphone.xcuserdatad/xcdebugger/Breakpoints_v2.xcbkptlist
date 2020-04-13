@@ -121,8 +121,13 @@
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< HEAD
             startingLineNumber = "2348"
             endingLineNumber = "2348"
+=======
+            startingLineNumber = "2350"
+            endingLineNumber = "2350"
+>>>>>>> did bug fix
             landmarkName = "-ExportReadonlyWallet:"
             landmarkType = "7">
          </BreakpointContent>
@@ -296,8 +301,13 @@
             filePath = "WalletManager/ELWalletManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< HEAD
             startingLineNumber = "2511"
             endingLineNumber = "2511"
+=======
+            startingLineNumber = "2513"
+            endingLineNumber = "2513"
+>>>>>>> did bug fix
             landmarkName = "ELWalletManager"
             landmarkType = "3">
          </BreakpointContent>
