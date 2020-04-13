@@ -613,5 +613,12 @@ NSString *leftTime=
 //    });
 //   
 //}
+-(void)showLoading{
+    [[FLTools share]showLoadingView];
+    
+}
+-(void)hiddLoading{
+    [SVProgressHUD dismiss];
+}
 
 @end
