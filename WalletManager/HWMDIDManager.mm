@@ -243,6 +243,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return NO;
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
+    
+  const  char *doString=DIDDocument_ToJson(newDoc, false);
+    //NSLog(@"doString=时间%s",doString);
     rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
     const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
     NSString *reString=[self charToString:r];
