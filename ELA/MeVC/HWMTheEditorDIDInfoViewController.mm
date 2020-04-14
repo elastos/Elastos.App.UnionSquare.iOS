@@ -98,7 +98,7 @@
 -(void)makeSureWithPWD:(NSString*)pwd{
 
     [self.view endEditing:YES];
-    if (self.blance<0.001) {
+    if (self.blance<0.0001) {
         [[FLTools share]showErrorInfo:@"余额不足"];
         return;
     }

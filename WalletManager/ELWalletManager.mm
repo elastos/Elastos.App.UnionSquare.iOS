@@ -743,7 +743,6 @@ static uint64_t feePerKB = 10000;
     int    start          = [args[idx++] intValue];
     int    count          = [args[idx++] intValue];
     String addressOrTxId  = [self cstringWithString:args[idx++]];
-    NSLog(@"请求AllTransaction===%d%d",start,count);
     if (args.count != idx) {
         
         return [self errCodeInvalidArg:command code:errCodeInvalidArg idx:idx];
@@ -762,7 +761,6 @@ static uint64_t feePerKB = 10000;
     
     NSString *jsonString = [self stringWithCString:json.dump()];
     NSDictionary *dic=[self dictionaryWithJsonString:jsonString];
-    NSLog(@"返回AllTransaction===%@",dic);
     
     return [self successProcess:command msg:dic];
     
@@ -2623,10 +2621,7 @@ static uint64_t feePerKB = 10000;
     }
     
     NSString *resultString=[self stringWithCString:tx.dump()];
-    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];
-    
-    //    NSLog(@"创建DID======%@",resultdic);
-    
+    NSDictionary *resultdic=  [self dictionaryWithJsonString:resultString];    
     NSDictionary *dic=[self dictionaryWithJsonString:resultdic[@"TxHash"]];
     return [self successProcess:command msg:dic];
     
