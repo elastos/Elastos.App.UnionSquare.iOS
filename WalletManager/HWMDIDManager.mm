@@ -192,7 +192,6 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         if (doc==NULL) {
             doc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
             DIDDocument_Destroy(doc);
-            return @"";
         }
         return self.DIDString;
         
@@ -458,6 +457,13 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         return YES;
     }
     return NO;
+}
+-(BOOL)HasBeenOnTheChain{
+    NSDictionary *dic =[self getDIDInfo];
+    if([dic[@"nickName"] length]==0) {
+     return NO;
+    }
+    return YES;
 }
 @end
 
