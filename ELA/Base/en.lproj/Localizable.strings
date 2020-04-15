@@ -754,7 +754,6 @@
 "导出凭证"="Export credentials";
 
 "节点连接设置"="";
-
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
 "err10002"="Invalid master wallet";
