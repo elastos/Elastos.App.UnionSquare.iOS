@@ -752,7 +752,6 @@
 "凭证文件不匹配"="The credential files do not match";
 "保存成功"="Saved Successfully";
 "导出凭证"="Export credentials";
-
 "节点连接设置"="";
 "err10000"="Json parse error of action parameters";
 "err10001"="Parameters error of action";
