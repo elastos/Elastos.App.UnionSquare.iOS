@@ -1004,7 +1004,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 [weakSelf.navigationController popViewControllerAnimated:NO];
             }
         }else{
-            [[FLTools share]showErrorInfo:@"发布失败"];
+//            [[FLTools share]showErrorInfo:@"发布失败"];
         }
     }
     
