@@ -9,6 +9,7 @@
 #import "HWMVUpdateLogWebViewController.h"
 #import "ELWalletManager.h"
 #import "HWMOpenSourceStatementViewController.h"
+#import "SSZipArchive.h"
 
 @interface AboutELAWalletViewController ()< UIDocumentInteractionControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *appTheVersionNumberLabel;
@@ -26,7 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self defultWhite];
-
+    
     [self setBackgroundImg:@""];
     NSString *appTheVersionNumberString=NSLocalizedString(@"当前版本号", nil);
     self.appTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",appTheVersionNumberString, [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
@@ -38,27 +39,27 @@
     [self.RunLogButton setTitle:NSLocalizedString(@"运行日志", nil) forState:UIControlStateNormal];
     
     self.sdkTheVersionNumberLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"当前sdk版本号", nil),[[ELWalletManager share] EMWMGetVersion]];
-//    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
-
+    //    [self.TheCodeStatementButton setTitle:NSLocalizedString(@"codeTitle",nil) forState:UIControlStateNormal];
+    
     NSMutableAttributedString *attributeString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"codeTitle",nil)];
     [attributeString addAttribute:NSUnderlineStyleAttributeName
-                      value:@(NSUnderlineStyleSingle)
-                      range:(NSRange){0,[attributeString length]}];
-   
+                            value:@(NSUnderlineStyleSingle)
+                            range:(NSRange){0,[attributeString length]}];
+    
     [attributeString addAttribute:NSForegroundColorAttributeName value:RGB(69,121,251)  range:NSMakeRange(0,[attributeString length])];
-
+    
     [attributeString addAttribute:NSUnderlineColorAttributeName value:RGB(69,121,251) range:(NSRange){0,[attributeString length]}];
     [self.TheCodeStatementButton  setAttributedTitle:attributeString forState:UIControlStateNormal];
     
     
     
-//    self.TheCodeStatementButton.alpha=0.f;
+    //    self.TheCodeStatementButton.alpha=0.f;
     self.functionalSpecificationsLabel.text=NSLocalizedString(@"主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等", nil);
 }
 - (IBAction)seeTheLogAction:(id)sender {
     
     HWMVUpdateLogWebViewController *HWMVUpdateLogWebVC=[[HWMVUpdateLogWebViewController alloc]init];
-//   HWMVUpdateLogWebVC.title=NSLocalizedString(@"更新日志", nil);
+    //   HWMVUpdateLogWebVC.title=NSLocalizedString(@"更新日志", nil);
     [self.navigationController pushViewController:HWMVUpdateLogWebVC animated:YES];
 }
 - (IBAction)TheProblemOfFeedbackAction:(id)sender {
@@ -66,13 +67,17 @@
     [[FLTools share]showErrorInfo:NSLocalizedString(@"客服邮箱已复制到粘贴板", nil)];
 }
 - (IBAction)RunLogAction:(id)sender {
-   NSString * fileName =@"spvsdk.log";
+    NSString *fileName = @"spvsdk.log";
+    NSString *zipName = @"spvsdk.log.zip";
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString * testDirectory = [[MyUtil getRootPath] stringByAppendingPathComponent:fileName];
+    NSString *rootPath = [MyUtil getRootPath];
+    NSString *testDirectory = [rootPath stringByAppendingPathComponent:fileName];
+    NSString *zipDirectory = [rootPath stringByAppendingPathComponent:zipName];
     BOOL res = [fileManager fileExistsAtPath:testDirectory];
     if (res) {
-        NSData *data =[NSData dataWithContentsOfFile:testDirectory];
-       NSURL *URL =[NSURL fileURLWithPath:testDirectory];
+        [SSZipArchive createZipFileAtPath:zipDirectory withFilesAtPaths:@[testDirectory]];
+        NSData *data =[NSData dataWithContentsOfFile:zipDirectory];
+        NSURL *URL =[NSURL fileURLWithPath:zipDirectory];
         NSArray *ARR=[NSArray arrayWithObjects:data,@"log",URL,nil];
         [self mq_share:ARR];
     }
@@ -96,20 +101,20 @@
 -(NSArray *)excludetypes{
     
     NSMutableArray *excludeTypesM =  [NSMutableArray arrayWithArray:@[//UIActivityTypePostToFacebook,
-                                                                      UIActivityTypePostToTwitter,
-                                                                      UIActivityTypePostToWeibo,
-                                                                      UIActivityTypeMessage,
-                                                                      UIActivityTypeMail,
-                                                                      UIActivityTypePrint,
-                                                                      UIActivityTypeCopyToPasteboard,
-                                                                      UIActivityTypeAssignToContact,
-                                                                      UIActivityTypeSaveToCameraRoll,
-                                                                      UIActivityTypeAddToReadingList,
-                                                                      UIActivityTypePostToFlickr,
-                                                                      UIActivityTypePostToVimeo,
-                                                                      UIActivityTypePostToTencentWeibo,
-                                                                      UIActivityTypeAirDrop,
-                                                                      UIActivityTypeOpenInIBooks]];
+        UIActivityTypePostToTwitter,
+        UIActivityTypePostToWeibo,
+        UIActivityTypeMessage,
+        UIActivityTypeMail,
+        UIActivityTypePrint,
+        UIActivityTypeCopyToPasteboard,
+        UIActivityTypeAssignToContact,
+        UIActivityTypeSaveToCameraRoll,
+        UIActivityTypeAddToReadingList,
+        UIActivityTypePostToFlickr,
+        UIActivityTypePostToVimeo,
+        UIActivityTypePostToTencentWeibo,
+        UIActivityTypeAirDrop,
+        UIActivityTypeOpenInIBooks]];
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 11.0) {
         [excludeTypesM addObject:UIActivityTypeMarkupAsPDF];
@@ -119,7 +124,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-     [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO];
     
 }
 - (IBAction)LookUpURLEvent:(id)sender {
