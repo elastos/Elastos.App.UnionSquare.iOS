@@ -127,6 +127,9 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     }else{
         self.hasRead=NO;
     }
+    
+    WYLog(@"=== dev temp === needUpLoadDataSource: self model did %@ === readModel did %@ === self model name %@ === readModel name %@ === self model customInfos %@ === self model time %@", self.model.did, readModel.did, self.model.didName, readModel.didName, self.model.customInfos, self.model.editTime);
+    
     [self.table reloadData];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -134,7 +137,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
     [self needUpLoadDataSource];
 }
 -(BOOL)needSave{
-    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0) {
+    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0 || self.model.customInfos.length > 0) {
         return YES;
     }
     return NO;

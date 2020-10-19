@@ -9,6 +9,7 @@
 #import "HWMDIDInfoShowTableViewCell.h"
 #import "HWMAddPersonalInformationViewController.h"
 #import "HWMshowIntroductionInfoViewController.h"
+#import "WYShowCustomContentViewController.h"
 
 static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 
@@ -19,6 +20,9 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 @property(strong,nonatomic)NSArray *allInfoListArray;
 @property(strong,nonatomic)NSMutableArray *hasModelAarray;
 @property(assign,nonatomic)NSInteger headImageIndex;
+
+@property (strong, nonatomic) NSMutableDictionary *customInfosDic;
+
 @end
 
 @implementation HWMHWMDIDShowInfoViewController
@@ -69,7 +73,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *infDic=self.hasModelAarray [indexPath.row];
+    NSDictionary *infDic=self.hasModelAarray[indexPath.row];
     
     NSString *titleString=infDic[@"text"];
     NSString *typeString=infDic[@"type"];
@@ -145,8 +149,20 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         case 13:
             conString=self.model.googleAccount;
             break;
+        case 14:
+            conString=self.model.customInfos;
+            break;
         default:
             break;
+    }
+    
+    if ([typeString isEqualToString:@"666"] && self.customInfosDic[indexString]) {
+        NSDictionary *infoDic = self.customInfosDic[indexString];
+        NSString *cellType = infoDic[@"type"];
+        if (cellType.length > 0) {
+            titleString = infoDic[@"title"];
+            conString = infoDic[@"content"];
+        }
     }
     
     cell.leftLabel.text=titleString;
@@ -163,12 +179,23 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         if (self.isEi) {
             nickNameStirng=NSLocalizedString(@"姓名", nil);
         }
-        _allInfoListArray
-        =@[@{@"text": nickNameStirng,@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址1",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区1", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
+        _allInfoListArray = @[
+        @{@"text": nickNameStirng,@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像地址1",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区1", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"自定义信息",null),@"index":@"14",@"type":@"666"}
+        ];
     }
     return _allInfoListArray;
     
 }
+
+- (NSMutableDictionary *)customInfosDic {
+    if (!_customInfosDic) {
+        _customInfosDic = [[NSMutableDictionary alloc] init];
+    }
+    return _customInfosDic;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.headImageIndex==indexPath.row) {
         return 80;
@@ -183,6 +210,16 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
         HWMshowIntroductionInfoViewController *AddPersonalProfileVC=[[HWMshowIntroductionInfoViewController alloc]init];
         AddPersonalProfileVC.model=self.model;
         [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
+    } else if ([dic[@"type"] isEqualToString:@"666"]) {
+        NSString *indexString = dic[@"index"];
+        NSDictionary *infoDic = self.customInfosDic[indexString];
+        if ([infoDic[@"type"] isEqualToString:@"-2"]) {
+            WYShowCustomContentViewController *contentVC = [[WYShowCustomContentViewController alloc] init];
+            contentVC.title = infoDic[@"title"];
+            contentVC.contentText = infoDic[@"content"];
+            [contentVC refreshData];
+            [self.navigationController pushViewController:contentVC animated:YES];
+        }
     }
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
@@ -238,6 +275,27 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     }
     if (model.googleAccount.length>0) {
         [self.hasModelAarray addObject:self.allInfoListArray[13]];
+    }
+    if (model.customInfos.length>0) {
+        NSDictionary *customInfosList = [WYUtils dicFromJSONString:model.customInfos];
+        NSInteger next = 0;
+        self.customInfosDic = [[NSMutableDictionary alloc] init];
+        for (NSDictionary *customInfo in customInfosList) {
+            next++;
+            NSInteger index = next;
+            if ([customInfo[@"type"] isEqualToString:@"-1"]) {
+                index += 2000000;
+            } else if ([customInfo[@"type"] isEqualToString:@"-2"]) {
+                index += 3000000;
+            }
+            NSString *indexStr = [NSString stringWithFormat:@"%ld", index];
+            [self.hasModelAarray addObject:@{
+                @"index": indexStr,
+                @"type": @"666",
+                @"text": @""
+            }];
+            self.customInfosDic[indexStr] = customInfo;
+        }
     }
     _model=model;
 }

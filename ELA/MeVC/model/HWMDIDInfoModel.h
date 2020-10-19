@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(copy,nonatomic)NSString *editTime;
 @property(copy,nonatomic)NSString *birthday;
 @property(copy,nonatomic)NSString *endString;
+@property (copy, nonatomic) NSString *customInfos;
 @end
 
 NS_ASSUME_NONNULL_END

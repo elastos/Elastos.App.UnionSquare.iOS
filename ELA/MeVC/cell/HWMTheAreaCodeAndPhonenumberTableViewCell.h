@@ -11,6 +11,8 @@
 
 -(void)delegateViewWithDic:(NSDictionary*)dic;
 
+- (void)deleteWithIndex:(NSString* _Nullable)index;
+
 @end
 
 @interface HWMTheAreaCodeAndPhonenumberTableViewCell : UITableViewCell
@@ -18,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *MobilePhoneTextField;
 @property(weak,nonatomic)id<HWMTheAreaCodeAndPhonenumberTableViewCellDelegate> delegate;
 @property(copy,nonatomic)NSDictionary *dic;
+@property(copy,nonatomic)NSString *index;
 @end
 
 

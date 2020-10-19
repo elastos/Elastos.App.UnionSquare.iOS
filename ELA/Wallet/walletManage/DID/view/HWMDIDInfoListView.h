@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)addInfoWithIndex:(NSString*)index;
 -(void)closeView;
 
+- (void)addCustomInfo;
+
 @end
 
 @interface HWMDIDInfoListView : UIView

@@ -25,12 +25,19 @@
 #import "HWMConfidentialInformationViewController.h"
 #import "HMWaddFooterView.h"
 #import "HWMTransactionDetailsView.h"
+#import "WYDIDCustomInfoTableViewCell.h"
+#import "WYAddCustomContentViewController.h"
+#import "WYSelectCustomTypeView.h"
+
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
 static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTableViewCell";
 
-@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWaddFooterViewDelegate,HWMTransactionDetailsViewDelegate>
+static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
+
+@interface HWMAddPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource,HWMDIDDataListViewDelegate, HMWSelectCountriesOrRegionsViewControllerDelegate,HWMDIDInfoListViewDelegate,HWMCreateDIDListTableViewCellDelegate,UITextFieldDelegate,HWMTheAreaCodeAndPhonenumberTableViewCellDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate,HMWaddFooterViewDelegate,HWMTransactionDetailsViewDelegate, WYDIDCustomInfoTableViewCellDelegate, WYSelectCustomTypeViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *textInfoLabel;
 /*
  *<# #>
@@ -90,6 +97,10 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
  *<# #>
  */
 @property(strong,nonatomic)HWMTransactionDetailsView  *transactionDetailsView;
+
+@property (strong, nonatomic) NSMutableDictionary *customInfosDic;
+@property (strong, nonatomic) WYSelectCustomTypeView *typeSelectView;
+
 @end
 
 @implementation HWMAddPersonalInformationViewController
@@ -212,6 +223,30 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }else{
         [self.showInfoListAarry addObject:@"13"];
     }
+    
+    if (self.model.customInfos.length>0) {
+        NSDictionary *customInfosList = [WYUtils dicFromJSONString:self.model.customInfos];
+        NSInteger next = 0;
+        self.customInfosDic = [[NSMutableDictionary alloc] init];
+        for (NSDictionary *customInfo in customInfosList) {
+            next++;
+            NSInteger index = next;
+            if ([customInfo[@"type"] isEqualToString:@"-1"]) {
+                index += 2000000;
+            } else if ([customInfo[@"type"] isEqualToString:@"-2"]) {
+                index += 3000000;
+            }
+            NSString *indexStr = [NSString stringWithFormat:@"%ld", index];
+            [self.defMArray addObject:indexStr];
+            self.customInfosDic[indexStr] = customInfo;
+        }
+    }
+    
+    if (self.customInfosDic.count < 5) {
+        [self.showInfoListAarry addObject:@"14"];
+    }
+    
+    
     if (self.defMArray.count==self.allInfoListArray.count) {
         self.addFooterView.alpha=0.f;
     }
@@ -220,7 +255,21 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 
 
+- (NSMutableDictionary *)customInfosDic {
+    if (!_customInfosDic) {
+        _customInfosDic = [[NSMutableDictionary alloc] init];
+    }
+    return _customInfosDic;
+}
 
+- (WYSelectCustomTypeView *)typeSelectView {
+    if (!_typeSelectView) {
+        _typeSelectView = [[WYSelectCustomTypeView alloc] init];
+        _typeSelectView.translatesAutoresizingMaskIntoConstraints = NO;
+        _typeSelectView.delegate = self;
+    }
+    return _typeSelectView;
+}
 
 -(NSMutableArray *)defMArray{
     if (!_defMArray) {
@@ -230,7 +279,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(NSMutableArray *)showInfoListAarry{
     if (!_showInfoListAarry) {
-        _showInfoListAarry=[NSMutableArray arrayWithArray:@[@"0",@"5",@"6",@"10",@"11",@"13"]];
+        _showInfoListAarry=[NSMutableArray arrayWithArray:@[@"0",@"5",@"6",@"10",@"11",@"13", @"14"]];
     }
     return _showInfoListAarry;
 }
@@ -243,16 +292,22 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
 }
 -(NSArray *)allInfoListArray{
     if (!_allInfoListArray) {
-        _allInfoListArray
-        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号1",null),@"index":@"13",@"type":@"1"}];
+        _allInfoListArray = @[
+        @{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"谷歌账号1",null),@"index":@"13",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"自定义信息",null),@"index":@"14",@"type":@"666"}
+        ];
     }
     return _allInfoListArray;
     
 }
 -(NSArray *)allShowListArray{
     if (!_allShowListArray) {
-        _allShowListArray
-        =@[@{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url1",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区1", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址1",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},@{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"}];
+        _allShowListArray = @[
+        @{@"text":NSLocalizedString(@"昵称", nil),@"index":@"0",@"type":@"1"},@{@"text":NSLocalizedString(@"性别",nil),@"index":@"1",@"type":@"2"},@{@"text":NSLocalizedString(@"出生日期",nil),@"index":@"2",@"type":@"2"},@{@"text":NSLocalizedString(@"头像url1",nil),@"index":@"3",@"type":@"1"},@{@"text":NSLocalizedString(@"邮箱1",nil),@"index":@"4",@"type":@"1"},@{@"text":NSLocalizedString(@"手机号", nil) ,@"index":@"5",@"type":@"3"},@{@"text":NSLocalizedString(@"国家/地区1", nil),@"index":@"6",@"type":@"2"},@{@"text":NSLocalizedString(@"个人简介qe",nil),@"index":@"7",@"type":@"4"},@{@"text":NSLocalizedString(@"个人主页网址1",nil),@"index":@"8",@"type":@"1"},@{@"text":NSLocalizedString(@"Facebook账号",nil),@"index":@"9",@"type":@"1"},@{@"text":NSLocalizedString(@"Twitter账号",nil),@"index":@"10",@"type":@"1"},@{@"text":NSLocalizedString(@"微博账号",nul),@"index":@"11",@"type":@"1"},@{@"text":NSLocalizedString(@"微信账号",null),@"index":@"12",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"谷歌账号",null),@"index":@"13",@"type":@"1"},
+        @{@"text":NSLocalizedString(@"自定义信息",null),@"index":@"14",@"type":@"666"}
+        ];
     }
     return _allShowListArray;
     
@@ -264,6 +319,8 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     _cellCodeAndPhonenumberNib=[UINib nibWithNibName:cellCodeAndPhonenumberString bundle:nil];
     [self.table registerNib:_cellCreateDIDListNib forCellReuseIdentifier:cellString];
     [self.table registerNib:_cellCodeAndPhonenumberNib forCellReuseIdentifier:cellCodeAndPhonenumberString];
+    [self.table registerClass:[WYDIDCustomInfoTableViewCell
+                               class] forCellReuseIdentifier:customInfoString];
     self.table.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.table.rowHeight = 55;
     self.table.delegate =self;
@@ -286,8 +343,38 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }
     return _skipButton;
 }
--(void)skipVCEvent{
+
+- (void)skipVCEvent{
     [self.view endEditing:YES];
+    
+    NSMutableArray *customInfosArr = [[NSMutableArray alloc] init];
+    
+    [self bubblingSort:self.defMArray];
+    for (NSString *index in self.defMArray) {
+        if ([index intValue] > 1000000 && self.customInfosDic[index]) {
+            NSDictionary *customInfo = self.customInfosDic[index];
+            NSString *customType = customInfo[@"type"];
+            NSString *customTitle = [customInfo[@"title"] stringByTrim];
+            NSString *customContent = [customInfo[@"content"] stringByTrim];
+            
+            if (customType.length > 0 && customTitle.length > 0 && customContent.length > 0) {
+                [customInfosArr addObject:self.customInfosDic[index]];
+            }
+        }
+    }
+    
+    WYLog(@"=== dev temp === customInfosArr: %@", customInfosArr);
+    
+    if (customInfosArr.count > 0) {
+        NSString *customInfosJSON = [WYUtils arrToJSONString:customInfosArr];
+        WYLog(@"=== dev temp === customInfosJSON: %@", customInfosJSON);
+        self.model.customInfos = customInfosJSON;
+    } else {
+        self.model.customInfos = @"";
+    }
+    
+    
+    WYLog(@"=== dev temp === Skip Button: isEidet %d whereFrome %d", self.isEidet, self.whereFrome);
     
     if (self.isEidet||self.whereFrome) {
         
@@ -296,25 +383,25 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.pwdPopupV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(manView);
         }];
-    }else{
+    } else {
         UIView *manView=[self mainWindow];
         [manView addSubview:self.transactionDetailsView];
         [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(manView);
         }];
     }
-    
-    
-    
-    
-    
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (self.isEidet) {
         NSString *indexString=self.defMArray[indexPath.row];
-        NSDictionary *infDic=self.allShowListArray[[indexString integerValue]];
+        NSInteger indexValue = [indexString integerValue];
+        if (indexValue > 1000000) {
+            indexValue = 14;
+        }
+        NSDictionary *infDic=self.allShowListArray[indexValue];
         NSString *titleString=infDic[@"text"];
         NSString *typeString=infDic[@"type"];
         
@@ -327,6 +414,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             cell.MobilePhoneTextField.textAlignment=NSTextAlignmentRight;
             cell.theArNumberTextField.textAlignment=NSTextAlignmentRight;
             cell.dic=infDic;
+            cell.index = indexString;
             cell.delegate=self;
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
             cell.theArNumberTextField.tag=10002;
@@ -339,6 +427,34 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             return cell;
             
         }
+        
+        if ([typeString isEqualToString:@"666"]) {
+            WYDIDCustomInfoTableViewCell *cell = [self.table dequeueReusableCellWithIdentifier:customInfoString];
+            cell.delegate = self;
+            cell.index = indexString;
+            cell.cellType = @"-1";
+            if ([indexString intValue] > 3000000) {
+                cell.cellType = @"-2";
+            }
+            cell.cellTitle.text = @"";
+            cell.cellContent.text = @"";
+            cell.cellStore.text = @"";
+            
+            if (self.customInfosDic[indexString]) {
+                NSDictionary *infoDic = self.customInfosDic[indexString];
+                NSString *cellType = infoDic[@"type"];
+                if (cellType.length > 0) {
+                    cell.cellType = cellType;
+                    cell.cellTitle.text = infoDic[@"title"];
+                    cell.cellContent.text = infoDic[@"content"];
+                    cell.cellStore.text = infoDic[@"content"];
+                }
+            }
+            
+            [cell reloadData];
+            return cell;
+        }
+        
         HWMCreateDIDListTableViewCell *cell =
         [_cellCreateDIDListNib instantiateWithOwner:nil options:nil][0];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -411,12 +527,21 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                     cell.intPutTextField.text=self.model.wechat;
                     
                 }
+            }else if ([titleString isEqualToString:NSLocalizedString(@"自定义信息", nil)]){
+                if (self.model.customInfos.length>0) {
+                    cell.intPutTextField.text=self.model.customInfos;
+                    
+                }
             }
         }
         return cell;
     }else{
         NSString *indexString=self.defMArray[indexPath.row];
-        NSDictionary *infDic=self.allInfoListArray[[indexString integerValue]];
+        NSInteger indexValue = [indexString integerValue];
+        if (indexValue > 1000000) {
+            indexValue = 14;
+        }
+        NSDictionary *infDic=self.allShowListArray[indexValue];
         NSString *titleString=infDic[@"text"];
         NSString *typeString=infDic[@"type"];
         if([typeString isEqualToString:@"3"]) {
@@ -424,6 +549,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             cell.MobilePhoneTextField.text=self.model.phone;
             cell.MobilePhoneTextField.tag=10001;
             cell.dic=infDic;
+            cell.index = indexString;
             cell.delegate=self;
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:cell.MobilePhoneTextField withTxt:NSLocalizedString(@"请输入手机号", nil)];
             //        cell.theArNumberTextField.placeholder=NSLocalizedString(@"请输入区号(如+86)", nil);
@@ -436,6 +562,33 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: cell.theArNumberTextField withTxt:NSLocalizedString(@"请输入区号", nil)];
             return cell;
             
+        }
+        
+        if ([typeString isEqualToString:@"666"]) {
+            WYDIDCustomInfoTableViewCell *cell = [self.table dequeueReusableCellWithIdentifier:customInfoString];
+            cell.delegate = self;
+            cell.index = indexString;
+            cell.cellType = @"-1";
+            if ([indexString intValue] > 3000000) {
+                cell.cellType = @"-2";
+            }
+            cell.cellTitle.text = @"";
+            cell.cellContent.text = @"";
+            cell.cellStore.text = @"";
+            
+            if (self.customInfosDic[indexString]) {
+                NSDictionary *infoDic = self.customInfosDic[indexString];
+                NSString *cellType = infoDic[@"type"];
+                if (cellType.length > 0) {
+                    cell.cellType = cellType;
+                    cell.cellTitle.text = infoDic[@"title"];
+                    cell.cellContent.text = infoDic[@"content"];
+                    cell.cellStore.text = infoDic[@"content"];
+                }
+            }
+            
+            [cell reloadData];
+            return cell;
         }
         
         HWMCreateDIDListTableViewCell *cell =
@@ -527,30 +680,35 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                     cell.intPutTextField.text=self.model.weibo;
                 }
                 
-            }else if ([titleString isEqualToString:NSLocalizedString(@"谷歌账号1", nil)]){
+            } else if ([titleString isEqualToString:NSLocalizedString(@"谷歌账号1", nil)]) {
                 if (self.model.googleAccount.length>0) {
                     cell.intPutTextField.text=self.model.googleAccount;
                     
                 }
                 
-            }else if ([titleString isEqualToString:NSLocalizedString(@"微信账号", nil)]){
+            } else if ([titleString isEqualToString:NSLocalizedString(@"微信账号", nil)]) {
                 if (self.model.wechat.length>0) {
                     cell.intPutTextField.text=self.model.wechat;
                     
                 }
                 
+            } else if ([titleString isEqualToString:NSLocalizedString(@"自定义信息", nil)]) {
+                if (self.model.customInfos.length>0) {
+                    cell.intPutTextField.text=self.model.customInfos;
+                    
+                }
+                
             }
-            
         }
         return cell;
-        
     }
     return nil;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  self.defMArray.count;
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *indeString=self.defMArray[indexPath.row];
@@ -563,18 +721,18 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-    }else if ([indeString isEqualToString:@"2"]){//出生
+    } else if ([indeString isEqualToString:@"2"]) {//出生
         self.DIDDataListV.ListViewType=birthdayType;
         UIView *mainView = [self mainWindow];
         [mainView addSubview:self.DIDDataListV];
         [self.DIDDataListV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.top.bottom.equalTo(mainView);
         }];
-    }else if ([indeString isEqualToString:@"6"]){
+    } else if ([indeString isEqualToString:@"6"]) {
         HMWSelectCountriesOrRegionsViewController *SelectCountriesOrRegionsVC=[[HMWSelectCountriesOrRegionsViewController alloc]init];
         SelectCountriesOrRegionsVC.delegate=self;
         [self.navigationController pushViewController:SelectCountriesOrRegionsVC animated:YES];
-    }else if ([indeString isEqualToString:@"7"]){
+    } else if ([indeString isEqualToString:@"7"]) {
         HWMAddPersonalProfileViewController *AddPersonalProfileVC=[[HWMAddPersonalProfileViewController alloc]init];
         AddPersonalProfileVC.model=self.model;
         AddPersonalProfileVC.isEidet=NO;
@@ -587,18 +745,23 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
     }
 }
+
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
 }
+
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     return [[UIView alloc]initWithFrame:CGRectZero];
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
 }
+
 - (IBAction)nextAndSkipEvent:(id)sender {
     NSMutableArray  *nextArr=[[NSMutableArray alloc]init];
     if (self.showInfoListAarry.count>0) {
@@ -614,9 +777,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         make.left.top.bottom.right.equalTo(mainView);
     }];
 }
+
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
 }
+
 -(HWMDIDDataListView *)DIDDataListV{
     if (!_DIDDataListV) {
         _DIDDataListV =[[HWMDIDDataListView alloc]init];
@@ -624,20 +789,24 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     }
     return _DIDDataListV;
 }
+
 - (void)cancelDataListView {
     [self.DIDDataListV removeFromSuperview];
     self.DIDDataListV=nil;
 }
+
 -(void)selectGender:(NSUInteger)genderType{
     self.model.gender=[NSString stringWithFormat:@"%lu",((unsigned long)genderType+1)];
     [self.table reloadData];
     [self cancelDataListView];
 }
+
 -(void)selectDataWithYY:(NSString *)yy withMM:(NSString *)mm wihMMWithInt:(NSInteger)mInt wtihDD:(NSString *)dd{
     self.model.birthday=[[FLTools share]timeSwitchTimestamp:[NSString stringWithFormat:@"%@-%@-%@ 00:00:00",yy,mm,dd]];
     [self.table reloadData];
     [self cancelDataListView];
 }
+
 -(void)selectTheCountryAreasModel:(NSDictionary*)modelDic{
     self.model.nation= modelDic[@"mobileCode"];
     [self.table reloadData];
@@ -663,6 +832,66 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     
     [self.table reloadData];
 }
+
+- (void)addCustomInfo {
+    UIView *mainView =[self mainWindow];
+    [mainView addSubview:self.typeSelectView];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.typeSelectView.topAnchor constraintEqualToAnchor:mainView.topAnchor],
+        [self.typeSelectView.bottomAnchor constraintEqualToAnchor:mainView.bottomAnchor],
+        [self.typeSelectView.leadingAnchor constraintEqualToAnchor:mainView.leadingAnchor],
+        [self.typeSelectView.trailingAnchor constraintEqualToAnchor:mainView.trailingAnchor]
+    ]];
+}
+
+- (void)addCustomType:(NSString *)customType {
+    NSInteger next = 1;
+    if (self.defMArray.count>0) {
+        self.defMArray=[self bubblingSort:self.defMArray];
+        NSInteger current = [self.defMArray[self.defMArray.count - 1] intValue];
+        if (current > 1000000) {
+            next = current % 1000000 + 1;
+        }
+    }
+    NSInteger typeNum = 2000000;
+    
+    if ([customType isEqualToString:@"-2"]) {
+        typeNum = 3000000;
+    }
+    
+    NSString *indexString = [NSString stringWithFormat:@"%ld", typeNum + next];
+    if (![self.defMArray containsObject:indexString]) {
+        [self.defMArray addObject:indexString];
+    }
+    
+    self.customInfosDic[indexString] = @{
+        @"type": @"",
+        @"title": @"",
+        @"content": @""
+    };
+    
+    if (self.customInfosDic.count >= 5) {
+        [self.showInfoListAarry removeObject:@"14"];
+    }
+    
+    [self.table reloadData];
+}
+
+- (void)customInfoMultiPressed:(NSString *)title withContent:(NSString *)currentContent withNextBlock:(void (^) (NSString *newContent))block {
+    WYAddCustomContentViewController *contentVC = [[WYAddCustomContentViewController alloc] init];
+    contentVC.title = title;
+    contentVC.contentText = currentContent;
+    contentVC.nextBlock = block;
+    [contentVC refreshData];
+    [self.navigationController pushViewController:contentVC animated:YES];
+}
+
+- (void)updateCustomInfosDic:(NSString *)index withDic:(NSDictionary *)infoDic {
+    self.customInfosDic[index] = infoDic;
+    WYLog(@"=== dev temp === customInfosDic: %@", self.customInfosDic);
+}
+
 -(void)deleteWithIndex:(NSString*_Nullable)index{
     self.deleteIndex=index;
     if (self.whereFrome||self.isEidet) {
@@ -682,9 +911,18 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     if ([self.defMArray containsObject:indeString]) {
         [self.defMArray removeObject:indeString];
     }
-    if (![self.showInfoListAarry containsObject:indeString]) {
+    if (![self.showInfoListAarry containsObject:indeString] && [indeString intValue] < 1000000) {
         [self.showInfoListAarry addObject:indeString];
     }
+    
+    if ([indeString intValue] > 1000000) {
+        [self.customInfosDic removeObjectForKey:indeString];
+        WYLog(@"=== dev temp === customInfosDic: %@", self.customInfosDic);
+        if (self.customInfosDic.count < 5 && ![self.showInfoListAarry containsObject:@"14"]) {
+            [self.showInfoListAarry addObject:@"14"];
+        }
+    }
+    
     switch ([indeString intValue]) {
         case 0://"昵称"
             self.model.nickname=@"";
@@ -728,6 +966,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
         case 13:
             self.model.googleAccount=@"";
+            break;
+        case 14:
+            self.model.customInfos = @"";
             break;
         default:
             break;
@@ -809,6 +1050,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             [self needChangeFrame:tag];
             //               self.model.googleAccount=textField.text;
             break;
+        case 114:
+            [self needChangeFrame:tag];
+            break;
         case 10001:
             [self needChangeFrame:105];
             //               self.model.phone=textField.text;
@@ -850,6 +1094,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
         case 113:
             self.model.googleAccount=textField.text;
+            break;
+        case 114:
+            self.model.customInfos=textField.text;
             break;
         case 10001:
             self.model.phone=textField.text;
@@ -893,6 +1140,9 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         case 113:
             return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
             break;
+        case 114:
+            return  [[FLTools share]textField:textField replacementString:string withStringLenth:50];
+            break;
         case 10001:
             return  [[FLTools share]textField:textField replacementString:string withStringLenth:15];
             break;
@@ -904,20 +1154,29 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
             break;
     }
     return YES;
-    
-    
 }
+
 - (NSMutableArray*)bubblingSort:(NSMutableArray *)sourceArr{
+    if (sourceArr.count < 2) {
+        return sourceArr;
+    }
     
     for (int i = 0; i < sourceArr.count - 1; i++) {
         for (int j = 0; j < sourceArr.count - i - 1; j++) {
-            if ([sourceArr[j] intValue] > [sourceArr[j + 1] intValue]) {
+            if ([self compareCustom:[sourceArr[j] intValue] greaterThan:[sourceArr[j + 1] intValue]]) {
                 [self swap:sourceArr numI:j numJ:j + 1];
             }
         }
     }
     return sourceArr;
 }
+
+- (BOOL)compareCustom:(NSInteger)num1 greaterThan:(NSInteger)num2 {
+    num1 = (num1 > 1000000) ? num1 % 1000000 + 1000000 : num1;
+    num2 = (num2 > 1000000) ? num2 % 1000000 + 1000000 : num2;
+    return num1 > num2;
+}
+
 - (void)swap:(NSMutableArray *)sourceArr numI:(int)i numJ:(int)j{
     NSNumber *temp;
     temp = sourceArr[i];
@@ -958,9 +1217,11 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
         }
         [self.navigationController popViewControllerAnimated:YES];
     });
-    
 }
+
 -(void)makeSureWithPWD:(NSString*)pwd{
+    WYLog(@"=== dev temp === Skip Button: makeSureWithPWD entered!!");
+    
     invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
     NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
     if (privatekeyString.length==0) {
@@ -973,14 +1234,21 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.currentWallet.didString=didString;
     if (self.isEidet||self.whereFrome) {
         self.model.editTime=[[FLTools share]getNowTimeTimestampS];
+        
+        WYLog(@"=== dev temp === makeSureWithPWD: model did %@ === birth %@ === customInfos %@", self.model.did, self.model.birthday, self.model.customInfos);
+        
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
         if (isSucess) {
+            
+            HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+            WYLog(@"=== dev temp === makeSureWithPWD: read model did %@ === birth %@ === customInfos %@", readModel.did, readModel.birthday, readModel.customInfos);
+            
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:1];
-        }else{
+        } else {
             [[FLTools share]showErrorInfo:@"保存失败"];
         }
-    }else{
+    } else {
         if (self.blance<0.0001) {
             [[FLTools share]showErrorInfo:@"余额不足"];
             return;
@@ -1006,14 +1274,12 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
                 weakSelf.successBlock(self.currentWallet.didString);
                 [weakSelf.navigationController popViewControllerAnimated:NO];
             }
-        }else{
+        } else {
             //            [[FLTools share]showErrorInfo:@"发布失败"];
         }
     }
-    
-    
-    
 }
+
 -(HMWpwdPopupView *)pwdPopupV{
     if (!_pwdPopupV) {
         _pwdPopupV=[[HMWpwdPopupView alloc]init];
@@ -1138,6 +1404,7 @@ static NSString *cellCodeAndPhonenumberString=@"HWMTheAreaCodeAndPhonenumberTabl
     self.transactionDetailsView=nil;
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
+    WYLog(@"=== dev temp === Skip Button: pwdAndInfoWithPWD entered!!");
     [self makeSureWithPWD:pwd];
 }
 -(BOOL)needSave{

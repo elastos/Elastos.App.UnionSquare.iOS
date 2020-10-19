@@ -61,10 +61,17 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
 {
     NSDictionary *infoDic=self.dataSourceArray[indexPath.row];
     NSString *index=infoDic[@"index"];
-    if (self.delegate) {
-        [self.delegate addInfoWithIndex:index];
+    if ([infoDic[@"index"] intValue] != 14) {
+        if (self.delegate) {
+            [self.delegate addInfoWithIndex:index];
+        }
+        [self.dataSourceArray removeObjectAtIndex:indexPath.row];
+        [self.table reloadData];
+    } else {
+        if (self.delegate) {
+            [self.delegate closeView];
+            [self.delegate addCustomInfo];
+        }
     }
-    [self.dataSourceArray removeObjectAtIndex:indexPath.row];
-    [self.table reloadData];
 }
 @end

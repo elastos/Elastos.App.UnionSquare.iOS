@@ -277,6 +277,52 @@ static NSMutableDictionary *globalDic = nil;
     return topViewController;
 }
 
++ (NSString *)dicToJSONString:(NSDictionary *)dic {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dic
+                                                   options:kNilOptions
+                                                     error:nil];
+    
+    if (data == nil) {
+        return nil;
+    }
+    
+    NSString *string = [[NSString alloc] initWithData:data
+                                             encoding:NSUTF8StringEncoding];
+    return string;
+}
+
++ (NSString *)arrToJSONString:(NSArray *)arr {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:arr
+                                                   options:NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments
+                                                     error:nil];
+    
+    if (data == nil) {
+        return nil;
+    }
+    
+    NSString *string = [[NSString alloc] initWithData:data
+                                             encoding:NSUTF8StringEncoding];
+    return string;
+}
+
++ (NSDictionary *)dicFromJSONString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err)
+    {
+        return nil;
+    }
+    return dic;
+}
+
 @end
 
 void WYLog(NSString *fmt, ...) {

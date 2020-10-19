@@ -23,11 +23,15 @@
 }
 - (IBAction)selectIndexView:(id)sender {
     if (self.delegate) {
-        [self.delegate delegateViewWithDic:self.dic];
+//        [self.delegate delegateViewWithDic:self.dic];
+        [self.delegate deleteWithIndex:self.index];
     }
 }
 -(void)setDic:(NSDictionary *)dic{
     _dic=dic;
+}
+-(void)setIndex:(NSString *)index{
+    _index = index;
 }
 -(void)addRigehtView{
     

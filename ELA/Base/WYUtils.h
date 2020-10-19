@@ -58,6 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)matchString:(NSString *)inputStr withRegex:(NSString *)regexStr;
 + (NSDictionary *)processAddressOrCryptoName:(NSString *)inputStr withMasterWalletID:(NSString *)masterWalletID;
 + (UIViewController *)topViewController;
++ (NSString *)dicToJSONString:(NSDictionary *)dic;
++ (NSString *)arrToJSONString:(NSArray *)arr;
++ (NSDictionary *)dicFromJSONString:(NSString *)jsonString;
 
 @end
 

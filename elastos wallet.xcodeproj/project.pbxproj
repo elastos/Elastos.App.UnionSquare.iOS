@@ -12,6 +12,7 @@
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
 		380233A424ABBF42001DAD52 /* WYUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 380233A324ABBF42001DAD52 /* WYUtils.mm */; };
 		380233A824ADD413001DAD52 /* WYCrashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380233A724ADD413001DAD52 /* WYCrashViewController.m */; };
+		380593B7253C78D3000716A8 /* WYShowCustomContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */; };
 		3821892C24C8FD1F00CA4BCC /* WYLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */; };
 		3821892F24C9712900CA4BCC /* WYAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892E24C9712900CA4BCC /* WYAuthViewController.m */; };
 		3821893224CB90DF00CA4BCC /* WYContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821893124CB90DF00CA4BCC /* WYContactListViewController.m */; };
@@ -20,6 +21,7 @@
 		38229E2B24E86771004FFAFF /* WYVoteDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E2A24E8676F004FFAFF /* WYVoteDetailsTableViewCell.m */; };
 		38229E3124E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */; };
 		38229E3424EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */; };
+		383122DF25388C0700225D45 /* WYSelectCustomTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */; };
 		383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 383EFE2A249727B50087BA01 /* libresolv.tbd */; };
 		383EFE2F249736FA0087BA01 /* WYResyncChainDataViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */; };
 		383EFE30249736FA0087BA01 /* WYResyncChainDataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE2E249736FA0087BA01 /* WYResyncChainDataViewController.xib */; };
@@ -32,6 +34,8 @@
 		38EC5ADA24D1FC2600E016AE /* WYDIDInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EC5AD924D1FC2500E016AE /* WYDIDInfoViewController.m */; };
 		38EC5AE824D2065200E016AE /* WYDIDInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38EC5AE724D2065100E016AE /* WYDIDInfoViewController.xib */; };
 		38EC5AEC24D27C2600E016AE /* WYDIDChainInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EC5AEB24D27C2600E016AE /* WYDIDChainInfoModel.m */; };
+		38EDD1F12535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDD1F02535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.m */; };
+		38EDD1F425374309002C8EBF /* WYAddCustomContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EDD1F325374308002C8EBF /* WYAddCustomContentViewController.m */; };
 		38FAB659249472DE003E7C58 /* mz_strm_os_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */; };
 		38FAB65A249472DE003E7C58 /* mz_strm_pkcrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */; };
 		38FAB65B249472DE003E7C58 /* mz_strm_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 38FAB63C249472DD003E7C58 /* mz_strm_zlib.c */; };
@@ -726,6 +730,8 @@
 		380233A324ABBF42001DAD52 /* WYUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYUtils.mm; sourceTree = "<group>"; };
 		380233A624ADD413001DAD52 /* WYCrashViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYCrashViewController.h; sourceTree = "<group>"; };
 		380233A724ADD413001DAD52 /* WYCrashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYCrashViewController.m; sourceTree = "<group>"; };
+		380593B5253C78D3000716A8 /* WYShowCustomContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYShowCustomContentViewController.h; sourceTree = "<group>"; };
+		380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYShowCustomContentViewController.m; sourceTree = "<group>"; };
 		3821892A24C8FD1E00CA4BCC /* WYLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLockViewController.h; sourceTree = "<group>"; };
 		3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYLockViewController.m; sourceTree = "<group>"; };
 		3821892D24C9712900CA4BCC /* WYAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAuthViewController.h; sourceTree = "<group>"; };
@@ -742,6 +748,8 @@
 		38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType1.m; sourceTree = "<group>"; };
 		38229E3224EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteDetailsListViewCellType2.h; sourceTree = "<group>"; };
 		38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType2.m; sourceTree = "<group>"; };
+		383122DD25388C0700225D45 /* WYSelectCustomTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSelectCustomTypeView.h; sourceTree = "<group>"; };
+		383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSelectCustomTypeView.m; sourceTree = "<group>"; };
 		383EFE2A249727B50087BA01 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		383EFE2C249736FA0087BA01 /* WYResyncChainDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYResyncChainDataViewController.h; sourceTree = "<group>"; };
 		383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYResyncChainDataViewController.mm; sourceTree = "<group>"; };
@@ -762,6 +770,10 @@
 		38EC5AE724D2065100E016AE /* WYDIDInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYDIDInfoViewController.xib; sourceTree = "<group>"; };
 		38EC5AEA24D27C2600E016AE /* WYDIDChainInfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDChainInfoModel.h; sourceTree = "<group>"; };
 		38EC5AEB24D27C2600E016AE /* WYDIDChainInfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYDIDChainInfoModel.m; sourceTree = "<group>"; };
+		38EDD1EF2535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDCustomInfoTableViewCell.h; sourceTree = "<group>"; };
+		38EDD1F02535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYDIDCustomInfoTableViewCell.m; sourceTree = "<group>"; };
+		38EDD1F225374308002C8EBF /* WYAddCustomContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAddCustomContentViewController.h; sourceTree = "<group>"; };
+		38EDD1F325374308002C8EBF /* WYAddCustomContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAddCustomContentViewController.m; sourceTree = "<group>"; };
 		38FAB636249472DD003E7C58 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		38FAB638249472DD003E7C58 /* mz_strm_os_posix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_os_posix.c; sourceTree = "<group>"; };
 		38FAB639249472DD003E7C58 /* mz_strm_pkcrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mz_strm_pkcrypt.c; sourceTree = "<group>"; };
@@ -2491,6 +2503,10 @@
 				38EC5AD824D1FC2500E016AE /* WYDIDInfoViewController.h */,
 				38EC5AD924D1FC2500E016AE /* WYDIDInfoViewController.m */,
 				38EC5AE724D2065100E016AE /* WYDIDInfoViewController.xib */,
+				38EDD1F225374308002C8EBF /* WYAddCustomContentViewController.h */,
+				38EDD1F325374308002C8EBF /* WYAddCustomContentViewController.m */,
+				380593B5253C78D3000716A8 /* WYShowCustomContentViewController.h */,
+				380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */,
 			);
 			path = MeVC;
 			sourceTree = "<group>";
@@ -2537,6 +2553,8 @@
 				423F37C2244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.h */,
 				423F37C3244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.m */,
 				423F37C4244C9B1D000CDFE9 /* HWMTheMessageCenterTableViewCell.xib */,
+				38EDD1EF2535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.h */,
+				38EDD1F02535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2575,6 +2593,8 @@
 				4230C7D7245203A100575C8D /* HMWTheLatestMessagetTableViewCell.h */,
 				4230C7D8245203A100575C8D /* HMWTheLatestMessagetTableViewCell.m */,
 				4230C7D9245203A100575C8D /* HMWTheLatestMessagetTableViewCell.xib */,
+				383122DD25388C0700225D45 /* WYSelectCustomTypeView.h */,
+				383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -5147,6 +5167,7 @@
 				4202CA0E21F6EF2A009E5932 /* WCQRCodeScanningVC.m in Sources */,
 				CBD48D6D21FEA22400BF3B11 /* FLNotePointDBManager.m in Sources */,
 				423461F92383F18900E4B135 /* NSArray+YRSafeCategory.m in Sources */,
+				380593B7253C78D3000716A8 /* WYShowCustomContentViewController.m in Sources */,
 				4202CA5021F6EF2A009E5932 /* FLSearchContractTableCell.m in Sources */,
 				425A5F6124666FC400C44104 /* HWMCommentPerioDetailsHeadView.m in Sources */,
 				42B57ABE22150C1C004CF089 /* NSAttributedString+WOCrash.m in Sources */,
@@ -5202,6 +5223,7 @@
 				425A5F9B2466BA4D00C44104 /* HWMCollectionProposalPerformViewController.m in Sources */,
 				42D105FD23A3344D0063AADC /* MJRefreshAutoGifFooter.m in Sources */,
 				4202CA2321F6EF2A009E5932 /* HMWshowAddContactTextTableViewCell.m in Sources */,
+				38EDD1F425374309002C8EBF /* WYAddCustomContentViewController.m in Sources */,
 				4224AE76243CD43E0056606F /* DDContextFilterLogFormatter.m in Sources */,
 				4202CA8B21F6EF2B009E5932 /* HMWTheWalletManagementViewController.mm in Sources */,
 				424A7D67222FC23B00683B8C /* sideChainInfoModel.m in Sources */,
@@ -5225,6 +5247,7 @@
 				4202CAA421F6EF2B009E5932 /* HMWImKeystoreView.m in Sources */,
 				4279CAE124796C3100B503A4 /* ELANetworkManager.m in Sources */,
 				423270CC244DA17E00E98C26 /* HWMmessageWindowPopsView.m in Sources */,
+				38EDD1F12535E7D7002C8EBF /* WYDIDCustomInfoTableViewCell.m in Sources */,
 				4202CA7121F6EF2B009E5932 /* HMWtransferTransactionDetailsViewController.m in Sources */,
 				429DD3BE240FDF0300E6CF11 /* HWMDIDManager.mm in Sources */,
 				4202CA9121F6EF2B009E5932 /* HMWsettingKeyStorePWDViewController.mm in Sources */,
@@ -5350,6 +5373,7 @@
 				423461FC2383F18900E4B135 /* NSNull+YRSafeCategory.m in Sources */,
 				42EAF00D238BB84700D6A912 /* HW3DBannerView.m in Sources */,
 				38229E1A24E59E40004FFAFF /* WYVoteDetailsViewController.m in Sources */,
+				383122DF25388C0700225D45 /* WYSelectCustomTypeView.m in Sources */,
 				4279CADC24796C3100B503A4 /* ELAProposalPayloadModel.m in Sources */,
 				4202CADB21F6EF2B009E5932 /* HMWfoundViewController.mm in Sources */,
 				4223EB362327A74500153DA9 /* HWMListMoreSignThePublicKeyTableViewCell.m in Sources */,

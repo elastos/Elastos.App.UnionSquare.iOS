@@ -301,8 +301,10 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 
 -(NSString*)charToString:(const char*)needChar{
     if (needChar ==NULL) {
+        WYLog(@"===dev temp === charToString: needChar is NULL!!");
         return @"";
     }
+    WYLog(@"===dev temp === charToString: needChar is NOT NULL");
     return  [NSString stringWithUTF8String:needChar];
     
 }
@@ -324,6 +326,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         endTime= [dic[@"endTime"] integerValue];
     }
     const char *types[1] = {"BasicProfileCredential"};//类型名称
+    
+//    const char *types[1] = {"SelfProclaimedCredential"};//类型名称
+    
     DIDURL *creatCredentialID=DIDURL_NewByDid(did, "outPut");// 相当于文件  不同的需求 需要创建不同的名字  只能通过这个别名 拿去 Credential
     if (model.editTime.length==0) {
         model.editTime=[[FLTools share]getNowTimeTimestampS];
@@ -333,10 +338,24 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         model.didName=@"unknown";
     }
     model.endString=NULL;
+    
+//    model.customInfos = @"abc #SpEciaL\\\"#sPeciaL ,,,,,,,, \n def xyz :::[ ::: 你好 哈哈哈 :::] ,, ewewe";
+    
     NSString *CredentialSubjectBean=[model modelToJSONString];
-    const char * nickName =[CredentialSubjectBean UTF8String];
+    
+    CredentialSubjectBean = [CredentialSubjectBean stringByReplacingOccurrencesOfString:@"\\\"" withString:@"#SpEciaL\\\\\\\"#sPeciaL"];
+    
+    WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: bean %@ === did %@ === birth %@ === customInfos %@", CredentialSubjectBean, model.did, model.birthday, model.customInfos);
+    
+    const char *nickName =[CredentialSubjectBean UTF8String];
+    
+    WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: nickName %s", nickName);
+    
     Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
     int r=DIDStore_StoreCredential(store, c, "BasicProfileCredential");
+    
+//    int r=DIDStore_StoreCredential(store, c, "SelfProclaimedCredential");
+    
     Issuer_Destroy(isser);
     DIDURL_Destroy(creatCredentialID);
     Credential_Destroy(c);
@@ -350,8 +369,19 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     DIDURL *url=DIDURL_NewByDid(did,"outPut");
     Credential * cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_GetProperties(cre);
+    
+    WYLog(@"===dev temp === readDIDCredential: suInfo %s ===", suInfo);
+    
     NSString *modelString=[self charToString:suInfo];
+    modelString = [modelString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+    modelString = [modelString stringByReplacingOccurrencesOfString:@"#SpEciaL\"#sPeciaL" withString:@"\\\""];
+    
+    WYLog(@"=== dev temp === readDIDCredential: modelString %@", modelString);
+    
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
+    
+    WYLog(@"=== dev temp === readDIDCredential: modelwithJSON model %@ === customInfos %@", model, model.customInfos);
+    
     if (model==nil) {
         model=[[HWMDIDInfoModel alloc]init];
         
@@ -367,6 +397,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     //    model.did=self.DIDString;
     
     DIDURL_Destroy(url);
+    
+    WYLog(@"=== dev temp === readDIDCredential: model did %@ === name %@ === customInfos %@", model.did, model.didName, model.customInfos);
+    
     return model;
 }
 -(NSString*)generateDIDCredentialString{
