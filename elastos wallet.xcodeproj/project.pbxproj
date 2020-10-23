@@ -21,6 +21,12 @@
 		38229E2B24E86771004FFAFF /* WYVoteDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E2A24E8676F004FFAFF /* WYVoteDetailsTableViewCell.m */; };
 		38229E3124E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */; };
 		38229E3424EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */; };
+		3829CDBF253F416100667F25 /* libcrystal.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDB8253F415F00667F25 /* libcrystal.dylib */; };
+		3829CDC4253F416100667F25 /* libeladid.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDBD253F416100667F25 /* libeladid.1.dylib */; };
+		3829CDCE253F4F9A00667F25 /* libhdkey.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */; };
+		3829CDD6253F695D00667F25 /* libeladid.1.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDBD253F416100667F25 /* libeladid.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3829CDD7253F696000667F25 /* libhdkey.1.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		3829CDD8253F696200667F25 /* libcrystal.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDB8253F415F00667F25 /* libcrystal.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		383122DF25388C0700225D45 /* WYSelectCustomTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */; };
 		383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 383EFE2A249727B50087BA01 /* libresolv.tbd */; };
 		383EFE2F249736FA0087BA01 /* WYResyncChainDataViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */; };
@@ -714,6 +720,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3829CDD8253F696200667F25 /* libcrystal.dylib in Embed Frameworks */,
+				3829CDD6253F695D00667F25 /* libeladid.1.dylib in Embed Frameworks */,
+				3829CDD7253F696000667F25 /* libhdkey.1.dylib in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -748,6 +757,9 @@
 		38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType1.m; sourceTree = "<group>"; };
 		38229E3224EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteDetailsListViewCellType2.h; sourceTree = "<group>"; };
 		38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType2.m; sourceTree = "<group>"; };
+		3829CDB8253F415F00667F25 /* libcrystal.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcrystal.dylib; sourceTree = "<group>"; };
+		3829CDBD253F416100667F25 /* libeladid.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libeladid.1.dylib; sourceTree = "<group>"; };
+		3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhdkey.1.dylib; sourceTree = "<group>"; };
 		383122DD25388C0700225D45 /* WYSelectCustomTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSelectCustomTypeView.h; sourceTree = "<group>"; };
 		383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSelectCustomTypeView.m; sourceTree = "<group>"; };
 		383EFE2A249727B50087BA01 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -2104,6 +2116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3829CDCE253F4F9A00667F25 /* libhdkey.1.dylib in Frameworks */,
 				383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */,
 				428476CF243F2A2C00EADFDE /* UIKit.framework in Frameworks */,
 				428476CD243F2A2300EADFDE /* CoreGraphics.framework in Frameworks */,
@@ -2112,6 +2125,7 @@
 				428476C7243F2A0900EADFDE /* CoreImage.framework in Frameworks */,
 				428476C5243F29FD00EADFDE /* CoreText.framework in Frameworks */,
 				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
+				3829CDBF253F416100667F25 /* libcrystal.dylib in Frameworks */,
 				429DD3B6240FAA7200E6CF11 /* libsqlite3.a in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
 				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
@@ -2127,6 +2141,7 @@
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				428476C3243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
+				3829CDC4253F416100667F25 /* libeladid.1.dylib in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
@@ -4303,6 +4318,9 @@
 		42A32065240FEFFA00FABE6D /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */,
+				3829CDB8253F415F00667F25 /* libcrystal.dylib */,
+				3829CDBD253F416100667F25 /* libeladid.1.dylib */,
 				42A32066240FEFFA00FABE6D /* libhdkey.a */,
 				42A32067240FEFFA00FABE6D /* libcjson.a */,
 				42A32068240FEFFA00FABE6D /* libcurl.a */,
@@ -5572,7 +5590,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C711A19F85AA16E42F21EF04 /* Pods-elastos wallet.debug(regtest).xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -5658,7 +5675,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B32C86EE8DFCC3DDA2BBE00 /* Pods-elastos wallet.release(mainnet).xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -5789,7 +5805,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DFA7E66475503C0721EA638C /* Pods-elastos wallet.testnet .xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -5921,7 +5936,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C6140CA7131AA6CD8D5E0B18 /* Pods-elastos wallet.prvnet .xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

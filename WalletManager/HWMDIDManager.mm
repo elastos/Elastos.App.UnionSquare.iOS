@@ -65,7 +65,7 @@ typedef struct TestDIDAdaptor {
     char *walletId;
 } TestDIDAdaptor;
 
-static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
+bool TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
 {
     TestDIDAdaptor *adapter = (TestDIDAdaptor*)_adapter;
     NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
@@ -75,7 +75,7 @@ static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, cons
     //    payloadJsonString=dicPayJson[@"payload"];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
     if (!adapter || !payload){
-        return NULL;
+        return false;
         
     }
     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
@@ -83,10 +83,10 @@ static const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, cons
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     
     if ([statusBase isEqualToString:@"1"] ) {
-        return "0";
+        return true;
         
     }else{
-        return "-1";
+        return false;
     }
     
 }
@@ -176,13 +176,16 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
-            DIDStore_StoreDID(store, doc, "name");// 保存到本地
-            DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
-            DID * newdid= DIDDocument_GetSubject(nedoc);
-            DID_Copy(did, newdid);
+            DIDStore_StoreDID(store, doc);// 保存到本地
+            
+            // Obsolete logic for old didsdk version
+//            DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
+//            DID * newdid= DIDDocument_GetSubject(nedoc);
+//            DID_Copy(did, newdid);
+            
             DIDURL_Destroy(url);
             DIDDocument_Destroy(doc);
-            DIDDocument_Destroy(nedoc);
+//            DIDDocument_Destroy(nedoc);
             if (need) {
                 [[FLTools share]hideLoadingView];
             }
@@ -191,9 +194,12 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         }else{
             DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
             if (reDoc) {
-                DIDStore_StoreDID(store, reDoc, "name");// 保存到本地
-                DID * newdid= DIDDocument_GetSubject(reDoc);
-                DID_Copy(did, newdid);
+                DIDStore_StoreDID(store, reDoc);// 保存到本地
+                
+                // Obsolete logic for old didsdk version
+//                DID * newdid= DIDDocument_GetSubject(reDoc);
+//                DID_Copy(did, newdid);
+                
                 DIDDocument_Destroy(reDoc);
                 if (need) {
                     [[FLTools share]hideLoadingView];
@@ -274,12 +280,12 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     const  char *doString=DIDDocument_ToJson(newDoc, false);
-    rt=  DIDStore_StoreDID(store,newDoc, "name");// 已经签名
-    const char *r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
-    NSString *reString=[self charToString:r];
+    rt=  DIDStore_StoreDID(store,newDoc);// 已经签名
+    bool r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
+//    NSString *reString=[self charToString:r];
     DIDURL_Destroy(url);
     DIDDocument_Destroy(newDoc);
-    if ([reString isEqualToString:@"0"]) {
+    if (r) {
         return YES;
     }else{
         //        [[FLTools share]showErrorInfo:@"发布失败"];
@@ -339,20 +345,26 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     model.endString=NULL;
     
-//    model.customInfos = @"abc #SpEciaL\\\"#sPeciaL ,,,,,,,, \n def xyz :::[ ::: 你好 哈哈哈 :::] ,, ewewe";
-    
     NSString *CredentialSubjectBean=[model modelToJSONString];
     
-    CredentialSubjectBean = [CredentialSubjectBean stringByReplacingOccurrencesOfString:@"\\\"" withString:@"#SpEciaL\\\\\\\"#sPeciaL"];
+//    CredentialSubjectBean = [CredentialSubjectBean stringByReplacingOccurrencesOfString:@"\\\"" withString:@"#SpEciaL\\\\\\\"#sPeciaL"];
     
     WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: bean %@ === did %@ === birth %@ === customInfos %@", CredentialSubjectBean, model.did, model.birthday, model.customInfos);
     
     const char *nickName =[CredentialSubjectBean UTF8String];
     
+//    bool isDelete = DIDStore_DeleteCredential(store, did, creatCredentialID);
+//    WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: isDelete %d", isDelete
+//          );
+//    if (!isDelete) {
+//        const char *err = DIDError_GetMessage();
+//        WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: Delete Error %s", err);
+//    }
+        
     WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: nickName %s", nickName);
     
     Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
-    int r=DIDStore_StoreCredential(store, c, "BasicProfileCredential");
+    int r=DIDStore_StoreCredential(store, c);
     
 //    int r=DIDStore_StoreCredential(store, c, "SelfProclaimedCredential");
     
@@ -362,9 +374,12 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (r==0) {
         return YES;
     }else{
+        const char *err = DIDError_GetMessage();
+        WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel Error: c %s === r %d === err %s", c, r, err);
         return NO;
     }
 }
+
 -(HWMDIDInfoModel*)readDIDCredential{// 获取did本地凭证
     DIDURL *url=DIDURL_NewByDid(did,"outPut");
     Credential * cre=DIDStore_LoadCredential(store, did, url);
@@ -373,8 +388,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     WYLog(@"===dev temp === readDIDCredential: suInfo %s ===", suInfo);
     
     NSString *modelString=[self charToString:suInfo];
-    modelString = [modelString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-    modelString = [modelString stringByReplacingOccurrencesOfString:@"#SpEciaL\"#sPeciaL" withString:@"\\\""];
+//    modelString = [modelString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
+//    modelString = [modelString stringByReplacingOccurrencesOfString:@"#SpEciaL\"#sPeciaL" withString:@"\\\""];
     
     WYLog(@"=== dev temp === readDIDCredential: modelString %@", modelString);
     
