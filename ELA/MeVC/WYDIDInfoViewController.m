@@ -23,16 +23,20 @@
 
 
 #import "WYDIDInfoViewController.h"
+#import "HWMDIDInfoShowTableViewCell.h"
 
-@interface WYDIDInfoViewController ()
+static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
+
+@interface WYDIDInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *DIDAddressTextField;
 @property (weak, nonatomic) IBOutlet UITextField *expireTimeTextField;
-@property (weak, nonatomic) IBOutlet UITextField *birthDateTextField;
-@property (weak, nonatomic) IBOutlet UITextField *sexTextField;
-@property (weak, nonatomic) IBOutlet UITextField *twitterTextField;
-@property (weak, nonatomic) IBOutlet UITextField *customInfoTextField;
+
+@property (copy, nonatomic) NSArray *allExtraInfoList;
+@property (strong, nonatomic) NSMutableArray *displayList;
+
+@property (strong, nonatomic) UITableView *extraTable;
 
 @end
 
@@ -49,13 +53,25 @@
     self.nameTextField.enabled = NO;
     self.DIDAddressTextField.enabled = NO;
     self.expireTimeTextField.enabled = NO;
-    self.birthDateTextField.enabled = NO;
-    self.sexTextField.enabled = NO;
-    self.twitterTextField.enabled = NO;
-    self.customInfoTextField.enabled = NO;
     
-    [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.customInfoTextField withTxt:NSLocalizedString(@"自定义选项的内容文字", nil)];
+    UILayoutGuide *margin = self.view.layoutMarginsGuide;
     
+    self.extraTable = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.extraTable.translatesAutoresizingMaskIntoConstraints = NO;
+    self.extraTable.backgroundColor = [UIColor clearColor];
+    self.extraTable.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.extraTable];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.extraTable.topAnchor constraintEqualToAnchor:self.expireTimeTextField.bottomAnchor],
+        [self.extraTable.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor],
+        [self.extraTable.leadingAnchor constraintEqualToAnchor:margin.leadingAnchor],
+        [self.extraTable.trailingAnchor constraintEqualToAnchor:margin.trailingAnchor]
+    ]];
+    
+    self.extraTable.delegate = self;
+    self.extraTable.dataSource = self;
+    [self.extraTable registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,27 +93,194 @@
     if (self.model.expireTime) {
         self.expireTimeTextField.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.expireTime]];
     }
-    if (self.model.birthDate) {
-        self.birthDateTextField.text = self.model.birthDate;
-    }
-    if (self.model.sex) {
-        self.sexTextField.text = self.model.sex;
-    }
-    if (self.model.twitter) {
-        self.twitterTextField.text = self.model.twitter;
-    }
-    if (self.model.customInfo) {
-        self.nameTextField.text = [[FLTools share] returnJSONStringWithDictionary:self.model.customInfo];
+    
+    WYLog(@"=== dev temp === extraInfo: %@", self.extraInfo);
+    
+    [self prepareDisplayList];
+    [self.extraTable reloadData];
+    
+    if (self.displayList.count > 0) {
+        self.extraTable.alpha = 1.f;
+    } else {
+        self.extraTable.alpha = 0.f;
     }
 }
 
+- (void)prepareDisplayList {
+    self.displayList = [[NSMutableArray alloc] init];
+    for (NSDictionary *item in self.allExtraInfoList) {
+        NSString *key = item[@"key"];
+        NSString *value = self.extraInfo[key];
+        if (value.length > 0) {
+            NSString *content = value;
+            if ([key isEqualToString:@"phone"]) {
+                NSString *phoneCode = self.extraInfo[@"phoneCode"];
+                if (phoneCode.length > 0) {
+                    content = [NSString stringWithFormat:@"%@ %@", phoneCode, content];
+                }
+            }
+            
+            if ([key isEqualToString:@"gender"]) {
+                content = [[FLTools share]genderStringWithType:content];
+            }
+            
+            if ([key isEqualToString:@"birthday"]) {
+                content = [[FLTools share]TimeFormatConversionBirthday:content];
+            }
+            
+            if ([key isEqualToString:@"customInfos"]) {
+                NSDictionary *customInfosDic = [WYUtils dicFromJSONString:content];
+                for (NSDictionary *customInfoItem in customInfosDic) {
+                    NSDictionary *displayItem = @{
+                        @"title": customInfoItem[@"title"],
+                        @"content": customInfoItem[@"content"],
+                        @"type": customInfoItem[@"type"],
+                        @"key": key
+                    };
+                    [self.displayList addObject:displayItem];
+                }
+            } else {
+                NSDictionary *displayItem = @{
+                    @"title": item[@"text"],
+                    @"content": content,
+                    @"type": item[@"type"],
+                    @"key": key
+                };
+                [self.displayList addObject:displayItem];
+            }
+        }
+    }
+    
+    WYLog(@"=== dev temp === displayList prepared: %@", self.displayList);
+}
 
 - (IBAction)DIDCopyToClipboard:(id)sender {
     [[FLTools share]copiedToTheClipboardWithString:self.DIDAddressTextField.text];
 }
 
-- (void)setModel:(WYDIDChainInfoModel *) model{
+- (void)setModel:(WYDIDChainInfoModel *) model {
     _model = model;
+}
+
+- (void)setExtraInfo:(NSDictionary *)extraInfo {
+    _extraInfo = extraInfo;
+}
+
+- (NSArray *)allExtraInfoList {
+    if (!_allExtraInfoList) {
+        _allExtraInfoList = @[
+            @{@"text":NSLocalizedString(@"昵称", nil),
+              @"index":@"0",@"type":@"1",
+              @"key":@"nickname"},
+            @{@"text":NSLocalizedString(@"性别",nil),
+              @"index":@"1",@"type":@"2",
+              @"key":@"gender"},
+            @{@"text":NSLocalizedString(@"出生日期",nil),
+              @"index":@"2",@"type":@"2",
+              @"key":@"birthday"},
+            @{@"text":NSLocalizedString(@"头像地址1",nil),
+              @"index":@"3",@"type":@"1",
+              @"key":@"avatar"},
+            @{@"text":NSLocalizedString(@"邮箱",nil),
+              @"index":@"4",@"type":@"1",
+              @"key":@"email"},
+            @{@"text":NSLocalizedString(@"手机号", nil),
+              @"index":@"5",@"type":@"3",
+              @"key":@"phone"},
+            @{@"text":NSLocalizedString(@"国家/地区", nil),
+              @"index":@"6",@"type":@"2",
+              @"key":@"nation"},
+            @{@"text":NSLocalizedString(@"个人简介qe",nil),
+              @"index":@"7",@"type":@"4",
+              @"key":@"introduction"},
+            @{@"text":NSLocalizedString(@"个人主页网址",nil),
+              @"index":@"8",@"type":@"1",
+              @"key":@"homePage"},
+            @{@"text":NSLocalizedString(@"Facebook账号",nil),
+              @"index":@"9",@"type":@"1",
+              @"key":@"facebook"},
+            @{@"text":NSLocalizedString(@"Twitter账号",nil),
+              @"index":@"10",@"type":@"1",
+              @"key":@"twitter"},
+            @{@"text":NSLocalizedString(@"微博账号",nul),
+              @"index":@"11",@"type":@"1",
+              @"key":@"weibo"},
+            @{@"text":NSLocalizedString(@"微信账号",null),
+              @"index":@"12",@"type":@"1",
+              @"key":@"wechat"},
+            @{@"text":NSLocalizedString(@"谷歌账号1",null),
+              @"index":@"13",@"type":@"1",
+              @"key":@"googleAccount"},
+            @{@"text":NSLocalizedString(@"自定义信息",null),
+              @"index":@"14",@"type":@"666",
+              @"key":@"customInfos"}
+        ];
+    }
+    return _allExtraInfoList;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        WYLog(@"=== dev temp === Table rows: %d", self.displayList.count);
+        return self.displayList.count;
+    }
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WYLog(@"=== dev temp === rowHeight called");
+    if (indexPath.section == 1) {
+        NSDictionary *item = self.displayList[indexPath.row];
+        if ([item[@"key"] isEqualToString:@"avatar"]) {
+            return 85.f;
+        }
+    }
+    return 55.f;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HWMDIDInfoShowTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+    
+    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    
+    NSDictionary *item = self.displayList[indexPath.row];
+    NSString *title = item[@"title"];
+    NSString *content = item[@"content"];
+    cell.leftLabel.text = title;
+    cell.rightLabel.text = [content stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    
+    if ([item[@"key"] isEqualToString:@"avatar"]) {
+        
+        cell.headIocnImageView.alpha=1.f;
+        if (content.length>4) {
+           
+            NSString *typeString=[content substringFromIndex:content.length-4];
+            if ([typeString isEqualToString:@".svg"]) {
+                cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFit;
+            }else{
+                cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
+            }
+            [[FLTools share]loadUrlSVGAndPNG:content WithSuccessBlock:^(id data) {
+                if (data) {
+                    cell.headIocnImageView.image=data;
+                }else{
+                    cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+                }
+            }];
+        }else{
+            cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+        }
+        cell.rightLabel.alpha=0.f;
+        
+    }
+    
+    WYLog(@"=== dev temp === Cell returned: %@", title);
+    
+    return cell;
 }
 
 /*

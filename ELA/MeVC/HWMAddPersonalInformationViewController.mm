@@ -1240,8 +1240,8 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
         BOOL isSucess=[[HWMDIDManager shareDIDManager ]saveDIDCredentialWithDIDModel: self.model];
         if (isSucess) {
             
-            HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
-            WYLog(@"=== dev temp === makeSureWithPWD: read model did %@ === birth %@ === customInfos %@", readModel.did, readModel.birthday, readModel.customInfos);
+//            HWMDIDInfoModel *readModel=[[HWMDIDManager shareDIDManager]readDIDCredential];
+//            WYLog(@"=== dev temp === makeSureWithPWD: read model did %@ === birth %@ === customInfos %@", readModel.did, readModel.birthday, readModel.customInfos);
             
             [self hiddenPWDView];
             [self showSendSuccessViewWithType:1];

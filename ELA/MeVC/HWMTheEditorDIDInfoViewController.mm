@@ -33,7 +33,7 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
-    self.title=NSLocalizedString(@"编辑DID", nil);
+    self.title=NSLocalizedString(@"编辑DID基本信息", nil);
     self.DIDTextInfoLabel.text=NSLocalizedString(@"DID信息", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
     

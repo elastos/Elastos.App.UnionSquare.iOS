@@ -166,7 +166,7 @@ static NSString *cellString =@"HWMDIDInfoShowTableViewCell";
     }
     
     cell.leftLabel.text=titleString;
-    cell.rightLabel.text=conString;
+    cell.rightLabel.text=[conString stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
     return cell;
 }

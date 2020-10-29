@@ -16,6 +16,7 @@
 #import "NSObject+YYModel.h"
 #import "NSDictionary+YYAdd.h"
 #import "YYKit.h"
+#import "WYDIDUtils.h"
 //#import "ELAWallet-Swift.h"
 #define SIGNATURE_BYTES         64
 
@@ -234,18 +235,41 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         //        [[FLTools share]showErrorInfo:@"本地没有"];
         return nil;
     }
+    NSDictionary *reDic = nil;
     DIDDocument *doc=DIDStore_LoadDID(store, did);
-    DIDURL *url=DIDURL_NewByDid(did, "name");
+    
     time_t endTime= DIDDocument_GetExpires(doc);
-    Credential * cre= DIDDocument_GetCredential(doc,url);
-    const char * suInfo = Credential_GetProperty(cre, "name");
-    NSString * didName=[self charToString:suInfo];
-    didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSString *endTimeString=[[FLTools share]SpecialTimeZoneConversion:[NSString stringWithFormat:@"%@",@(endTime)]];
-    if (self.DIDString.length==0) {
-        didName=@"";
+    
+    DIDURL *url = DIDURL_NewByDid(did, "credencial");
+    Credential *cre = DIDDocument_GetCredential(doc, url);
+    if (cre) {
+        const char *credentialCJson = Credential_GetProperties(cre);
+        NSString *credentialJson = (credentialCJson == NULL) ? nil : [NSString stringWithUTF8String:credentialCJson];
+        credentialJson = [WYDIDUtils postLoadCustomInfos:credentialJson];
+        NSDictionary *credentialDic = [[FLTools share] dictionaryWithJsonString:credentialJson];
+        NSString *didName = credentialDic[@"didName"];
+        reDic = @{
+            @"nickName": didName,
+            @"endTime": endTimeString,
+            @"DIDString": self.DIDString
+        };
+    } else {
+        url=DIDURL_NewByDid(did, "name");
+        cre= DIDDocument_GetCredential(doc,url);
+        const char * suInfo = Credential_GetProperty(cre, "name");
+        NSString * didName=[self charToString:suInfo];
+        didName= [didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        if (self.DIDString.length==0) {
+            didName=@"";
+        }
+        reDic = @{
+            @"nickName":didName,
+            @"endTime":endTimeString,
+            @"DIDString":self.DIDString
+        };
     }
-    NSDictionary *reDic=@{@"nickName":didName,@"endTime":endTimeString,@"DIDString":self.DIDString};
     DIDURL_Destroy(url);
     DIDDocument_Destroy(doc);
     return reDic;
@@ -345,11 +369,17 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     model.endString=NULL;
     
-    NSString *CredentialSubjectBean=[model modelToJSONString];
+    NSString *CredentialSubjectBean = [WYDIDUtils preStoreCustomInfos:[model modelToJSONString]];
+    
+//    NSMutableDictionary *tempDic = [[WYUtils dicFromJSONString:CredentialSubjectBean] mutableCopy];
+//    if ([tempDic[@"customInfos"] isKindOfClass:[NSString class]]) {
+//        tempDic[@"customInfos"] = [WYUtils dicFromJSONString:tempDic[@"customInfos"]];
+//        CredentialSubjectBean = [WYUtils dicToJSONString:tempDic];
+//    }
     
 //    CredentialSubjectBean = [CredentialSubjectBean stringByReplacingOccurrencesOfString:@"\\\"" withString:@"#SpEciaL\\\\\\\"#sPeciaL"];
     
-    WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: bean %@ === did %@ === birth %@ === customInfos %@", CredentialSubjectBean, model.did, model.birthday, model.customInfos);
+    WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: beanString %@ === did %@ === birth %@ === customInfos %@", CredentialSubjectBean, model.did, model.birthday, model.customInfos);
     
     const char *nickName =[CredentialSubjectBean UTF8String];
     
@@ -363,7 +393,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         
     WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: nickName %s", nickName);
     
-    Credential *c=  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
+    Credential *c =  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
     int r=DIDStore_StoreCredential(store, c);
     
 //    int r=DIDStore_StoreCredential(store, c, "SelfProclaimedCredential");
@@ -387,15 +417,28 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     
     WYLog(@"===dev temp === readDIDCredential: suInfo %s ===", suInfo);
     
-    NSString *modelString=[self charToString:suInfo];
+    NSString *modelString = [WYDIDUtils postLoadCustomInfos:[self charToString:suInfo]];
 //    modelString = [modelString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
 //    modelString = [modelString stringByReplacingOccurrencesOfString:@"#SpEciaL\"#sPeciaL" withString:@"\\\""];
     
-    WYLog(@"=== dev temp === readDIDCredential: modelString %@", modelString);
+//    WYLog(@"=== dev temp === readDIDCredential: modelString raw string from Local %@", modelString);
+    
+//    NSMutableDictionary *tempDic = [[WYUtils dicFromJSONString:modelString] mutableCopy];
+//
+//    if (tempDic[@"customInfos"] && ![tempDic[@"customInfos"] isKindOfClass:[NSString class]]) {
+//        if ([tempDic[@"customInfos"] isKindOfClass:[NSArray class]]) {
+//            tempDic[@"customInfos"] = [WYUtils arrToJSONString:tempDic[@"customInfos"]];
+//        } else if ([tempDic[@"customInfos"] isKindOfClass:[NSDictionary class]]) {
+//            tempDic[@"customInfos"] = [WYUtils dicToJSONString:tempDic[@"customInfos"]];
+//        } else {
+//            tempDic[@"customInfos"] = nil;
+//        }
+//        modelString = [WYUtils dicToJSONString:tempDic];
+//    }
     
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithJSON:modelString];
     
-    WYLog(@"=== dev temp === readDIDCredential: modelwithJSON model %@ === customInfos %@", model, model.customInfos);
+    WYLog(@"=== dev temp === readDIDCredential: modelString %@ === customInfos %@", modelString, model.customInfos);
     
     if (model==nil) {
         model=[[HWMDIDInfoModel alloc]init];

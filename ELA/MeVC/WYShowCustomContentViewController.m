@@ -44,6 +44,7 @@
     self.contentTextView.textColor = [UIColor whiteColor];
     self.contentTextView.font = [UIFont systemFontOfSize:12.f];
     self.contentTextView.backgroundColor = [UIColor clearColor];
+    self.contentTextView.userInteractionEnabled = NO;
     [self.view addSubview:self.contentTextView];
     
     [NSLayoutConstraint activateConstraints:@[

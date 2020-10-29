@@ -42,6 +42,7 @@
 }
 
 + (NSDictionary *)getDIDInfoFromString:(NSString *)DIDString {
+    WYLog(@"=== dev temp === DIDString: %@", DIDString);
     NSDictionary *result = nil;
     const char *DIDCString = [DIDString UTF8String];
     DID *did = DID_FromString(DIDCString);
@@ -50,16 +51,35 @@
         time_t endTime = DIDDocument_GetExpires(doc);
         NSString *endTimeString=[[FLTools share]SpecialTimeZoneConversion:[NSString stringWithFormat:@"%@",@(endTime)]];
         
-        DIDURL *url = DIDURL_NewByDid(did, "credential");
+        DIDURL *url = DIDURL_NewByDid(did, "credencial");
         Credential *cred = DIDDocument_GetCredential(doc, url);
         if (cred) {
-            const char *credentialCJson = Credential_GetProperty(cred, "credentialJson");
+            const char *credentialCJson = Credential_GetProperties(cred);
             NSString *credentialJson = (credentialCJson == NULL) ? nil : [NSString stringWithUTF8String:credentialCJson];
+            
+            WYLog(@"=== dev temp === credentialJson raw string from Chain: %@", credentialJson);
+            
+            credentialJson = [WYDIDUtils postLoadCustomInfos:credentialJson];
+            
+            WYLog(@"=== dev temp === credentialJson processed string from Chain: %@", credentialJson);
+            
             NSDictionary *credentialDic = [[FLTools share] dictionaryWithJsonString:credentialJson];
+            
+            WYLog(@"=== dev temp === credentialDic: %@ === customInfos: %@", credentialDic, credentialDic[@"customInfos"]);
+            
+            NSString *didName = credentialDic[@"didName"];
+            NSMutableDictionary *extraInfo = [credentialDic mutableCopy];
+            [extraInfo removeObjectForKey:@"didName"];
+            [extraInfo removeObjectForKey:@"did"];
+            [extraInfo removeObjectForKey:@"editTime"];
+            NSMutableDictionary *fullInfo = [credentialDic mutableCopy];
+            fullInfo[@"endTime"] = endTimeString;
             result = @{
-                @"didName": credentialDic[@"didName"],
+                @"didName": didName,
                 @"endTime": endTimeString,
-                @"DIDString": DIDString
+                @"DIDString": DIDString,
+                @"fullInfo": credentialDic,
+                @"extraInfo": extraInfo
             };
         } else {
             url = DIDURL_NewByDid(did, "name");
@@ -69,7 +89,13 @@
             result = @{
                 @"didName": didName,
                 @"endTime": endTimeString,
-                @"DIDString": DIDString
+                @"DIDString": DIDString,
+                @"fullInfo": @{
+                        @"did": DIDString,
+                        @"didName": didName,
+                        @"endTime": endTimeString
+                },
+                @"extraInfo": @{}
             };
         }
         DIDURL_Destroy(url);
@@ -80,6 +106,30 @@
     DIDDocument_Destroy(doc);
     DID_Destroy(did);
     return nil;
+}
+
++ (NSString *)postLoadCustomInfos:(NSString *)jsonString {
+    NSMutableDictionary *jsonDic = [[WYUtils dicFromJSONString:jsonString] mutableCopy];
+    
+    if (jsonDic[@"customInfos"] && ![jsonDic[@"customInfos"] isKindOfClass:[NSString class]]) {
+        if ([jsonDic[@"customInfos"] isKindOfClass:[NSArray class]]) {
+            jsonDic[@"customInfos"] = [WYUtils arrToJSONString:jsonDic[@"customInfos"]];
+        } else if ([jsonDic[@"customInfos"] isKindOfClass:[NSDictionary class]]) {
+            jsonDic[@"customInfos"] = [WYUtils dicToJSONString:jsonDic[@"customInfos"]];
+        } else {
+            jsonDic[@"customInfos"] = nil;
+        }
+    }
+    
+    return [WYUtils dicToJSONString:jsonDic];
+}
+
++ (NSString *)preStoreCustomInfos:(NSString *)jsonString {
+    NSMutableDictionary *jsonDic = [[WYUtils dicFromJSONString:jsonString] mutableCopy];
+    if ([jsonDic[@"customInfos"] isKindOfClass:[NSString class]]) {
+        jsonDic[@"customInfos"] = [WYUtils dicFromJSONString:jsonDic[@"customInfos"]];
+    }
+    return [WYUtils dicToJSONString:jsonDic];
 }
 
 @end

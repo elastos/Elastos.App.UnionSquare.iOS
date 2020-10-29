@@ -30,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYDIDInfoViewController : UIViewController
 
 @property (copy, nonatomic) WYDIDChainInfoModel *model;
+@property (copy, nonatomic) NSDictionary *extraInfo;
 
 @end
 

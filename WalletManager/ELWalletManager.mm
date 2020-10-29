@@ -247,6 +247,10 @@ static uint64_t feePerKB = 10000;
 }
 - (NSString *)dicToJSONString:(NSDictionary *)dic
 {
+    if (dic == nil) {
+        return nil;
+    }
+    
     NSData *data = [NSJSONSerialization dataWithJSONObject:dic
                                                    options:kNilOptions
                                                      error:nil];
@@ -261,6 +265,10 @@ static uint64_t feePerKB = 10000;
 }
 - (NSString *)arrayToJSONString:(NSArray *)array
 {
+    if (array == nil) {
+        return nil;
+    }
+    
     NSData *data = [NSJSONSerialization dataWithJSONObject:array
                                                    options:NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments
                                                      error:nil];

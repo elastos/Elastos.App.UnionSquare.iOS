@@ -187,6 +187,7 @@
         model.didAddress = didInfo[@"DIDString"];
         model.expireTime = didInfo[@"endTime"];
         DIDInfoVC.model = model;
+        DIDInfoVC.extraInfo = didInfo[@"extraInfo"];
         [self.navigationController pushViewController:DIDInfoVC animated:YES];
     } else {
         [[FLTools share] showErrorInfo:NSLocalizedString(@"DID无链上信息", nil)];

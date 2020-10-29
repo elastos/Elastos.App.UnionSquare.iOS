@@ -278,6 +278,10 @@ static NSMutableDictionary *globalDic = nil;
 }
 
 + (NSString *)dicToJSONString:(NSDictionary *)dic {
+    if (dic == nil) {
+        return nil;
+    }
+    
     NSData *data = [NSJSONSerialization dataWithJSONObject:dic
                                                    options:kNilOptions
                                                      error:nil];
@@ -292,6 +296,10 @@ static NSMutableDictionary *globalDic = nil;
 }
 
 + (NSString *)arrToJSONString:(NSArray *)arr {
+    if (arr == nil) {
+        return nil;
+    }
+    
     NSData *data = [NSJSONSerialization dataWithJSONObject:arr
                                                    options:NSJSONReadingMutableLeaves | NSJSONReadingAllowFragments
                                                      error:nil];

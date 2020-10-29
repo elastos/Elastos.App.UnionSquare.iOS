@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)validateDIDString:(NSString *)DIDString;
 + (NSDictionary *)getDIDInfoFromString:(NSString *)DIDString;
++ (NSString *)postLoadCustomInfos:(NSString *)jsonString;
++ (NSString *)preStoreCustomInfos:(NSString *)jsonString;
 
 @end
 
