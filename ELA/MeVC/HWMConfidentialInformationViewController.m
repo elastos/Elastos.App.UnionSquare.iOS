@@ -72,6 +72,8 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    WYLog(@"=== dev temp === DID Local Info List model: %@", [self.model modelToJSONString]);
+    
     if (self.hasRead) {
         HWMHWMDIDShowInfoViewController *HWMAddPersonalInformationVC=[[HWMHWMDIDShowInfoViewController alloc]init];
         HWMAddPersonalInformationVC.currentWallet=self.currentWallet;
@@ -128,7 +130,7 @@ static NSString *normalCellString=@"HWMDIDListAbnormalTableViewCell";
         self.hasRead=NO;
     }
     
-    WYLog(@"=== dev temp === needUpLoadDataSource: self model did %@ === readModel did %@ === self model name %@ === readModel name %@ === self model customInfos %@ === self model time %@", self.model.did, readModel.did, self.model.didName, readModel.didName, self.model.customInfos, self.model.editTime);
+    WYLog(@"=== dev temp === needUpLoadDataSource: model is %@", [self.model modelToJSONString]);
     
     [self.table reloadData];
 }

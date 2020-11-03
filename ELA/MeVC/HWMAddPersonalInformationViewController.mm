@@ -115,7 +115,42 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
     
     if (self.isChain) {
+        UIView *textInfoView = self.textInfoLabel.superview;
+        
+        UIImage *tipsWarningIconImage = [UIImage imageNamed:@"tips_warning_icon"];
+        UIImageView *tipsWarningIconView = [[UIImageView alloc] initWithImage:tipsWarningIconImage];
+        tipsWarningIconView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [textInfoView addSubview:tipsWarningIconView];
+        
+        [NSLayoutConstraint activateConstraints:@[
+            [tipsWarningIconView.leadingAnchor constraintEqualToAnchor:self.textInfoLabel.leadingAnchor constant:15.f],
+            [tipsWarningIconView.centerYAnchor constraintEqualToAnchor:self.textInfoLabel.centerYAnchor],
+            [tipsWarningIconView.heightAnchor constraintEqualToAnchor:self.textInfoLabel.heightAnchor multiplier:0.5f],
+            [tipsWarningIconView.widthAnchor constraintEqualToAnchor:tipsWarningIconView.heightAnchor]
+        ]];
+        
+        UILabel *tipsWarningLabel = [[UILabel alloc] init];
+        tipsWarningLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        tipsWarningLabel.numberOfLines = 0;
+        tipsWarningLabel.font = [UIFont systemFontOfSize:11.f];
+        tipsWarningLabel.adjustsFontSizeToFitWidth = YES;
+        tipsWarningLabel.minimumScaleFactor = 0.5f;
+        tipsWarningLabel.textColor = [UIColor whiteColor];
+        tipsWarningLabel.backgroundColor = [UIColor clearColor];
+        tipsWarningLabel.text = NSLocalizedString(@"本页面内容均非必填，且将作为DID信息发布上链并完全公开。请注意隐私保护，谨慎填写。", nil);
+        
+        [textInfoView addSubview:tipsWarningLabel];
+        
+        [NSLayoutConstraint activateConstraints:@[
+            [tipsWarningLabel.leadingAnchor constraintEqualToAnchor:tipsWarningIconView.trailingAnchor constant:10.f],
+            [tipsWarningLabel.trailingAnchor constraintEqualToAnchor:self.textInfoLabel.trailingAnchor],
+            [tipsWarningLabel.topAnchor constraintEqualToAnchor:self.textInfoLabel.topAnchor],
+            [tipsWarningLabel.bottomAnchor constraintEqualToAnchor:self.textInfoLabel.bottomAnchor]
+        ]];
+        
         self.textInfoLabel.text=NSLocalizedString(@"本页面内容均非必填，且将作为DID信息发布上链并完全公开。请注意隐私保护，谨慎填写。", nil);
+        self.textInfoLabel.alpha = 0.f;
     }
     
     self.needUpdate=NO;

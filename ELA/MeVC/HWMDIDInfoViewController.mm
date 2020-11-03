@@ -240,7 +240,17 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
 }
 - (IBAction)ConfidentialInformationEvent:(id)sender {
     HWMConfidentialInformationViewController *ConfidentialInformationVC=[[HWMConfidentialInformationViewController alloc]init];
-    ConfidentialInformationVC.model=self.model;
+    
+    HWMDIDInfoModel *localModel = [[HWMDIDInfoModel alloc] init];
+    
+    localModel.did = self.model.did;
+    localModel.didName = self.model.didName;
+    localModel.endString = self.model.endString;
+    if (localModel.didName.length==0) {
+        localModel.didName=@"unknown";
+    }
+    
+    ConfidentialInformationVC.model = localModel;
     ConfidentialInformationVC.currentWallet=self.currentWallet;
     [self.navigationController pushViewController:ConfidentialInformationVC animated:YES];
 }

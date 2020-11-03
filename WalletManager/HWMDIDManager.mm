@@ -502,7 +502,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSDictionary *dic= [self getDIDInfo];
     model.didName=dic[@"nickName"];
     if (model.didName.length==0) {
-        model.didName=@"unknow";
+        model.didName=@"unknown";
     }
     //    if (model.did.length==0) {
     //        model.did=dic[@"DIDString"];
@@ -511,7 +511,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     
     DIDURL_Destroy(url);
     
-    WYLog(@"=== dev temp === readDIDCredential: model did %@ === name %@ === customInfos %@", model.did, model.didName, model.customInfos);
+    WYLog(@"=== dev temp === readDIDCredential: model is %@", [model modelToJSONString]);
     
     return model;
 }

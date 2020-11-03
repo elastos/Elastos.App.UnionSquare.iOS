@@ -238,7 +238,6 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WYLog(@"=== dev temp === rowHeight called");
     if (indexPath.section == 0) {
         NSDictionary *item = self.displayList[indexPath.row];
         if ([item[@"key"] isEqualToString:@"avatar"]) {
