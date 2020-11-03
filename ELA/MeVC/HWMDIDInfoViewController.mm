@@ -15,6 +15,8 @@
 #import "ELWalletManager.h"
 #import "WYDIDUtils.h"
 #import "HWMDIDInfoShowTableViewCell.h"
+#import "HWMshowIntroductionInfoViewController.h"
+#import "WYShowCustomContentViewController.h"
 
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
@@ -83,6 +85,9 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     WYLog(@"=== dev temp === DID Info Dic: %@", didInfoExtended);
     self.fullInfo = didInfoExtended[@"fullInfo"];
     self.extraInfo = didInfoExtended[@"extraInfo"];
+    
+    self.model = [HWMDIDInfoModel modelWithDictionary:self.fullInfo];
+    
 }
 
 - (void)prepareDisplayList {
@@ -105,6 +110,10 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
             
             if ([key isEqualToString:@"birthday"]) {
                 content = [[FLTools share]TimeFormatConversionBirthday:content];
+            }
+            
+            if ([key isEqualToString:@"nation"]) {
+                content = [[FLTools share]contryNameTransLateByCode:[content integerValue]];
             }
             
             if ([key isEqualToString:@"customInfos"]) {
@@ -224,6 +233,7 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
 - (IBAction)theEditorEvent:(id)sender {
     HWMTheEditorDIDInfoViewController *TheEditorDIDInfoVC=[[HWMTheEditorDIDInfoViewController alloc]init];
     TheEditorDIDInfoVC.model=self.model;
+    TheEditorDIDInfoVC.extraInfo = self.extraInfo;
     TheEditorDIDInfoVC.currentWallet=self.currentWallet;
     TheEditorDIDInfoVC.PubKeyString=self.PubKeyString;
     [self.navigationController pushViewController:TheEditorDIDInfoVC animated:YES];
@@ -376,9 +386,22 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     view.tintColor = [UIColor clearColor];
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        NSDictionary *infoSelected = self.displayList[indexPath.row];
+        WYLog(@"=== dev temp === infoSelected: %@", infoSelected);
+        if ([infoSelected[@"key"] isEqualToString:@"introduction"]) {
+            HWMshowIntroductionInfoViewController *AddPersonalProfileVC=[[HWMshowIntroductionInfoViewController alloc]init];
+            AddPersonalProfileVC.model=self.model;
+            [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
+        } else if ([infoSelected[@"key"] isEqualToString:@"customInfos"] && [infoSelected[@"type"] isEqualToString:@"-2"]) {
+            WYShowCustomContentViewController *contentVC = [[WYShowCustomContentViewController alloc] init];
+            contentVC.title = infoSelected[@"title"];
+            contentVC.contentText = infoSelected[@"content"];
+            [contentVC refreshData];
+            [self.navigationController pushViewController:contentVC animated:YES];
+        }
+    }
 }
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;

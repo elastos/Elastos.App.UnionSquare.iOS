@@ -113,21 +113,38 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     [self makeUI];
     self.blance=0.f;
     self.textInfoLabel.text=NSLocalizedString(@"温馨提示：本页内容均非必填，仅保存在本地，供用户授权使用。", nil);
+    
+    if (self.isChain) {
+        self.textInfoLabel.text=NSLocalizedString(@"本页面内容均非必填，且将作为DID信息发布上链并完全公开。请注意隐私保护，谨慎填写。", nil);
+    }
+    
     self.needUpdate=NO;
     if (self.isEidet||self.whereFrome) {
         if (self.isEidet) {
             self.title=NSLocalizedString(@"编辑个人信息", nil);
+            if (self.isChain) {
+                self.title = NSLocalizedString(@"编辑DID信息", nil);
+            }
         }
         
         if (self.whereFrome==YES) {
             self.title=NSLocalizedString(@"添加个人信息", nil);
+            if (self.isChain) {
+                self.title = NSLocalizedString(@"添加DID信息", nil);
+            }
         }
         [self.skipButton setTitle:NSLocalizedString(@"保存", nil) forState: UIControlStateNormal];
+        if (self.isChain) {
+            [self.skipButton setTitle:NSLocalizedString(@"发布", nil) forState: UIControlStateNormal];
+        }
         if (self.isEidet) {
             [self updaeDataArray];
         }
     }else{
         self.title=NSLocalizedString(@"添加个人信息", nil);
+        if (self.isChain) {
+            self.title = NSLocalizedString(@"添加DID信息", nil);
+        }
     }
     NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
@@ -224,6 +241,8 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
         [self.showInfoListAarry addObject:@"13"];
     }
     
+    WYLog(@"=== dev temp === self.model.customInfos: %@ length %ld", self.model.customInfos, self.model.customInfos.length);
+    
     if (self.model.customInfos.length>0) {
         NSDictionary *customInfosList = [WYUtils dicFromJSONString:self.model.customInfos];
         NSInteger next = 0;
@@ -245,7 +264,6 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     if (self.customInfosDic.count < 5) {
         [self.showInfoListAarry addObject:@"14"];
     }
-    
     
     if (self.defMArray.count==self.allInfoListArray.count) {
         self.addFooterView.alpha=0.f;
@@ -374,9 +392,11 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     }
     
     
-    WYLog(@"=== dev temp === Skip Button: isEidet %d whereFrome %d", self.isEidet, self.whereFrome);
+    WYLog(@"=== dev temp === Skip Button: isEidet %d whereFrome %d isChain %d", self.isEidet, self.whereFrome, self.isChain);
     
-    if (self.isEidet||self.whereFrome) {
+    if (self.isChain) {
+        [self showPWDView];
+    } else if (self.isEidet||self.whereFrome) {
         
         UIView *manView=[self mainWindow];
         [manView addSubview:self.pwdPopupV];
@@ -390,6 +410,14 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
             make.left.right.top.bottom.equalTo(manView);
         }];
     }
+}
+
+- (void)showPWDView {
+    UIView *mainView =[self mainWindow];
+    [mainView addSubview:self.transactionDetailsView];
+    [self.transactionDetailsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(mainView);
+    }];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1360,7 +1388,12 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     NSString *status=[NSString stringWithFormat:@"%@",result.status];
     if ([status isEqualToString:@"1"]){
         NSString *blanceString=[[FLTools share] elaScaleConversionWith:[NSString stringWithFormat:@"%@",result.message[@"success"]]];
+        
+        WYLog(@"=== dev temp === currentBalance: %@", blanceString);
+        
         self.blance=[blanceString doubleValue];
+        
+        WYLog(@"=== dev temp === self balance: %f", self.blance);
     }
 }
 -(HMWaddFooterView *)addFooterView{
@@ -1404,9 +1437,55 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     self.transactionDetailsView=nil;
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
-    WYLog(@"=== dev temp === Skip Button: pwdAndInfoWithPWD entered!!");
-    [self makeSureWithPWD:pwd];
+    if (self.isChain) {
+        WYLog(@"=== dev temp === isChain self balance: %f", self.blance);
+        
+        if (self.blance<0.0001) {
+            [[FLTools share]showErrorInfo:@"余额不足"];
+            return;
+        }
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+        NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (privatekeyString.length==0) {
+            return;
+        }
+        if (self.model.didName.length==0) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
+            return;
+        }
+        
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+         self.model.editTime=[[FLTools share]getNowTimeTimestampS];
+        
+        if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.model]) {
+            [self closeTransactionDetailsView];
+            [self showSendSuccessView];
+        }
+    } else {
+        [self makeSureWithPWD:pwd];
+    }
 }
+
+- (void)showSendSuccessView{
+    self.sendSuccessPopuV =[[HMWSendSuccessPopuView alloc]init];
+    UIView *manView=[self mainWindow];
+    [manView addSubview:self.sendSuccessPopuV];
+    [self.sendSuccessPopuV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.equalTo(manView);
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.sendSuccessPopuV removeFromSuperview];
+        self.sendSuccessPopuV=nil;
+        __weak __typeof__ (self) weakSelf = self;
+        WYLog(@"== dev temp === successBlock: %@", self.successBlock);
+        if (self.successBlock) {
+            weakSelf.successBlock(self.currentWallet.didString);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+    
+}
+
 -(BOOL)needSave{
     if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0) {
         return YES;

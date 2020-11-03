@@ -24,6 +24,9 @@
 
 #import "WYDIDInfoViewController.h"
 #import "HWMDIDInfoShowTableViewCell.h"
+#import "HWMshowIntroductionInfoViewController.h"
+#import "WYShowCustomContentViewController.h"
+#import "HWMDIDInfoModel.h"
 
 static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 
@@ -128,6 +131,10 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
                 content = [[FLTools share]TimeFormatConversionBirthday:content];
             }
             
+            if ([key isEqualToString:@"nation"]) {
+                content = [[FLTools share]contryNameTransLateByCode:[content integerValue]];
+            }
+            
             if ([key isEqualToString:@"customInfos"]) {
                 NSDictionary *customInfosDic = [WYUtils dicFromJSONString:content];
                 for (NSDictionary *customInfoItem in customInfosDic) {
@@ -225,7 +232,6 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        WYLog(@"=== dev temp === Table rows: %d", self.displayList.count);
         return self.displayList.count;
     }
     return 0;
@@ -233,7 +239,7 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     WYLog(@"=== dev temp === rowHeight called");
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0) {
         NSDictionary *item = self.displayList[indexPath.row];
         if ([item[@"key"] isEqualToString:@"avatar"]) {
             return 85.f;
@@ -278,9 +284,25 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
         
     }
     
-    WYLog(@"=== dev temp === Cell returned: %@", title);
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        NSDictionary *infoSelected = self.displayList[indexPath.row];
+        WYLog(@"=== dev temp === infoSelected: %@", infoSelected);
+        if ([infoSelected[@"key"] isEqualToString:@"introduction"]) {
+            HWMshowIntroductionInfoViewController *AddPersonalProfileVC=[[HWMshowIntroductionInfoViewController alloc]init];
+            AddPersonalProfileVC.model= [HWMDIDInfoModel modelWithDictionary:self.extraInfo];
+            [self.navigationController pushViewController:AddPersonalProfileVC animated:YES];
+        } else if ([infoSelected[@"key"] isEqualToString:@"customInfos"] && [infoSelected[@"type"] isEqualToString:@"-2"]) {
+            WYShowCustomContentViewController *contentVC = [[WYShowCustomContentViewController alloc] init];
+            contentVC.title = infoSelected[@"title"];
+            contentVC.contentText = infoSelected[@"content"];
+            [contentVC refreshData];
+            [self.navigationController pushViewController:contentVC animated:YES];
+        }
+    }
 }
 
 /*

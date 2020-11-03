@@ -274,44 +274,99 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     DIDDocument_Destroy(doc);
     return reDic;
 }
--(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model{
+-(BOOL)updateInfoWithInfo:(HWMDIDInfoModel*)model {
+    NSString *tempDid = model.did;
+    NSString *tempDidName = model.didName;
+    NSString *tempEndString = model.endString;
+    
     int rt;
     DIDURL *url=DIDURL_NewByDid(did, "name");
-    DIDDocument *  doc=DIDStore_LoadDID(store, did);
+    DIDURL *creatCredentialID=DIDURL_NewByDid(did, "credencial");
+    
+    DIDDocument *doc=DIDStore_LoadDID(store, did);
     if (doc==NULL) {
+        WYLog(@"=== dev temp === updateInfoWithInfo: doc is NULL");
         return NO;
     }
     DIDDocumentBuilder *build=DIDDocument_Edit(doc);
-    Credential *cr  =DIDDocument_GetCredential(doc, url);
+    Credential *cr  = DIDDocument_GetCredential(doc, url);
+    Credential *cre = DIDDocument_GetCredential(doc, url);
     DIDDocument_Destroy(doc);
     model.didName=[model.didName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     time_t endTime=[model.endString longValue];
+    
+    if (model.editTime.length==0) {
+        model.editTime=[[FLTools share]getNowTimeTimestampS];
+    }
+    
+    model.did=self.DIDString;
+    if (model.didName.length==0) {
+        model.didName=@"unknown";
+    }
+    model.endString=NULL;
+    
     if (cr) {
         DIDDocumentBuilder_RemoveCredential(build, url);
     }
+    if (cre) {
+        DIDDocumentBuilder_RemoveCredential(build, creatCredentialID);
+    }
+    
     const char * types[1] = {"BasicProfileCredential"};//
     Property props[1];
     char * nickName =(char*)[model.didName UTF8String];
+    
+    WYLog(@"=== dev temp === updateInfoWithInfo: nickName is %s", nickName);
+    
     props[0].key = "name";
     props[0].value = nickName;
     rt= DIDDocumentBuilder_AddSelfClaimedCredential(build, url, types,1,  props, 1, endTime, [self.passWord UTF8String]);
     if (rt!=0) {
+        WYLog(@"=== dev temp === updateInfoWithInfo: add nickName failed");
+        model.did = tempDid;
+        model.didName = tempDidName;
+        model.endString = tempEndString;
         return NO;
     }
+    
+    NSString *CredentialSubjectBean = [WYDIDUtils preStoreCustomInfos:[model modelToJSONString]];
+    
+    const char *nickNameCre =[CredentialSubjectBean UTF8String];
+    WYLog(@"=== dev temp === updateInfoWithInfo: nickNameCre is %s", nickNameCre);
+    Issuer *isser=Issuer_Create(did, NULL, store);
+    Credential *c =  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickNameCre, endTime, [self.passWord UTF8String]);
+    rt = DIDDocumentBuilder_AddCredential(build, c);
+    
+    model.did = tempDid;
+    model.didName = tempDidName;
+    model.endString = tempEndString;
+    
+    if (rt!=0) {
+        WYLog(@"=== dev temp === updateInfoWithInfo: add nickNameCre failed");
+        return NO;
+    }
+    
     rt=DIDDocumentBuilder_SetExpires(build, endTime);
     if (rt!=0) {
+        WYLog(@"=== dev temp === updateInfoWithInfo: set endTime failed");
         return NO;
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     const  char *doString=DIDDocument_ToJson(newDoc, false);
     rt=  DIDStore_StoreDID(store,newDoc);// 已经签名
+    
     bool r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
-//    NSString *reString=[self charToString:r];
+    
+    Issuer_Destroy(isser);
+    Credential_Destroy(c);
+    
     DIDURL_Destroy(url);
+    DIDURL_Destroy(creatCredentialID);
     DIDDocument_Destroy(newDoc);
     if (r) {
         return YES;
     }else{
+        WYLog(@"=== dev temp === updateInfoWithInfo: Store and Publish failed");
         //        [[FLTools share]showErrorInfo:@"发布失败"];
         return NO;
     }
@@ -412,7 +467,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
 
 -(HWMDIDInfoModel*)readDIDCredential{// 获取did本地凭证
     DIDURL *url=DIDURL_NewByDid(did,"outPut");
-    Credential * cre=DIDStore_LoadCredential(store, did, url);
+    Credential *cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_GetProperties(cre);
     
     WYLog(@"===dev temp === readDIDCredential: suInfo %s ===", suInfo);

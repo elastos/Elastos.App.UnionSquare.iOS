@@ -10,9 +10,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HWMTheEditorDIDInfoViewController : UIViewController
+
 @property(strong,nonatomic)HWMDIDInfoModel *model;
 @property(copy,nonatomic)NSString *PubKeyString;
 @property (nonatomic, strong)FLWallet *currentWallet;
+
+@property (copy, nonatomic) NSDictionary *extraInfo;
 
 @end
 

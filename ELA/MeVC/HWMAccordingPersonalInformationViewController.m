@@ -10,10 +10,10 @@
 #import "HWMAddPersonalInformationViewController.h"
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 @interface HWMAccordingPersonalInformationViewController ()<UITableViewDelegate,UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UITableView *table;
 @property(copy,nonatomic)NSArray *dataSource;
 @property (weak, nonatomic) IBOutlet UIImageView *IconImageView;
-
 
 @end
 

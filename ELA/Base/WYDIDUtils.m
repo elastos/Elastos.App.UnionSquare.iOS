@@ -24,6 +24,7 @@
 
 #import "WYDIDUtils.h"
 #import "ela_did.h"
+#import "HWMDIDInfoModel.h"
 
 @implementation WYDIDUtils
 
@@ -74,11 +75,12 @@
             [extraInfo removeObjectForKey:@"editTime"];
             NSMutableDictionary *fullInfo = [credentialDic mutableCopy];
             fullInfo[@"endTime"] = endTimeString;
+            fullInfo[@"endString"] = endTimeString;
             result = @{
                 @"didName": didName,
                 @"endTime": endTimeString,
                 @"DIDString": DIDString,
-                @"fullInfo": credentialDic,
+                @"fullInfo": fullInfo,
                 @"extraInfo": extraInfo
             };
         } else {
@@ -93,7 +95,8 @@
                 @"fullInfo": @{
                         @"did": DIDString,
                         @"didName": didName,
-                        @"endTime": endTimeString
+                        @"endTime": endTimeString,
+                        @"endString": endTimeString
                 },
                 @"extraInfo": @{}
             };
@@ -108,11 +111,26 @@
     return nil;
 }
 
+- (BOOL)saveDIDInfoToString:(NSString *)DIDString withModel:(HWMDIDInfoModel *)model withPwd:(NSString *)pwd {
+    return YES;
+}
+
 + (NSString *)postLoadCustomInfos:(NSString *)jsonString {
     NSMutableDictionary *jsonDic = [[WYUtils dicFromJSONString:jsonString] mutableCopy];
     
     if (jsonDic[@"customInfos"] && ![jsonDic[@"customInfos"] isKindOfClass:[NSString class]]) {
         if ([jsonDic[@"customInfos"] isKindOfClass:[NSArray class]]) {
+            
+            NSMutableArray *tempArr = [[NSMutableArray alloc] init];
+            for (NSDictionary *item in jsonDic[@"customInfos"]) {
+                NSMutableDictionary *tempDic = [item mutableCopy];
+                if (tempDic[@"type"]) {
+                    tempDic[@"type"] = [NSString stringWithFormat:@"%@", tempDic[@"type"]];
+                }
+                [tempArr addObject:tempDic];
+            }
+            jsonDic[@"customInfos"] = tempArr;
+            
             jsonDic[@"customInfos"] = [WYUtils arrToJSONString:jsonDic[@"customInfos"]];
         } else if ([jsonDic[@"customInfos"] isKindOfClass:[NSDictionary class]]) {
             jsonDic[@"customInfos"] = [WYUtils dicToJSONString:jsonDic[@"customInfos"]];
@@ -126,8 +144,45 @@
 
 + (NSString *)preStoreCustomInfos:(NSString *)jsonString {
     NSMutableDictionary *jsonDic = [[WYUtils dicFromJSONString:jsonString] mutableCopy];
+    
+    NSDictionary *tempDic = [jsonDic copy];
+    
+    for (NSString *key in tempDic) {
+        if ([jsonDic[key] isKindOfClass:[NSString class]]) {
+            NSString *value = jsonDic[key];
+            if (value.length < 1) {
+                [jsonDic removeObjectForKey:key];
+            }
+        }
+        
+        if ([jsonDic[key] isKindOfClass:[NSArray class]]) {
+            NSArray *value = jsonDic[key];
+            if (value.count < 1) {
+                [jsonDic removeObjectForKey:key];
+            }
+        }
+        
+        if ([jsonDic[key] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *value = jsonDic[key];
+            if (value.count < 1) {
+                [jsonDic removeObjectForKey:key];
+            }
+        }
+    }
+    
     if ([jsonDic[@"customInfos"] isKindOfClass:[NSString class]]) {
         jsonDic[@"customInfos"] = [WYUtils dicFromJSONString:jsonDic[@"customInfos"]];
+        
+        NSMutableArray *tempArr = [[NSMutableArray alloc] init];
+        for (NSDictionary *item in jsonDic[@"customInfos"]) {
+            NSMutableDictionary *tempDic = [item mutableCopy];
+            if (tempDic[@"type"]) {
+                tempDic[@"type"] = @([tempDic[@"type"] intValue]);
+            }
+            [tempArr addObject:tempDic];
+        }
+        jsonDic[@"customInfos"] = tempArr;
+        
     }
     return [WYUtils dicToJSONString:jsonDic];
 }

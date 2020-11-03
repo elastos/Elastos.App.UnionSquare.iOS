@@ -22,9 +22,11 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 
 @property (weak, nonatomic) IBOutlet UICollectionView *baseCollectionView;
 @property (weak, nonatomic) IBOutlet UILabel *runningNodeListTextLabel;
+
 /*
  *<# #>
  */
+
 @property(copy,nonatomic)NSString *listType;
 @property (weak, nonatomic) IBOutlet UIButton *modifyTheListModeButton;
 @property (weak, nonatomic) IBOutlet UILabel *numberNodesTextLabel;
@@ -33,10 +35,13 @@ static NSString *ListCRCellString=@"HWMCRVotingListCollectionViewCell";
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textTopOffset;
 @property (weak, nonatomic) IBOutlet UIButton *AddModelButton;
+
 /*
  *<# #>
  */
+
 @property(assign,nonatomic)BOOL isEdiet;
+
 @end
 
 @implementation HMWVotingListView

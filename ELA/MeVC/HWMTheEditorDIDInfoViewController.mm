@@ -12,6 +12,7 @@
 #import "HMWSendSuccessPopuView.h"
 #import "ELWalletManager.h"
 #import "HWMTransactionDetailsView.h"
+#import "HWMAddPersonalInformationViewController.h"
 
 @interface HWMTheEditorDIDInfoViewController ()<HWMDIDDataListViewDelegate,HMWpwdPopupViewDelegate,UITextFieldDelegate,HWMTransactionDetailsViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *DIDTextInfoLabel;
@@ -20,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *DIDLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeDataLabel;
 @property (weak, nonatomic) IBOutlet UIButton *updatesButton;
+
+@property (strong, nonatomic) UIButton *nextButton;
 
 @property(strong,nonatomic)HWMDIDDataListView *dataListView;
 @property(strong,nonatomic)HMWSendSuccessPopuView *sendSuccessPopuV;
@@ -33,11 +36,17 @@
     [super viewDidLoad];
     [self defultWhite];
     [self setBackgroundImg:@""];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.nextButton];
+    
     self.title=NSLocalizedString(@"编辑DID基本信息", nil);
     self.DIDTextInfoLabel.text=NSLocalizedString(@"DID信息", nil);
     [self.updatesButton setTitle:NSLocalizedString(@"更新发布", nil) forState:UIControlStateNormal];
+    self.updatesButton.alpha = 0.f;
+    self.updatesButton.userInteractionEnabled = NO;
     
-  
+    WYLog(@"=== dev temp === editor self.model: %@", [self.model modelToJSONString]);
+    
     if (self.model.didName.length==0) {
         self.model.didName=@"unknown";
     }
@@ -48,6 +57,45 @@
     self.timeDataLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"有效期至 ", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
     [self getBalance];
 }
+
+- (UIButton *)nextButton {
+    if (!_nextButton) {
+        _nextButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+        [_nextButton setTitle:NSLocalizedString(@"下一步", nil) forState:UIControlStateNormal];
+        [_nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _nextButton.titleLabel.font = [UIFont systemFontOfSize:14.f];
+        [_nextButton addTarget:self action:@selector(nextPressed) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _nextButton;
+}
+
+- (void)nextPressed {
+    [self.view endEditing:YES];
+    
+    if (self.model.didName.length==0) {
+        [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
+        return;
+    }
+    
+    HWMAddPersonalInformationViewController *extraVC = [[HWMAddPersonalInformationViewController alloc]init];
+    extraVC.isChain = YES;
+    extraVC.model = self.model;
+    extraVC.currentWallet = self.currentWallet;
+    
+    __weak __typeof__ (self) weakSelf = self;
+    extraVC.successBlock = ^(NSString * _Nonnull DIDString) {
+        [weakSelf.navigationController popViewControllerAnimated:YES];
+    };
+    
+    if (self.extraInfo.count > 0) {
+        extraVC.isEidet = YES;
+    } else {
+        extraVC.whereFrome = YES;
+    }
+    
+    [self.navigationController pushViewController:extraVC animated:YES];
+}
+
 - (IBAction)changeTimeDataInfoEvent:(id)sender {
     UIView *mainView =  [self mainWindow];
     [mainView addSubview:self.dataListView];
@@ -98,6 +146,11 @@
     }
     _model=model;
 }
+
+- (void)setExtraInfo:(NSDictionary *)extraInfo {
+    _extraInfo = extraInfo;
+}
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     [self.view endEditing:YES];
@@ -193,5 +246,8 @@
     //       }
 }
 
+-(void)makeSureWithPWD:(NSString*)pwd {
+    WYLog(@"=== dev temp === makeSureWithPWD called");
+}
 
 @end

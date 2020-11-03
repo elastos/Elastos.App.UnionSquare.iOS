@@ -33,6 +33,9 @@ typedef void(^successBlock)(NSString*DIDString);
  *<# #>
  */
 @property(assign,nonatomic)Boolean  noAleart;
+
+@property (assign, nonatomic) BOOL isChain;
+
 @end
 
 NS_ASSUME_NONNULL_END
