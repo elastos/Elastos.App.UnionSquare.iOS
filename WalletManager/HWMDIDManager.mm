@@ -66,7 +66,7 @@ typedef struct TestDIDAdaptor {
     char *walletId;
 } TestDIDAdaptor;
 
-bool TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
+const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
 {
     TestDIDAdaptor *adapter = (TestDIDAdaptor*)_adapter;
     NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
@@ -76,7 +76,7 @@ bool TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payloa
     //    payloadJsonString=dicPayJson[@"payload"];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
     if (!adapter || !payload){
-        return false;
+        return NULL;
         
     }
     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
@@ -84,10 +84,10 @@ bool TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payloa
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     
     if ([statusBase isEqualToString:@"1"] ) {
-        return true;
+        return "1";
         
     }else{
-        return false;
+        return NULL;
     }
     
 }
@@ -177,7 +177,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
-            DIDStore_StoreDID(store, doc);// 保存到本地
+            DIDStore_StoreDID(store, doc, "devtemp");// 保存到本地
             
             // Obsolete logic for old didsdk version
 //            DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
@@ -195,7 +195,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         }else{
             DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
             if (reDoc) {
-                DIDStore_StoreDID(store, reDoc);// 保存到本地
+                DIDStore_StoreDID(store, reDoc, "devtemp");// 保存到本地
                 
                 // Obsolete logic for old didsdk version
 //                DID * newdid= DIDDocument_GetSubject(reDoc);
@@ -353,7 +353,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     const  char *doString=DIDDocument_ToJson(newDoc, false);
-    rt=  DIDStore_StoreDID(store,newDoc);// 已经签名
+    rt=  DIDStore_StoreDID(store,newDoc, "devtemp");// 已经签名
     
     bool r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
     
@@ -449,7 +449,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: nickName %s", nickName);
     
     Credential *c =  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
-    int r=DIDStore_StoreCredential(store, c);
+    int r=DIDStore_StoreCredential(store, c, "devtemp");
     
 //    int r=DIDStore_StoreCredential(store, c, "SelfProclaimedCredential");
     
@@ -520,6 +520,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     Credential * cre=DIDStore_LoadCredential(store, did, url);
     const char *suInfo  = Credential_ToJson(cre, false);
     NSString *generateDIDString=[self charToString:suInfo];
+    
+    WYLog(@"=== dev temp === generateDIDString: %@", generateDIDString);
+    
     DIDURL_Destroy(url);
     return generateDIDString;
 }
@@ -787,6 +790,9 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     NSDictionary *infoDic=[[FLTools share]dictionaryWithJsonString:infoString];
     HWMDIDInfoModel *model=[HWMDIDInfoModel modelWithDictionary:infoDic[@"credentialSubject"]];
     model.endString=[[FLTools share]SpecialTimeZoneConversion:infoDic[@"expirationDate"]];
+    
+    WYLog(@"=== dev temp === CertificateUpdateWithWalletID model: %@", [model modelToJSONString]);
+    
     BOOL  Credential=[self saveDIDCredentialWithDIDModel:model];
     //    BOOL updateInfo= [self updateInfoWithInfo:model];
     if (Credential) {

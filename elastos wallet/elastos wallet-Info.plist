@@ -2,21 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBund leDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>public.data</string>
-			<key>CFBundletypeextensions</key>
-			<array>
-				<string>data</string>
-			</array>
-			<key>Handler rank</key>
-			<string>Default</string>
-			<key>Role</key>
-			<string>Viewer</string>
-		</dict>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
@@ -83,7 +68,7 @@
 	<string>User Interface Style</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>LSSupports Opening DocumentsIn Place</key>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -135,6 +120,8 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>key Document Content Type UTIs</key>

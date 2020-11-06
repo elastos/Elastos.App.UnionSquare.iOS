@@ -46,6 +46,14 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=@"DID";
+    
+    UIBarButtonItem *DIDCardButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"mine_did_id_card"] style:UIBarButtonItemStylePlain target:self action:@selector(showIDCard)];
+    UIBarButtonItem *deleteDIDButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"del_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteDIDEvent)];
+    
+    NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithObjects:deleteDIDButton, DIDCardButton, nil];
+    [buttonArray removeAllObjects];
+    self.navigationItem.rightBarButtonItems = buttonArray;
+    
     [self getDIDInfo];
     [self prepareDisplayList];
     self.DIDInfoTextLabel.text=NSLocalizedString(@"DID基本信息", nil);
@@ -202,6 +210,10 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     return _allExtraInfoList;
 }
 
+- (void)showIDCard {
+    WYLog(@"=== dev temp === show ID Card clicked");
+}
+
 -(void)deleteDIDEvent{
     
     UIView * mainView=[self mainWindow];
@@ -322,11 +334,13 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
                     cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
                 }
                 [[FLTools share]loadUrlSVGAndPNG:content WithSuccessBlock:^(id data) {
-                    if (data) {
-                        cell.headIocnImageView.image=data;
-                    }else{
-                        cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (data) {
+                            cell.headIocnImageView.image=data;
+                        }else{
+                            cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+                        }
+                    });
                 }];
             }else{
                 cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];

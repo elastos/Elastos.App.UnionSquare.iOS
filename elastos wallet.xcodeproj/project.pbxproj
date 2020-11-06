@@ -21,12 +21,6 @@
 		38229E2B24E86771004FFAFF /* WYVoteDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E2A24E8676F004FFAFF /* WYVoteDetailsTableViewCell.m */; };
 		38229E3124E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */; };
 		38229E3424EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m in Sources */ = {isa = PBXBuildFile; fileRef = 38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */; };
-		3829CDBF253F416100667F25 /* libcrystal.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDB8253F415F00667F25 /* libcrystal.dylib */; };
-		3829CDC4253F416100667F25 /* libeladid.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDBD253F416100667F25 /* libeladid.1.dylib */; };
-		3829CDCE253F4F9A00667F25 /* libhdkey.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */; };
-		3829CDD6253F695D00667F25 /* libeladid.1.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDBD253F416100667F25 /* libeladid.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3829CDD7253F696000667F25 /* libhdkey.1.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		3829CDD8253F696200667F25 /* libcrystal.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3829CDB8253F415F00667F25 /* libcrystal.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		383122DF25388C0700225D45 /* WYSelectCustomTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */; };
 		383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 383EFE2A249727B50087BA01 /* libresolv.tbd */; };
 		383EFE2F249736FA0087BA01 /* WYResyncChainDataViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE2D249736FA0087BA01 /* WYResyncChainDataViewController.mm */; };
@@ -712,22 +706,6 @@
 		CBD48D86221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBD48D85221406F000BF3B11 /* FLJoinToChoseTransferInfoView.xib */; };
 		CBE7C2F122268890004F379D /* DC_DealTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CBE7C2F022268890004F379D /* DC_DealTextViewController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		42C5A44C23FBDC1000FF0416 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				3829CDD8253F696200667F25 /* libcrystal.dylib in Embed Frameworks */,
-				3829CDD6253F695D00667F25 /* libeladid.1.dylib in Embed Frameworks */,
-				3829CDD7253F696000667F25 /* libhdkey.1.dylib in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2116,7 +2094,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3829CDCE253F4F9A00667F25 /* libhdkey.1.dylib in Frameworks */,
 				383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */,
 				428476CF243F2A2C00EADFDE /* UIKit.framework in Frameworks */,
 				428476CD243F2A2300EADFDE /* CoreGraphics.framework in Frameworks */,
@@ -2125,7 +2102,6 @@
 				428476C7243F2A0900EADFDE /* CoreImage.framework in Frameworks */,
 				428476C5243F29FD00EADFDE /* CoreText.framework in Frameworks */,
 				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
-				3829CDBF253F416100667F25 /* libcrystal.dylib in Frameworks */,
 				429DD3B6240FAA7200E6CF11 /* libsqlite3.a in Frameworks */,
 				42A7840522F7FF26008F2F94 /* libspvsdk.a in Frameworks */,
 				C45E4ED9237794FF003BB3BA /* libspdlog.a in Frameworks */,
@@ -2141,7 +2117,6 @@
 				4261CF4022A16066006B1DDE /* Security.framework in Frameworks */,
 				428476C3243F29E700EADFDE /* libSVGKit-iOS.2.1.0.a in Frameworks */,
 				4261CF3E22A1605D006B1DDE /* SystemConfiguration.framework in Frameworks */,
-				3829CDC4253F416100667F25 /* libeladid.1.dylib in Frameworks */,
 				4250B3F92238D3E900B6858F /* libiconv.tbd in Frameworks */,
 				9FD0C828FEE9459B88FB6A2D /* WebKit.framework in Frameworks */,
 				0377F67DC70B4CEFBD787502 /* libz.tbd in Frameworks */,
@@ -4794,7 +4769,6 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				42C5A44C23FBDC1000FF0416 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

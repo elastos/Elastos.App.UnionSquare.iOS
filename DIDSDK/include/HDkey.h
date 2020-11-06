@@ -24,17 +24,11 @@
 #define __HDKEY_H__
 
 #include <stdio.h>
-#include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <sys/types.h>
 
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#if defined(_WIN32) || defined(_WIN64)
-typedef ptrdiff_t       ssize_t;
 #endif
 
 #define PUBLICKEY_BYTES                 33
@@ -43,7 +37,6 @@ typedef ptrdiff_t       ssize_t;
 #define CHAINCODE_BYTES                 32
 #define EXTENDEDKEY_BYTES               82
 #define SEED_BYTES                      64
-#define BUFF_BYTES                      128
 
 #define CHINESE_SIMPLIFIED             "chinese_simplified"
 #define CHINESE_TRADITIONAL            "chinese_traditional"
@@ -55,49 +48,19 @@ typedef ptrdiff_t       ssize_t;
 #define KOREAN                         "korean"
 #define SPANISH                        "spanish"
 
-#define HARDENED                       0x80000000
-#ifndef NID_X9_62_prime256v1
-#define NID_X9_62_prime256v1           415
-#endif
-
 typedef struct HDKey {
-    uint8_t depth;
     uint32_t fingerPrint;
-    uint32_t childnumber;
     uint8_t prvChainCode[CHAINCODE_BYTES];
     uint8_t privatekey[PRIVATEKEY_BYTES];
     uint8_t pubChainCode[CHAINCODE_BYTES];
     uint8_t publickey[PUBLICKEY_BYTES];
-    char address[ADDRESS_LEN];
 } HDKey;
 
-typedef enum
-{
-    EC_CURVE_P_256 = NID_X9_62_prime256v1
-} EC_CURVE;
-
-typedef struct KeySpec {
-    /** The elliptic curve */
-    EC_CURVE curve;
-    /** point to dbuf*/
-    uint8_t *d;
-    /** Length of <tt>d</tt> */
-    size_t dlen;
-    /** point to xbuf*/
-    uint8_t *x;
-    /** Length of <tt>x</tt> */
-    size_t xlen;
-    /** point to ybuf*/
-    uint8_t *y;
-    /** Length of <tt>y</tt> */
-    size_t ylen;
-    /** The private key */
-    uint8_t dbuf[BUFF_BYTES];
-    /** The public key's X coordinate */
-    uint8_t xbuf[BUFF_BYTES];
-    /** The public key's Y coordiate */
-    uint8_t ybuf[BUFF_BYTES];
-} KeySpec;
+typedef struct DerivedKey {
+    uint8_t publickey[PUBLICKEY_BYTES];
+    uint8_t privatekey[PRIVATEKEY_BYTES];
+    char address[ADDRESS_LEN];
+} DerivedKey;
 
 const char *HDKey_GenerateMnemonic(const char *language);
 
@@ -112,48 +75,26 @@ HDKey *HDKey_FromSeed(const uint8_t *seed, size_t size, HDKey *hdkey);
 
 HDKey *HDKey_FromExtendedKey(const uint8_t *extendedkey, size_t size, HDKey *hdkey);
 
-HDKey *HDKey_FromExtendedKeyBase58(const char *extendedkeyBase58, size_t size, HDKey *hdkey);
-
 // Convert to extended private key format
 ssize_t HDKey_SerializePrv(HDKey *hdkey, uint8_t *extendedkey, size_t size);
 
 ssize_t HDKey_SerializePub(HDKey *hdkey, uint8_t *extendedkey, size_t size);
 
-HDKey *HDKey_Deserialize(HDKey *hdkey, const uint8_t *extendedkey, size_t size);
-
-HDKey *HDKey_DeserializeBase58(HDKey *hdkey, const char *extendedkeyBase58, size_t size);
-
-const char *HDKey_SerializePrvBase58(HDKey *hdkey, char *extendedkeyBase58, size_t size);
-
-const char *HDKey_SerializePubBase58(HDKey *hdkey, char *extendedkeyBase58, size_t size);
+void HDKey_Wipe(HDKey *hdkey);
 
 char *HDKey_PublicKey2Address(uint8_t *publickey, char *address, size_t len);
 
-HDKey *HDKey_GetDerivedKey(HDKey* hdkey, HDKey *derivedkey, int depth, ...);
+DerivedKey *HDKey_GetDerivedKey(HDKey* hdkey, int index, DerivedKey *derivedkey);
 
-HDKey *HDKey_GetvDerivedKey(HDKey* hdkey, HDKey *derivedkey, int depth, va_list list);
+uint8_t *DerivedKey_GetPublicKey(DerivedKey *derivedkey);
 
-uint8_t *HDKey_GetPublicKey(HDKey *hdkey);
+const char *DerivedKey_GetPublicKeyBase58(DerivedKey *derivedkey, char *base, size_t size);
 
-const char *HDKey_GetPublicKeyBase58(HDKey *hdkey, char *base, size_t size);
+uint8_t *DerivedKey_GetPrivateKey(DerivedKey *derivedkey);
 
-uint8_t *HDKey_GetPrivateKey(HDKey *hdkey);
+char *DerivedKey_GetAddress(DerivedKey *derivedkey);
 
-char *HDKey_GetAddress(HDKey *hdkey);
-
-void HDKey_Wipe(HDKey *hdkey);
-
-ssize_t HDKey_PaddingToExtendedPrivateKey(uint8_t *privatekey, size_t psize,
-        uint8_t *extendedkey, size_t esize);
-
-//- for jwt -----------------------------------------------
-KeySpec *KeySpec_Fill(KeySpec *keyspec, uint8_t *publickey, uint8_t *privatekey);
-
-KeySpec *KeySpec_Copy(KeySpec *dst, KeySpec *src);
-
-ssize_t PEM_WritePublicKey(const uint8_t *publicKey, char *buffer, size_t size);
-
-ssize_t PEM_WritePrivateKey(const uint8_t *publickey, const uint8_t *privatekey,  char *buffer, size_t size);
+void DerivedKey_Wipe(DerivedKey *derivedkey);
 
 #ifdef __cplusplus
 }

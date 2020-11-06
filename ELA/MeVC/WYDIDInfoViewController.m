@@ -270,11 +270,13 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
                 cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
             }
             [[FLTools share]loadUrlSVGAndPNG:content WithSuccessBlock:^(id data) {
-                if (data) {
-                    cell.headIocnImageView.image=data;
-                }else{
-                    cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (data) {
+                        cell.headIocnImageView.image=data;
+                    }else{
+                        cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+                    }
+                });
             }];
         }else{
             cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
