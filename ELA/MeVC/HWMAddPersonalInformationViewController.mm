@@ -28,6 +28,7 @@
 #import "WYDIDCustomInfoTableViewCell.h"
 #import "WYAddCustomContentViewController.h"
 #import "WYSelectCustomTypeView.h"
+#import "HWMCreateDIDViewController.h"
 
 UINib *_cellCreateDIDListNib;
 UINib *_cellCodeAndPhonenumberNib;
@@ -179,8 +180,16 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
         self.title=NSLocalizedString(@"添加个人信息", nil);
         if (self.isChain) {
             self.title = NSLocalizedString(@"添加DID信息", nil);
+            [self.skipButton setTitle:NSLocalizedString(@"发布", nil) forState: UIControlStateNormal];
+        }
+        if (self.isCreate) {
+            [self.skipButton setTitle:NSLocalizedString(@"下一步", nil) forState: UIControlStateNormal];
+        }
+        if (self.isNext) {
+            [self.skipButton setTitle:NSLocalizedString(@"发布", nil) forState: UIControlStateNormal];
         }
     }
+    
     NSString *languageString=[DAConfig userLanguage];
     if ([languageString  containsString:@"en"]) {
         self.infoHeight.constant=45.f;
@@ -429,7 +438,40 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     
     WYLog(@"=== dev temp === Skip Button: isEidet %d whereFrome %d isChain %d", self.isEidet, self.whereFrome, self.isChain);
     
-    if (self.isChain) {
+    
+    if (self.isCreate) {
+        
+        HWMAddPersonalInformationViewController *nextVC = [[HWMAddPersonalInformationViewController alloc] init];
+        
+        HWMDIDInfoModel *localModel = [[HWMDIDInfoModel alloc] init];
+        
+        localModel.did = self.model.did;
+        localModel.didName = self.model.didName;
+        localModel.endString = self.model.endString;
+        if (localModel.didName.length==0) {
+            localModel.didName=@"unknown";
+        }
+        
+        nextVC.chainDataModel = self.model;
+        nextVC.model = localModel;
+        nextVC.currentWallet = self.currentWallet;
+        
+        __weak __typeof__ (self) weakSelf = self;
+        nextVC.successBlock = ^(NSString * _Nonnull DIDString) {
+            WYLog(@"=== dev temp === pop isCreate in successBlock");
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+            
+            WYLog(@"=== dev temp === successBlock: %@", weakSelf.successBlock);
+            if (weakSelf.successBlock) {
+                weakSelf.successBlock(weakSelf.currentWallet.didString);
+            }
+        };
+        
+        nextVC.isNext = YES;
+        
+        [self.navigationController pushViewController:nextVC animated:YES];
+        
+    } else if (self.isChain || self.isNext) {
         [self showPWDView];
     } else if (self.isEidet||self.whereFrome) {
         
@@ -843,6 +885,10 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
 
 -(void)setModel:(HWMDIDInfoModel *)model{
     _model=model;
+}
+
+- (void)setChainDataModel:(HWMDIDInfoModel *)chainDataModel {
+    _chainDataModel = chainDataModel;
 }
 
 -(HWMDIDDataListView *)DIDDataListV{
@@ -1472,9 +1518,41 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     self.transactionDetailsView=nil;
 }
 -(void)pwdAndInfoWithPWD:(NSString*)pwd{
-    if (self.isChain) {
-        WYLog(@"=== dev temp === isChain self balance: %f", self.blance);
+    if (self.isNext) {
+        if (self.blance<0.0001) {
+            [[FLTools share]showErrorInfo:@"余额不足"];
+            return;
+        }
+        invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,pwd] callbackId:self.currentWallet.masterWalletID className:@"Wallet" methodName:@"ExportxPrivateKey"];
+        NSString *  privatekeyString=[[ELWalletManager share]ExportxPrivateKey:mommand];
+        if (privatekeyString.length==0) {
+            return;
+        }
+        if (self.chainDataModel.didName.length == 0 || self.model.didName.length == 0) {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"请输入姓名(必填)", nil)];
+            return;
+        }
         
+        [[HWMDIDManager shareDIDManager]hasDIDWithPWD:pwd withDIDString:self.model.did WithPrivatekeyString:@"" WithmastWalletID:self.currentWallet.masterWalletID needCreatDIDString:NO];
+        self.chainDataModel.editTime=[[FLTools share]getNowTimeTimestampS];
+        
+        if ([[HWMDIDManager shareDIDManager]updateInfoWithInfo:self.chainDataModel]) {
+            
+            self.model.editTime=[[FLTools share]getNowTimeTimestampS];
+            [[HWMDIDManager shareDIDManager] saveDIDCredentialWithDIDModel: self.model];
+            
+            [self closeTransactionDetailsView];
+            
+            FMDBWalletModel *model=[[FMDBWalletModel alloc]init];
+            model.walletID=self.currentWallet.masterWalletID;
+            model.walletName=self.currentWallet.walletName;
+            model.walletAddress=self.currentWallet.walletAddress;
+            model.didString=self.currentWallet.didString;
+            [[HMWFMDBManager sharedManagerType:walletType]updateRecordWallet:model];
+            
+            [self showSendSuccessView];
+        }
+    } else if (self.isChain) {
         if (self.blance<0.0001) {
             [[FLTools share]showErrorInfo:@"余额不足"];
             return;
@@ -1511,18 +1589,32 @@ static NSString  *customInfoString=@"WYDIDCustomInfoTableViewCell";
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.sendSuccessPopuV removeFromSuperview];
         self.sendSuccessPopuV=nil;
-        __weak __typeof__ (self) weakSelf = self;
-        WYLog(@"== dev temp === successBlock: %@", self.successBlock);
-        if (self.successBlock) {
-            weakSelf.successBlock(self.currentWallet.didString);
+        
+        if (self.isNext) {
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[HWMCreateDIDViewController class]]) {
+                    WYLog(@"=== dev temp === pop to CreateDIDView in successView");
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+            WYLog(@"=== dev temp === pop CreateDIDView in successView");
+            [self.navigationController popViewControllerAnimated:YES];
+            return;
         }
+        
+        WYLog(@"=== dev temp === pop AddPersonInfo in successView");
         [self.navigationController popViewControllerAnimated:YES];
+        
+        WYLog(@"=== dev temp === successBlock: %@", self.successBlock);
+        if (self.successBlock) {
+            self.successBlock(self.currentWallet.didString);
+        }
     });
     
 }
 
 -(BOOL)needSave{
-    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0) {
+    if(self.model.nickname.length>0||self.model.gender.length>0||self.model.avatar.length>0||self.model.email.length>0||self.model.phone.length>0||self.model.phoneCode.length>0||self.model.nation.length>0||self.model.introduction.length>0||self.model.homePage.length>0||self.model.wechat.length>0||self.model.twitter.length>0||self.model.weibo.length>0||self.model.facebook.length>0||self.model.googleAccount.length>0||self.model.birthday.length>0||self.model.customInfos.length>0) {
         return YES;
     }
     return NO;

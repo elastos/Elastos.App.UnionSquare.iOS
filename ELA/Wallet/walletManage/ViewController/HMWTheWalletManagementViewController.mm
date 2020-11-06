@@ -317,6 +317,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 [self needLoadDIDSave:NO withprKey:@"" WithPWD:@""];
                 
             }else{
+                WYLog(@"=== dev temp === current didString: %@", self.currentWallet.didString);
                 [self showDIDInfoOrCreateDIDInfo];
             }
         }else{
@@ -532,6 +533,7 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
         self.isOpen=YES;
         [self needLoadDIDSave:NO withprKey:nil WithPWD:@""];
     }else{
+        WYLog(@"=== dev temp === walletID: %@ currentWallet: %@", walletID, self.currentWallet.masterWalletID);
         [self showDIDInfoOrCreateDIDInfo];
     }
 }
@@ -553,6 +555,11 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     [self.navigationController.interactivePopGestureRecognizer.delegate performSelector:@selector(handleNavigationTransition:) withObject:panGesture];
     [self breakView];
 }
+
+- (void)handleNavigationTransition:(id)sender {
+    return;
+}
+
 -(void)needLoadDIDSave:(BOOL)save withprKey:(NSString*)pk WithPWD:(NSString*)PWD{
     dispatch_group_t group =  dispatch_group_create();
     static NSString *didString;

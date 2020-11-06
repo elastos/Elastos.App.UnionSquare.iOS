@@ -413,12 +413,16 @@ static NSString *cellString=@"HWMCreateDIDListTableViewCell";
     HWMAddPersonalInformationViewController *AddPersonalInformationVC=[[HWMAddPersonalInformationViewController alloc]init];
     self.isNext=YES;
     AddPersonalInformationVC.model=self.DIDInfoModel;
+    AddPersonalInformationVC.isChain = YES;
+    AddPersonalInformationVC.isCreate = YES;
     AddPersonalInformationVC.currentWallet=self.currentWallet;
     __weak __typeof__ (self) weakSelf = self;
     AddPersonalInformationVC.successBlock = ^(NSString * _Nonnull DIDString) {
         if (weakSelf.walletIDBlock) {
             weakSelf.walletIDBlock(DIDString);
         }
+        
+        WYLog(@"=== dev temp === pop CreateDID in successBlock");
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
     

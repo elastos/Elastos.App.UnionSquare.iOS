@@ -66,7 +66,7 @@ typedef struct TestDIDAdaptor {
     char *walletId;
 } TestDIDAdaptor;
 
-const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
+bool TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char *payload, const char *memo)
 {
     TestDIDAdaptor *adapter = (TestDIDAdaptor*)_adapter;
     NSString *password=[NSString stringWithFormat:@"%s",adapter->pwd];
@@ -76,7 +76,7 @@ const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char 
     //    payloadJsonString=dicPayJson[@"payload"];
     NSString *memoString=[NSString stringWithFormat:@"%s",memo];
     if (!adapter || !payload){
-        return NULL;
+        return false;
         
     }
     invokedUrlCommand *cmommand=[[invokedUrlCommand alloc]initWithArguments:@[walletID,@"IDChain",password,memoString,@"",payloadJsonString] callbackId:walletID className:@"wallet" methodName:@"SpvDidAdapter_CreateIdTransactionEXWith"];
@@ -84,10 +84,10 @@ const char *TestDIDAdaptor_CreateIdTransaction(DIDAdapter *_adapter, const char 
     NSString *statusBase=[NSString stringWithFormat:@"%@",resultBase.status];
     
     if ([statusBase isEqualToString:@"1"] ) {
-        return "1";
+        return true;
         
     }else{
-        return NULL;
+        return false;
     }
     
 }
@@ -177,7 +177,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (doc) {//先看一下链上有没有
         DIDURL *url=DIDURL_NewByDid(did, "primary");
         if (DIDStore_ContainsPrivateKey(store,did, url)) {
-            DIDStore_StoreDID(store, doc, "devtemp");// 保存到本地
+            DIDStore_StoreDID(store, doc);// 保存到本地
             
             // Obsolete logic for old didsdk version
 //            DIDDocument *  nedoc=DIDStore_LoadDID(store, did);//绑定
@@ -195,7 +195,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
         }else{
             DIDDocument *reDoc=DIDStore_NewDIDByIndex(store, [self.passWord UTF8String], 0, "name");//
             if (reDoc) {
-                DIDStore_StoreDID(store, reDoc, "devtemp");// 保存到本地
+                DIDStore_StoreDID(store, reDoc);// 保存到本地
                 
                 // Obsolete logic for old didsdk version
 //                DID * newdid= DIDDocument_GetSubject(reDoc);
@@ -353,7 +353,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     }
     DIDDocument * newDoc=  DIDDocumentBuilder_Seal(build, [self.passWord UTF8String]);
     const  char *doString=DIDDocument_ToJson(newDoc, false);
-    rt=  DIDStore_StoreDID(store,newDoc, "devtemp");// 已经签名
+    rt=  DIDStore_StoreDID(store,newDoc);// 已经签名
     
     bool r = DIDStore_PublishDID(store, [self.passWord UTF8String], did, NULL,true);
     
@@ -449,7 +449,7 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     WYLog(@"=== dev temp === saveDIDCredentialWithDIDModel: nickName %s", nickName);
     
     Credential *c =  Issuer_CreateCredentialByString(isser, did, creatCredentialID, types, 1, nickName, endTime, [self.passWord UTF8String]);
-    int r=DIDStore_StoreCredential(store, c, "devtemp");
+    int r=DIDStore_StoreCredential(store, c);
     
 //    int r=DIDStore_StoreCredential(store, c, "SelfProclaimedCredential");
     

@@ -28,6 +28,8 @@
 		383EFE3424975C8C0087BA01 /* WYResyncChainDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */; };
 		383EFE3524975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */; };
 		3867938824C14E5F00E32B83 /* WYVoteUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3867938724C14E5E00E32B83 /* WYVoteUtils.mm */; };
+		389AD7F5255568F1000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
+		389AD7F625556915000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
 		38A8DAB525119B3500C47D56 /* WYNodeClaimViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38A8DAB425119B3500C47D56 /* WYNodeClaimViewController.mm */; };
 		38BFD809249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BFD808249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m */; };
 		38EC5AD724D19EFC00E016AE /* WYDIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EC5AD624D19EFC00E016AE /* WYDIDUtils.m */; };
@@ -735,9 +737,6 @@
 		38229E3024E98AB6004FFAFF /* WYVoteDetailsListViewCellType1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType1.m; sourceTree = "<group>"; };
 		38229E3224EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteDetailsListViewCellType2.h; sourceTree = "<group>"; };
 		38229E3324EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYVoteDetailsListViewCellType2.m; sourceTree = "<group>"; };
-		3829CDB8253F415F00667F25 /* libcrystal.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libcrystal.dylib; sourceTree = "<group>"; };
-		3829CDBD253F416100667F25 /* libeladid.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libeladid.1.dylib; sourceTree = "<group>"; };
-		3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libhdkey.1.dylib; sourceTree = "<group>"; };
 		383122DD25388C0700225D45 /* WYSelectCustomTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSelectCustomTypeView.h; sourceTree = "<group>"; };
 		383122DE25388C0700225D45 /* WYSelectCustomTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSelectCustomTypeView.m; sourceTree = "<group>"; };
 		383EFE2A249727B50087BA01 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -749,6 +748,7 @@
 		383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYResyncChainDataTableViewCell.xib; sourceTree = "<group>"; };
 		3867938624C14E5E00E32B83 /* WYVoteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteUtils.h; sourceTree = "<group>"; };
 		3867938724C14E5E00E32B83 /* WYVoteUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYVoteUtils.mm; sourceTree = "<group>"; };
+		389AD7F4255568F1000D4010 /* libjansson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjansson.a; sourceTree = "<group>"; };
 		38A8DAB325119B3400C47D56 /* WYNodeClaimViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYNodeClaimViewController.h; sourceTree = "<group>"; };
 		38A8DAB425119B3500C47D56 /* WYNodeClaimViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYNodeClaimViewController.mm; sourceTree = "<group>"; };
 		38BFD807249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLocalizedOrdinalNumber.h; sourceTree = "<group>"; };
@@ -2100,6 +2100,7 @@
 				428476CB243F2A1B00EADFDE /* QuartzCore.framework in Frameworks */,
 				428476C9243F2A1300EADFDE /* libxml2.tbd in Frameworks */,
 				428476C7243F2A0900EADFDE /* CoreImage.framework in Frameworks */,
+				389AD7F625556915000D4010 /* libjansson.a in Frameworks */,
 				428476C5243F29FD00EADFDE /* CoreText.framework in Frameworks */,
 				C45E4EDB2377951B003BB3BA /* libssl.a in Frameworks */,
 				429DD3B6240FAA7200E6CF11 /* libsqlite3.a in Frameworks */,
@@ -2111,6 +2112,7 @@
 				C45E4ED6237794D5003BB3BA /* libboost_thread.a in Frameworks */,
 				42A3206B240FEFFA00FABE6D /* libcjson.a in Frameworks */,
 				C45E4ED5237794C7003BB3BA /* libboost_system.a in Frameworks */,
+				389AD7F5255568F1000D4010 /* libjansson.a in Frameworks */,
 				C45E4ED4237794B9003BB3BA /* libboost_filesystem.a in Frameworks */,
 				425DFB1B23716685001CEF76 /* libc++abi.tbd in Frameworks */,
 				42A3206D240FEFFA00FABE6D /* libeladid.a in Frameworks */,
@@ -4293,9 +4295,7 @@
 		42A32065240FEFFA00FABE6D /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				3829CDCD253F4F9A00667F25 /* libhdkey.1.dylib */,
-				3829CDB8253F415F00667F25 /* libcrystal.dylib */,
-				3829CDBD253F416100667F25 /* libeladid.1.dylib */,
+				389AD7F4255568F1000D4010 /* libjansson.a */,
 				42A32066240FEFFA00FABE6D /* libhdkey.a */,
 				42A32067240FEFFA00FABE6D /* libcjson.a */,
 				42A32068240FEFFA00FABE6D /* libcurl.a */,

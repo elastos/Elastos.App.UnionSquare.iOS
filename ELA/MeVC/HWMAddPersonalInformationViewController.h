@@ -35,6 +35,10 @@ typedef void(^successBlock)(NSString*DIDString);
 @property(assign,nonatomic)Boolean  noAleart;
 
 @property (assign, nonatomic) BOOL isChain;
+@property (assign, nonatomic) BOOL isCreate;
+@property (assign, nonatomic) BOOL isNext;
+
+@property (strong, nonatomic) HWMDIDInfoModel *chainDataModel;
 
 @end
 
