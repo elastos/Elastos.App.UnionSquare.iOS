@@ -17,6 +17,7 @@
 #import "HWMDIDInfoShowTableViewCell.h"
 #import "HWMshowIntroductionInfoViewController.h"
 #import "WYShowCustomContentViewController.h"
+#import "WYDIDCardViewController.h"
 
 static NSString *cellString=@"HWMDIDInfoTableViewCell";
 static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
@@ -51,7 +52,7 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     UIBarButtonItem *deleteDIDButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"del_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(deleteDIDEvent)];
     
     NSMutableArray *buttonArray = [[NSMutableArray alloc] initWithObjects:deleteDIDButton, DIDCardButton, nil];
-    [buttonArray removeAllObjects];
+    [buttonArray removeObjectAtIndex:0];
     self.navigationItem.rightBarButtonItems = buttonArray;
     
     [self getDIDInfo];
@@ -211,10 +212,14 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
 }
 
 - (void)showIDCard {
-    WYLog(@"=== dev temp === show ID Card clicked");
+    WYDIDCardViewController *cardVC = [[WYDIDCardViewController alloc] init];
+    cardVC.didName = self.model.didName;
+    cardVC.didString = self.model.did;
+    cardVC.currentWallet = self.currentWallet;
+    [self.navigationController pushViewController:cardVC animated:YES];
 }
 
--(void)deleteDIDEvent{
+-(void)deleteDIDEvent {
     
     UIView * mainView=[self mainWindow];
     [mainView addSubview:self.deleteDIDPopView];
@@ -223,6 +228,7 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     }];
     
 }
+
 -(HMWToDeleteTheWalletPopView *)deleteDIDPopView{
     if (!_deleteDIDPopView) {
         _deleteDIDPopView =[[HMWToDeleteTheWalletPopView alloc]init];

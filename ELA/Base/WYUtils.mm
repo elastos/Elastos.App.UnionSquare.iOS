@@ -331,6 +331,48 @@ static NSMutableDictionary *globalDic = nil;
     return dic;
 }
 
++ (UIImage *)viewToImage:(UIView *)view {
+    UIGraphicsBeginImageContext(CGSizeMake(view.frame.size.width, view.frame.size.height));
+    [view drawViewHierarchyInRect:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height) afterScreenUpdates:YES];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return image;
+}
+
++ (void)shareItems:(NSArray *)items onVC:(UIViewController *)vc {
+    if (items.count == 0) {
+        return;
+    }
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+    
+    NSMutableArray *excludeTypesM =  [NSMutableArray arrayWithArray:@[//UIActivityTypePostToFacebook,
+        UIActivityTypePostToTwitter,
+        UIActivityTypePostToWeibo,
+        UIActivityTypeMessage,
+        UIActivityTypeMail,
+        UIActivityTypePrint,
+        UIActivityTypeCopyToPasteboard,
+        UIActivityTypeAssignToContact,
+        UIActivityTypeSaveToCameraRoll,
+        UIActivityTypeAddToReadingList,
+        UIActivityTypePostToFlickr,
+        UIActivityTypePostToVimeo,
+        UIActivityTypePostToTencentWeibo,
+        UIActivityTypeAirDrop,
+        UIActivityTypeOpenInIBooks]];
+    
+    
+    if (@available(iOS 11.0, *)) {
+        [excludeTypesM addObject:UIActivityTypeMarkupAsPDF];
+    }
+    
+    
+    activityVC.excludedActivityTypes = excludeTypesM;
+    
+    [vc presentViewController:activityVC animated:YES completion:nil];
+}
+
 @end
 
 void WYLog(NSString *fmt, ...) {

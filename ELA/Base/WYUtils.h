@@ -61,6 +61,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)dicToJSONString:(NSDictionary *)dic;
 + (NSString *)arrToJSONString:(NSArray *)arr;
 + (NSDictionary *)dicFromJSONString:(NSString *)jsonString;
++ (UIImage *)viewToImage:(UIView *)view;
++ (void)shareItems:(NSArray *)items onVC:(UIViewController *)vc;
 
 @end
 

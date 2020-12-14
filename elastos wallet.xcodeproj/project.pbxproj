@@ -13,6 +13,7 @@
 		380233A424ABBF42001DAD52 /* WYUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 380233A324ABBF42001DAD52 /* WYUtils.mm */; };
 		380233A824ADD413001DAD52 /* WYCrashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380233A724ADD413001DAD52 /* WYCrashViewController.m */; };
 		380593B7253C78D3000716A8 /* WYShowCustomContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */; };
+		380B459F2555EFE40085709E /* WYDIDCardViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 380B459E2555EFE40085709E /* WYDIDCardViewController.mm */; };
 		3821892C24C8FD1F00CA4BCC /* WYLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */; };
 		3821892F24C9712900CA4BCC /* WYAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892E24C9712900CA4BCC /* WYAuthViewController.m */; };
 		3821893224CB90DF00CA4BCC /* WYContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821893124CB90DF00CA4BCC /* WYContactListViewController.m */; };
@@ -721,6 +722,8 @@
 		380233A724ADD413001DAD52 /* WYCrashViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYCrashViewController.m; sourceTree = "<group>"; };
 		380593B5253C78D3000716A8 /* WYShowCustomContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYShowCustomContentViewController.h; sourceTree = "<group>"; };
 		380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYShowCustomContentViewController.m; sourceTree = "<group>"; };
+		380B459D2555EFE40085709E /* WYDIDCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDCardViewController.h; sourceTree = "<group>"; };
+		380B459E2555EFE40085709E /* WYDIDCardViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYDIDCardViewController.mm; sourceTree = "<group>"; };
 		3821892A24C8FD1E00CA4BCC /* WYLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLockViewController.h; sourceTree = "<group>"; };
 		3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYLockViewController.m; sourceTree = "<group>"; };
 		3821892D24C9712900CA4BCC /* WYAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAuthViewController.h; sourceTree = "<group>"; };
@@ -3438,6 +3441,8 @@
 				421BABD62429923F000FB026 /* HWExportCertificateMViewController.h */,
 				421BABD72429923F000FB026 /* HWExportCertificateMViewController.m */,
 				421BABD82429923F000FB026 /* HWExportCertificateMViewController.xib */,
+				380B459D2555EFE40085709E /* WYDIDCardViewController.h */,
+				380B459E2555EFE40085709E /* WYDIDCardViewController.mm */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -5182,6 +5187,7 @@
 				4279CABC24796C3100B503A4 /* ELAUpdateSecretaryDidViewController.m in Sources */,
 				4230217A22C0BB000004AB65 /* nodeInformationDetailsView.m in Sources */,
 				428950D02473E5D8007DF48D /* HWMSecretaryGeneralAndMembersInfo.m in Sources */,
+				380B459F2555EFE40085709E /* WYDIDCardViewController.mm in Sources */,
 				42A7679A2315293F005FC764 /* HWMCRRegisteredViewController.mm in Sources */,
 				42D1060F23A336240063AADC /* SimplePing.m in Sources */,
 				4279CACC24796C3100B503A4 /* MJExtensionConst.m in Sources */,
