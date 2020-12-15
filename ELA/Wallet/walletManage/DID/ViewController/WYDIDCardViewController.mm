@@ -111,7 +111,8 @@
 //    self.includeAddressButton.adjustsImageWhenHighlighted = YES;
     self.includeAddressButton.layer.masksToBounds = YES;
     self.includeAddressButton.layer.cornerRadius = 3.f;
-    self.includeAddress = NO;
+    self.includeAddress = YES;
+    [self.includeAddressButton setSelected:self.includeAddress];
     [self.includeAddressButton addTarget:self action:@selector(includeAddressPressed:) forControlEvents:UIControlEventTouchUpInside];
     [includeAddressPanel addSubview:self.includeAddressButton];
     
@@ -237,25 +238,27 @@
 }
 
 - (void)refreshQRCode {
-    NSMutableDictionary *qrDataDict = [[NSMutableDictionary alloc] init];
-    qrDataDict[@"didString"] = self.didString;
+    NSMutableDictionary *qrDataDic = [[NSMutableDictionary alloc] init];
+    qrDataDic[@"didString"] = self.didString;
     if (self.includeAddress) {
-        qrDataDict[@"address"] = self.walletAddress;
+        qrDataDic[@"address"] = self.walletAddress;
     }
-    NSMutableDictionary *qrDict = [@{
-        @"data": qrDataDict,
+    NSString *qrDataStr = [WYUtils dicToJSONString:qrDataDic];
+    NSMutableDictionary *qrDic = [@{
+        @"data": qrDataStr,
         @"extra": @{
             @"subWallet": @"ELA",
             @"transType": @(-1),
             @"type": @(5)
         },
+        @"md5": [WYUtils MD5Hash:qrDataStr],
         @"index": @(1),
         @"total": @(1),
         @"name": @"MultiQrContent",
         @"version": @(0)
     } mutableCopy];
-    NSString *qrString = [WYUtils dicToJSONString:qrDict];
-    self.qrCardView.image = [[FLTools share] imageWithSize:300.f andColorWithRed:3.f Green:3.f Blue:5.f andQRString:qrString];
+    NSString *qrStr = [WYUtils dicToJSONString:qrDic];
+    self.qrCardView.image = [[FLTools share] imageWithSize:300.f andColorWithRed:3.f Green:3.f Blue:5.f andQRString:qrStr];
 }
 
 - (void)setDidName:(NSString *)didName {

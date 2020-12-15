@@ -81,12 +81,14 @@
     NSString *zipPath = [rootPath stringByAppendingPathComponent:zipName];
     if ([srcPath count] > 0) {
         [SSZipArchive createZipFileAtPath:zipPath withFilesAtPaths:srcPath];
-        NSData *data =[NSData dataWithContentsOfFile:zipPath];
+//        NSData *data =[NSData dataWithContentsOfFile:zipPath];
         NSURL *URL =[NSURL fileURLWithPath:zipPath];
-        NSArray *ARR=[NSArray arrayWithObjects:data,@"log",URL,nil];
+//        NSArray *ARR=[NSArray arrayWithObjects:data,@"log",URL,nil];
+        NSArray *ARR= @[URL];
         [self mq_share:ARR];
     }
 }
+
 -(void)mq_share:(NSArray *)items{
     if (items.count == 0) {
         return;

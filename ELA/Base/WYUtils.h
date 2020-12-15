@@ -63,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)dicFromJSONString:(NSString *)jsonString;
 + (UIImage *)viewToImage:(UIView *)view;
 + (void)shareItems:(NSArray *)items onVC:(UIViewController *)vc;
++ (NSString *)MD5Hash:(NSString *)str;
 
 @end
 
