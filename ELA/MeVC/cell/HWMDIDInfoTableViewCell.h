@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *leftTextLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrImageView;
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *longInfoLabel;
 @end
 
 NS_ASSUME_NONNULL_END

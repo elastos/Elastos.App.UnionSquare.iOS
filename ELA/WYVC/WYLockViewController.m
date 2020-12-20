@@ -36,7 +36,6 @@
     CGRect rect = [UIScreen mainScreen].bounds;
     self.view = [[UIView alloc] initWithFrame:rect];
     self.view.backgroundColor = [UIColor clearColor];
-    
 }
 
 - (void)authPressed:(UIButton *)sender {

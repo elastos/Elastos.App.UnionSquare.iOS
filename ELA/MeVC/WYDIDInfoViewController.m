@@ -23,19 +23,22 @@
 
 
 #import "WYDIDInfoViewController.h"
+#import "HWMDIDInfoTableViewCell.h"
 #import "HWMDIDInfoShowTableViewCell.h"
 #import "HWMshowIntroductionInfoViewController.h"
 #import "WYShowCustomContentViewController.h"
 #import "HWMDIDInfoModel.h"
+#import "WYSelectContactViewController.h"
+#import "HMWFMDBManager.h"
+#import "HMWtheContactInformationViewController.h"
+#import "HMWaddContactViewController.h"
 
-static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
+static NSString *cellID1 = @"HWMDIDInfoTableViewCell";
+static NSString *cellID2 = @"HWMDIDInfoShowTableViewCell";
 
-@interface WYDIDInfoViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WYDIDInfoViewController () <UITableViewDelegate, UITableViewDataSource, WYSelectContactViewControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *DIDAddressTextField;
-@property (weak, nonatomic) IBOutlet UITextField *expireTimeTextField;
-
+@property(copy,nonatomic)NSArray *dataArray;
 @property (copy, nonatomic) NSArray *allExtraInfoList;
 @property (strong, nonatomic) NSMutableArray *displayList;
 
@@ -53,11 +56,54 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
     
     self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"window_750_close"];
     
-    self.nameTextField.enabled = NO;
-    self.DIDAddressTextField.enabled = NO;
-    self.expireTimeTextField.enabled = NO;
-    
     UILayoutGuide *margin = self.view.layoutMarginsGuide;
+    
+    UIView *footerView = [[UIView alloc] init];
+    footerView.translatesAutoresizingMaskIntoConstraints = NO;
+    footerView.backgroundColor = RGBA(0.f, 0.f, 0.f, 0.3f);
+    footerView.clipsToBounds = YES;
+    footerView.layer.masksToBounds = YES;
+    [self.view addSubview:footerView];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [footerView.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor],
+        [footerView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [footerView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor]
+    ]];
+    
+    if (self.walletAddress.length > 0) {
+        [footerView.heightAnchor constraintEqualToConstant:80.f].active = YES;
+    } else {
+        [footerView.heightAnchor constraintEqualToConstant:0.f].active = YES;
+    }
+    
+    UIView *footerSep = [[UIView alloc] init];
+    footerSep.translatesAutoresizingMaskIntoConstraints = NO;
+    footerSep.backgroundColor = RGBA(255.f, 255.f, 255.f, 0.5f);
+    [footerView addSubview:footerSep];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [footerSep.topAnchor constraintEqualToAnchor:footerView.topAnchor],
+        [footerSep.leadingAnchor constraintEqualToAnchor:footerView.leadingAnchor],
+        [footerSep.trailingAnchor constraintEqualToAnchor:footerView.trailingAnchor],
+        [footerSep.heightAnchor constraintEqualToConstant:1.f]
+    ]];
+    
+    UIButton *addContactButton = [[UIButton alloc] init];
+    addContactButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [addContactButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [addContactButton setTitle:NSLocalizedString(@"添加到联系人", nil) forState:UIControlStateNormal];
+    addContactButton.backgroundColor = RGBA(255.f, 255.f, 255.f, 0.2f);
+    [self makeBordersWithView:addContactButton];
+    [addContactButton addTarget:self action:@selector(addContactPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:addContactButton];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [addContactButton.centerXAnchor constraintEqualToAnchor:footerView.centerXAnchor],
+        [addContactButton.centerYAnchor constraintEqualToAnchor:footerView.centerYAnchor],
+        [addContactButton.widthAnchor constraintEqualToConstant:250.f],
+        [addContactButton.heightAnchor constraintEqualToConstant:40.f]
+    ]];
     
     self.extraTable = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.extraTable.translatesAutoresizingMaskIntoConstraints = NO;
@@ -66,36 +112,20 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
     [self.view addSubview:self.extraTable];
     
     [NSLayoutConstraint activateConstraints:@[
-        [self.extraTable.topAnchor constraintEqualToAnchor:self.expireTimeTextField.bottomAnchor],
-        [self.extraTable.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor],
+        [self.extraTable.topAnchor constraintEqualToAnchor:margin.topAnchor],
+        [self.extraTable.bottomAnchor constraintEqualToAnchor:footerView.topAnchor],
         [self.extraTable.leadingAnchor constraintEqualToAnchor:margin.leadingAnchor],
         [self.extraTable.trailingAnchor constraintEqualToAnchor:margin.trailingAnchor]
     ]];
     
     self.extraTable.delegate = self;
     self.extraTable.dataSource = self;
-    [self.extraTable registerNib:[UINib nibWithNibName:cellID bundle:nil] forCellReuseIdentifier:cellID];
+    [self.extraTable registerNib:[UINib nibWithNibName:cellID1 bundle:nil] forCellReuseIdentifier:cellID1];
+    [self.extraTable registerNib:[UINib nibWithNibName:cellID2 bundle:nil] forCellReuseIdentifier:cellID2];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    NSMutableParagraphStyle *pStyle = [[NSMutableParagraphStyle alloc] init];
-    [pStyle setAlignment:NSTextAlignmentRight];
-    [pStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    
-    if (self.model.didName) {
-        self.nameTextField.text = self.model.didName;
-    }
-    if (self.model.didAddress) {
-        NSMutableAttributedString *didText = [[NSMutableAttributedString alloc] initWithString:self.model.didAddress];
-        [didText addAttribute:NSParagraphStyleAttributeName value:pStyle range:NSMakeRange(0, didText.length)];
-        self.DIDAddressTextField.attributedText = didText;
-        //        self.DIDAddressTextField.text = self.model.didAddress;
-    }
-    if (self.model.expireTime) {
-        self.expireTimeTextField.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.expireTime]];
-    }
     
     WYLog(@"=== dev temp === extraInfo: %@", self.extraInfo);
     
@@ -106,6 +136,36 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
         self.extraTable.alpha = 1.f;
     } else {
         self.extraTable.alpha = 0.f;
+    }
+}
+
+- (void)addContactPressed:(id)sender {
+    WYSelectContactViewController *selectContactVC = [[WYSelectContactViewController alloc] init];
+    selectContactVC.delegate = self;
+    [self.navigationController pushViewController:selectContactVC animated:YES];
+}
+
+- (void)contactSelected:(friendsModel *)model {
+    if (model) {
+        model.address = self.walletAddress;
+        model.did = self.model.didAddress;
+        if ([[HMWFMDBManager sharedManagerType:friendsModelType]updateRecord:model]){
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"修改成功！", nil)];
+            [self.navigationController popViewControllerAnimated:YES];
+            HMWtheContactInformationViewController *theContactInformationVC=[[HMWtheContactInformationViewController alloc]init];
+            theContactInformationVC.model = model;
+            [self.navigationController pushViewController:theContactInformationVC animated:YES];
+        } else {
+            [[FLTools share]showErrorInfo:NSLocalizedString(@"修改失败！", nil)];
+        }
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+        HMWaddContactViewController *addContactVC=[[HMWaddContactViewController alloc]init];
+        addContactVC.title=NSLocalizedString(@"添加联系人", nil);
+        addContactVC.addressString = self.walletAddress;
+        addContactVC.didString = self.model.didAddress;
+        addContactVC.typeInfo=updateInfo;
+        [self.navigationController pushViewController:addContactVC animated:YES];
     }
 }
 
@@ -161,16 +221,23 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
     WYLog(@"=== dev temp === displayList prepared: %@", self.displayList);
 }
 
-- (IBAction)DIDCopyToClipboard:(id)sender {
-    [[FLTools share]copiedToTheClipboardWithString:self.DIDAddressTextField.text];
-}
-
 - (void)setModel:(WYDIDChainInfoModel *) model {
     _model = model;
 }
 
 - (void)setExtraInfo:(NSDictionary *)extraInfo {
     _extraInfo = extraInfo;
+}
+
+-(NSArray *)dataArray{
+    if (!_dataArray) {
+        if (self.walletAddress.length > 0) {
+            _dataArray =[NSArray arrayWithObjects:NSLocalizedString(@"收款地址", nil),NSLocalizedString(@"姓名", nil),NSLocalizedString(@"DID", nil),NSLocalizedString(@"有效期", nil), nil];
+        } else {
+            _dataArray =[NSArray arrayWithObjects:NSLocalizedString(@"姓名", nil),NSLocalizedString(@"DID", nil),NSLocalizedString(@"有效期", nil), nil];
+        }
+    }
+    return _dataArray;
 }
 
 - (NSArray *)allExtraInfoList {
@@ -232,14 +299,14 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        return self.displayList.count;
+        return self.displayList.count + self.dataArray.count;
     }
     return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        NSDictionary *item = self.displayList[indexPath.row];
+    if (indexPath.section == 0 && indexPath.row >= self.dataArray.count) {
+        NSDictionary *item = self.displayList[indexPath.row - self.dataArray.count];
         if ([item[@"key"] isEqualToString:@"avatar"]) {
             return 85.f;
         }
@@ -248,49 +315,96 @@ static NSString *cellID = @"HWMDIDInfoShowTableViewCell";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    HWMDIDInfoShowTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID];
+    if (indexPath.row < self.dataArray.count) {
+        HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.leftTextLabel.text=self.dataArray[indexPath.row];
+        
+        NSInteger rowNum = indexPath.row;
+        if (self.walletAddress.length > 0) {
+            rowNum--;
+        }
+        
+        switch (rowNum) {
+            case -1:
+                cell.arrImageView.alpha = 0.f;
+                cell.infoLabel.alpha = 0.f;
+                cell.longInfoLabel.text = self.walletAddress;
+                break;
+            case 0:
+                cell.arrImageView.alpha = 0.f;
+                cell.infoLabel.alpha = 0.f;
+                cell.longInfoLabel.text = self.model.didName;
+                break;
+            case 1:
+                cell.longInfoLabel.alpha = 0.f;
+                cell.infoLabel.text = self.model.didAddress;
+                break;
+            case 2:
+                cell.arrImageView.alpha = 0.f;
+                cell.infoLabel.alpha = 0.f;
+                if (self.model.expireTime.length > 0) {
+                    cell.longInfoLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.expireTime]];
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return cell;
+    } else {
+        HWMDIDInfoShowTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellID2];
+        
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        
+        NSDictionary *item = self.displayList[indexPath.row - self.dataArray.count];
+        NSString *title = item[@"title"];
+        NSString *content = item[@"content"];
+        cell.leftLabel.text = title;
+        cell.rightLabel.text = [content stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        
+        if ([item[@"key"] isEqualToString:@"avatar"]) {
+            
+            cell.headIocnImageView.alpha=1.f;
+            if (content.length>4) {
+               
+                NSString *typeString=[content substringFromIndex:content.length-4];
+                if ([typeString isEqualToString:@".svg"]) {
+                    cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFit;
+                }else{
+                    cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
+                }
+                [[FLTools share]loadUrlSVGAndPNG:content WithSuccessBlock:^(id data) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (data) {
+                            cell.headIocnImageView.image=data;
+                        }else{
+                            cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+                        }
+                    });
+                }];
+            }else{
+                cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
+            }
+            cell.rightLabel.alpha=0.f;
+            
+        }
+        
+        return cell;
+    }
+    
+    HWMDIDInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID1];
     
     cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    
-    NSDictionary *item = self.displayList[indexPath.row];
-    NSString *title = item[@"title"];
-    NSString *content = item[@"content"];
-    cell.leftLabel.text = title;
-    cell.rightLabel.text = [content stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-    
-    if ([item[@"key"] isEqualToString:@"avatar"]) {
-        
-        cell.headIocnImageView.alpha=1.f;
-        if (content.length>4) {
-           
-            NSString *typeString=[content substringFromIndex:content.length-4];
-            if ([typeString isEqualToString:@".svg"]) {
-                cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFit;
-            }else{
-                cell.headIocnImageView.contentMode=UIViewContentModeScaleAspectFill;
-            }
-            [[FLTools share]loadUrlSVGAndPNG:content WithSuccessBlock:^(id data) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (data) {
-                        cell.headIocnImageView.image=data;
-                    }else{
-                        cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-                    }
-                });
-            }];
-        }else{
-            cell.headIocnImageView.image=[UIImage imageNamed:@"mine_did_default_avator"];
-        }
-        cell.rightLabel.alpha=0.f;
-        
-    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        NSDictionary *infoSelected = self.displayList[indexPath.row];
+    if (indexPath.section == 0 && indexPath.row >= self.dataArray.count) {
+        NSDictionary *infoSelected = self.displayList[indexPath.row - self.dataArray.count];
         WYLog(@"=== dev temp === infoSelected: %@", infoSelected);
         if ([infoSelected[@"key"] isEqualToString:@"introduction"]) {
             HWMshowIntroductionInfoViewController *AddPersonalProfileVC=[[HWMshowIntroductionInfoViewController alloc]init];

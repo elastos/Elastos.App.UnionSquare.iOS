@@ -28,6 +28,7 @@
 		383EFE30249736FA0087BA01 /* WYResyncChainDataViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE2E249736FA0087BA01 /* WYResyncChainDataViewController.xib */; };
 		383EFE3424975C8C0087BA01 /* WYResyncChainDataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */; };
 		383EFE3524975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */; };
+		3866EE29258DE14500C33789 /* WYSelectContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3866EE28258DE14500C33789 /* WYSelectContactViewController.m */; };
 		3867938824C14E5F00E32B83 /* WYVoteUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3867938724C14E5E00E32B83 /* WYVoteUtils.mm */; };
 		389AD7F5255568F1000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
 		389AD7F625556915000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
@@ -749,6 +750,8 @@
 		383EFE3124975C8C0087BA01 /* WYResyncChainDataTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYResyncChainDataTableViewCell.h; sourceTree = "<group>"; };
 		383EFE3224975C8C0087BA01 /* WYResyncChainDataTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYResyncChainDataTableViewCell.m; sourceTree = "<group>"; };
 		383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYResyncChainDataTableViewCell.xib; sourceTree = "<group>"; };
+		3866EE27258DE14500C33789 /* WYSelectContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSelectContactViewController.h; sourceTree = "<group>"; };
+		3866EE28258DE14500C33789 /* WYSelectContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSelectContactViewController.m; sourceTree = "<group>"; };
 		3867938624C14E5E00E32B83 /* WYVoteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteUtils.h; sourceTree = "<group>"; };
 		3867938724C14E5E00E32B83 /* WYVoteUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYVoteUtils.mm; sourceTree = "<group>"; };
 		389AD7F4255568F1000D4010 /* libjansson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjansson.a; sourceTree = "<group>"; };
@@ -2502,6 +2505,8 @@
 				38EDD1F325374308002C8EBF /* WYAddCustomContentViewController.m */,
 				380593B5253C78D3000716A8 /* WYShowCustomContentViewController.h */,
 				380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */,
+				3866EE27258DE14500C33789 /* WYSelectContactViewController.h */,
+				3866EE28258DE14500C33789 /* WYSelectContactViewController.m */,
 			);
 			path = MeVC;
 			sourceTree = "<group>";
@@ -5313,6 +5318,7 @@
 				422D609621FC405000DD07FF /* FLJoinVoteInfoModel.m in Sources */,
 				70D802412481584D00C9E192 /* IQBarButtonItem.m in Sources */,
 				425E0D68233B5B5E00D4C481 /* HWMCRListModel.m in Sources */,
+				3866EE29258DE14500C33789 /* WYSelectContactViewController.m in Sources */,
 				424910EC2271BFCF00C41E50 /* UIImage+MultiFormat.m in Sources */,
 				4202CA3621F6EF2A009E5932 /* FLSugarModel.m in Sources */,
 				4279CAD024796C3100B503A4 /* MJPropertyKey.m in Sources */,

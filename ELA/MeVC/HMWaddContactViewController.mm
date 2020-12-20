@@ -58,7 +58,9 @@
     if (self.addressString.length>0) {
         self.theWalletAddressTextField.text=self.addressString;
     }
-    
+    if (self.didString.length>0) {
+        self.DIDAddressTextField.text = self.didString;
+    }
 }
 
 - (IBAction)sweepTheQRCodeEvent:(id)sender {

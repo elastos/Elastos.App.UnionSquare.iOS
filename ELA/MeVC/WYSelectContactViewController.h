@@ -22,39 +22,21 @@
  */
 
 
-#import <Foundation/Foundation.h>
-
-typedef NS_ENUM(NSUInteger, QrCodeSignatureType) {
-    credaccessQrCodeType,
-    suggestionQrCodeType,
-    billQrCodeType,
-    reviewPropalQrCodeType, //xxl 2.2 flow
-    voteforProposalQrCodeType, //xxl 2.3 flow
-   
-    
-    SecretaryGeneralType,
-    withdrawalsType,
-    Updatemilestone,
-    Reviewmilestone,
-    ConformIdentityType,
-    CreadDIDType,
-    DIDTimePassType,
-    CommonIdentityType,//普通人身份
-    QRTimePassType,
-    AuthenticationDID,
-     unknowQrCodeType,
-    errQrCodeType,
-    didCardQrCodeType,
-    
-};
-typedef void(^QrCodeSignatureTypeBlock)(QrCodeSignatureType type,id data);
-
+#import <UIKit/UIKit.h>
+#import "friendsModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWMQrCodeSignatureManager : NSObject
-+(instancetype)shareTools;
--(void)QrCodeDataWithData:(NSString*)data withDidString:(NSString*)didString withmastWalletID:(NSString*)masterWalletID withComplete:(QrCodeSignatureTypeBlock)Complete;
+@protocol WYSelectContactViewControllerDelegate <NSObject>
+
+-(void)contactSelected:(friendsModel * _Nullable)model;
+
+@end
+
+@interface WYSelectContactViewController : UIViewController
+
+@property (weak, nonatomic) id<WYSelectContactViewControllerDelegate> delegate;
+
 @end
 
 NS_ASSUME_NONNULL_END

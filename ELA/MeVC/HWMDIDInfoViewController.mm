@@ -294,20 +294,23 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
         cell.leftTextLabel.text=self.dataArray[indexPath.row];
         switch (indexPath.row) {
             case 0:
-                cell.arrImageView.alpha=0.f;
-                cell.infoLabel.text=self.model.didName;
+                cell.arrImageView.alpha = 0.f;
+                cell.infoLabel.alpha = 0.f;
+                cell.longInfoLabel.text = self.model.didName;
                 break;
             case 1:
-                cell.infoLabel.text=self.PubKeyString;
+                cell.longInfoLabel.alpha = 0.f;
+                cell.infoLabel.text = self.PubKeyString;
                 break;
             case 2:
-                cell.infoLabel.text=self.model.did;
-                
+                cell.longInfoLabel.alpha = 0.f;
+                cell.infoLabel.text = self.model.did;
                 break;
             case 3:
-                cell.arrImageView.alpha=0.f;
-                if (self.model.endString.length>0) {
-                    cell.infoLabel.text=[NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
+                cell.arrImageView.alpha = 0.f;
+                cell.infoLabel.alpha = 0.f;
+                if (self.model.endString.length > 0) {
+                    cell.longInfoLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"至", nil),[[FLTools share]YMDCommunityTimeConversionTimeFromTimesTamp:self.model.endString]];
                 }
                 
                 break;

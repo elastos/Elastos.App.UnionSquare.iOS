@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, updateOrChangeInfo) {
  *<# #>
  */
 @property(copy,nonatomic)NSString *addressString;
+@property(copy,nonatomic)NSString *didString;
 
 @property (nonatomic, weak) HMWtheContactInformationViewController *contactInfoVC;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,6 +39,15 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUo-Uj-w7D">
+                        <rect key="frame" x="65" y="0.0" width="240" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="240" id="D82-xg-xDO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="33n-NA-5Q6">
                         <rect key="frame" x="270" y="0.0" width="50" height="55"/>
                         <connections>
@@ -64,10 +73,13 @@
                     <constraint firstAttribute="trailing" secondItem="Izx-7A-FkO" secondAttribute="trailing" constant="15" id="P0o-7N-Jc4"/>
                     <constraint firstItem="2GV-lQ-9h1" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="RqM-Fr-9MV"/>
                     <constraint firstAttribute="bottom" secondItem="Izx-7A-FkO" secondAttribute="bottom" id="UF9-Um-nDO"/>
+                    <constraint firstItem="DUo-Uj-w7D" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ZZL-s1-vhd"/>
+                    <constraint firstAttribute="trailing" secondItem="DUo-Uj-w7D" secondAttribute="trailing" constant="15" id="gpi-gN-chf"/>
                     <constraint firstAttribute="trailing" secondItem="2GV-lQ-9h1" secondAttribute="trailing" constant="50" id="haS-DN-ycB"/>
                     <constraint firstItem="Izx-7A-FkO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="lhy-9l-4Qk"/>
                     <constraint firstAttribute="trailing" secondItem="33n-NA-5Q6" secondAttribute="trailing" id="nWt-r0-UgM"/>
                     <constraint firstItem="33n-NA-5Q6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="oHG-t7-LAB"/>
+                    <constraint firstItem="DUo-Uj-w7D" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tqE-ZK-PCh"/>
                     <constraint firstAttribute="bottom" secondItem="33n-NA-5Q6" secondAttribute="bottom" id="uQr-IN-b96"/>
                     <constraint firstItem="qHK-GS-FUY" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vDQ-SL-sWk"/>
                 </constraints>
@@ -78,6 +90,7 @@
                 <outlet property="arrImageView" destination="zNy-38-fxV" id="jHt-Ye-O4O"/>
                 <outlet property="infoLabel" destination="2GV-lQ-9h1" id="fXX-yF-LpG"/>
                 <outlet property="leftTextLabel" destination="qHK-GS-FUY" id="k42-Ga-kub"/>
+                <outlet property="longInfoLabel" destination="DUo-Uj-w7D" id="q8g-co-BjL"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="122.87946428571428"/>
         </tableViewCell>

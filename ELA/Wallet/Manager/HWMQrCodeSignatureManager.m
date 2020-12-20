@@ -153,6 +153,7 @@ static HWMQrCodeSignatureManager * _instance;
     }
     return ConformIdentityType;
 }
+
 -(QrCodeSignatureType)QrCodeStringtype:(NSString*)QRCodeString{
     if ([QRCodeString containsString:@"elastos://credaccess/"]) {
         
@@ -187,6 +188,16 @@ static HWMQrCodeSignatureManager * _instance;
     }else if ([QRCodeString containsString:@"elastos://credaccess/"]){
         return billQrCodeType;
     }else{
+        NSDictionary *QRCodeDic = [WYUtils dicFromJSONString:QRCodeString];
+        if (QRCodeDic) {
+            if ([QRCodeDic[@"name"] isEqualToString:@"MultiQrContent"]) {
+                if (QRCodeDic[@"extra"]) {
+                    if ([QRCodeDic[@"extra"][@"type"] intValue] == 5 && [QRCodeDic[@"extra"][@"transType"] intValue] == -1) {
+                        return didCardQrCodeType;
+                    }
+                }
+            }
+        }
         return unknowQrCodeType;
         
     }
@@ -194,6 +205,7 @@ static HWMQrCodeSignatureManager * _instance;
     return unknowQrCodeType;
     
 }
+
 -(id)ParsingQrCodeDataWithQrCodeType:(QrCodeSignatureType)type withQrCodeString:(NSString*)QRCodeString{
     
     switch (type) {
@@ -229,7 +241,14 @@ static HWMQrCodeSignatureManager * _instance;
             
             return [[HWMDIDManager shareDIDManager] CRInfoDecodeWithJwtStringInfo:QRCodeString];
             break;
-            
+        case didCardQrCodeType:
+        {
+            NSDictionary *QRCodeDic = [WYUtils dicFromJSONString:QRCodeString];
+            if ([QRCodeDic[@"data"] isKindOfClass:[NSString class]]) {
+                return [WYUtils dicFromJSONString:QRCodeDic[@"data"]];
+            }
+        }
+            break;
         default:
             break;
     }

@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) WYDIDChainInfoModel *model;
 @property (copy, nonatomic) NSDictionary *extraInfo;
+@property (copy, nonatomic) NSString *walletAddress;
 
 @end
 

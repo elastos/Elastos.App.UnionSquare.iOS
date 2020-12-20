@@ -47,6 +47,8 @@
 #import "ELACommitteeInfoModel.h"
 #import "WYLockViewController.h"
 #import "WYDIDUtils.h"
+#include "WYDIDInfoViewController.h"
+#include "WYDIDChainInfoModel.h"
 
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCommentPerioDetailsViewControllerDelegate>
 {
@@ -841,14 +843,17 @@
         
     }];
 }
--(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString{
+-(void)ParseTheQrCodeJumpEventWithType:(QrCodeSignatureType)type withData:(id)data tsWithQRCodeString:(NSString*)QRCodeString {
     self.QRType=type;
     self.QRCodeData=data;
     self.QRCodeString=QRCodeString;
     if (type!= CreadDIDType&&
         type!=DIDTimePassType&&
         type!=CommonIdentityType&&
-        type!=unknowQrCodeType&&type!=QRTimePassType&&type!= AuthenticationDID) {
+        type!=unknowQrCodeType&&
+        type!=QRTimePassType&&
+        type!= AuthenticationDID &&
+        type != didCardQrCodeType) {
         if (self.dataSoureArray.count<2) {
             UIView *mainView =[self mainWindow];
             self.openIDChainView.deleteType=openIDChainType;
@@ -912,11 +917,42 @@
             WYLog(@"%s : wallet did invalid 1st ADID", __func__);
             [[FLTools share]showErrorInfo:NSLocalizedString(@"钱包DID不匹配", nil)];
             break;
+        case didCardQrCodeType:
+            WYLog(@"=== dev temp === didCard data %@", data);
+            [self showDidCardFromQrCodeData:data];
+            break;
         default:
             break;
     }
     
 }
+
+-(void)showDidCardFromQrCodeData:(NSDictionary *)QRCodeData {
+    NSString *didString = QRCodeData[@"didString"];
+    NSString *walletAddress = QRCodeData[@"address"];
+    if (!didString) {
+        [[FLTools share] showErrorInfo:NSLocalizedString(@"DID无效", nil)];
+        return;
+    }
+    NSDictionary *didInfo = [WYDIDUtils getDIDInfoFromString:didString];
+    if (didInfo) {
+        WYDIDInfoViewController *DIDInfoVC = [[WYDIDInfoViewController alloc] init];
+        WYDIDChainInfoModel *model = [[WYDIDChainInfoModel alloc] init];
+        model.didName = didInfo[@"didName"];
+        model.didAddress = didInfo[@"DIDString"];
+        model.expireTime = didInfo[@"endTime"];
+        DIDInfoVC.model = model;
+        DIDInfoVC.extraInfo = didInfo[@"extraInfo"];
+        if (walletAddress.length > 0) {
+            DIDInfoVC.walletAddress = walletAddress;
+        }
+        [self.navigationController pushViewController:DIDInfoVC animated:YES];
+    } else {
+        [[FLTools share] showErrorInfo:NSLocalizedString(@"DID无链上信息", nil)];
+        return;
+    }
+}
+
 -(void)QrCodeInfoPasswordViewInfoText:(NSDictionary*)PayLoadDic withJWTString:(NSString*)jwtString WithType:(QrCodeSignatureType)type{
     HWMQrCodeInfoPasswordViewController *PasswordVC=[[HWMQrCodeInfoPasswordViewController alloc]init];
     PasswordVC.PayLoadDic = PayLoadDic;

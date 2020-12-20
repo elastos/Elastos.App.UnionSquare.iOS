@@ -160,7 +160,11 @@
          if (self.delegate) {
               [self.delegate sureToDeleteViewWithPWD:@""];
           }
-    }
+    } else if (self.deleteType == ConfirmContactType) {
+        if (self.delegate) {
+             [self.delegate sureToDeleteViewWithPWD:@""];
+         }
+   }
     
 }
 -(void)takeOutOrShutDown{
@@ -241,7 +245,9 @@
         self.cancelButtonWidth = [self.cancelButton.widthAnchor constraintEqualToConstant:0.f];
     } else if (deleteType == AuthSwitchOffType){
           self.titlePopLabel.text = NSLocalizedString(@"是否停用安全验证？", nil);
-    }
+    } else if (deleteType == ConfirmContactType){
+        self.titlePopLabel.text = NSLocalizedString(@"是否覆盖联系人信息？", nil);
+  }
     _deleteType=deleteType;
     self.cancelButtonWidth.active = YES;
 }

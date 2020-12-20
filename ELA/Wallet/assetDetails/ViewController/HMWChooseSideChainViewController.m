@@ -47,7 +47,8 @@ static NSString *cellString=@"HMWSideChainAndTheContactTableViewCell";
 }
 -(NSArray *)friedsListArray{
     if (!_friedsListArray) {
-        _friedsListArray =[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:friendsModelType]allRecord]];
+        NSSortDescriptor *localizedSortWithName = [NSSortDescriptor sortDescriptorWithKey:@"nameString" ascending:YES selector:@selector(localizedCompare:)];
+        _friedsListArray =[[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:friendsModelType] allRecord]] sortedArrayUsingDescriptors:@[localizedSortWithName]];
     }
     return _friedsListArray;
 }
