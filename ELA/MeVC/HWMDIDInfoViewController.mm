@@ -219,9 +219,18 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     [self.navigationController pushViewController:cardVC animated:YES];
 }
 
--(void)deleteDIDEvent {
+- (void)deleteDIDEvent {
+    WYLog(@"=== dev temp === entered");
+    NSMutableDictionary *xdic = [@{ @"a": @1, @"b": @2 } mutableCopy];
+    for (NSString *key in xdic) {
+        WYLog(@"=== dev temp === key: %@", key);
+        if ([key isEqualToString:@"a"]) {
+            xdic[@"c"] = @666;
+        }
+    }
+    WYLog(@"=== dev temp === iterated");
     
-    UIView * mainView=[self mainWindow];
+    UIView *mainView=[self mainWindow];
     [mainView addSubview:self.deleteDIDPopView];
     [self.deleteDIDPopView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.equalTo(mainView);
@@ -229,7 +238,7 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     
 }
 
--(HMWToDeleteTheWalletPopView *)deleteDIDPopView{
+- (HMWToDeleteTheWalletPopView *)deleteDIDPopView{
     if (!_deleteDIDPopView) {
         _deleteDIDPopView =[[HMWToDeleteTheWalletPopView alloc]init];
         _deleteDIDPopView.delegate=self;
@@ -238,12 +247,12 @@ static NSString *customCellString = @"HWMDIDInfoShowTableViewCell";
     return _deleteDIDPopView;
 }
 
--(void)sureToDeleteViewWithPWD:(NSString*)pwd{
+- (void)sureToDeleteViewWithPWD:(NSString*)pwd{
     
     [self.navigationController popViewControllerAnimated:YES];
     [self toCancelOrCloseDelegate];
 }
--(void)toCancelOrCloseDelegate{
+- (void)toCancelOrCloseDelegate{
     [self.deleteDIDPopView removeFromSuperview];
     self.deleteDIDPopView=nil;
     

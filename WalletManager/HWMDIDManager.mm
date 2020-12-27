@@ -779,7 +779,8 @@ DIDAdapter *TestDIDAdapter_Create(const char *pwd, const char *walletId)
     if (res) {
         NSData *data =[NSData dataWithContentsOfFile:res];
         NSURL *URL=[NSURL fileURLWithPath:res];
-        return [NSArray arrayWithObjects:data,@"jwt",URL,nil];
+//        return [NSArray arrayWithObjects:data,@"jwt",URL,nil];
+        return @[URL];
     };
     return nil;
 }

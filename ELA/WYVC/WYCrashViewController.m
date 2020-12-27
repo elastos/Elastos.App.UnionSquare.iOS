@@ -146,7 +146,8 @@
         [SSZipArchive createZipFileAtPath:zipPath withFilesAtPaths:srcPath];
         NSData *data =[NSData dataWithContentsOfFile:zipPath];
         NSURL *URL =[NSURL fileURLWithPath:zipPath];
-        NSArray *ARR=[NSArray arrayWithObjects:data,@"log",URL,nil];
+//        NSArray *ARR=[NSArray arrayWithObjects:data,@"log",URL,nil];
+        NSArray *ARR= @[URL];
         [self mq_share:ARR];
     }
 }
