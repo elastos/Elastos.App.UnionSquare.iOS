@@ -66,6 +66,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //    [self getNetwork];
+    WYLog(@"=== dev temp === type at load: %d", _type);
+    WYLog(@"=== dev temp === infoModel depositAmount at load: %@", _infoModel.depositAmount);
+
     [self creatView];
 }
 
@@ -604,7 +607,7 @@
     {
         double douValue = [_infoModel.depositAmount doubleValue];
         NSString *des = ELALocalizedString(@"上届CR委员会任期已满，所有委员自动卸任离职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
-        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue];
         subLabel.text = string;
         updateInfoButton.hidden = YES;
         nodeButton.hidden = YES;
@@ -633,9 +636,11 @@
     }
     else if(_type == 4)
     {
+        WYLog(@"=== dev temp === infoModel depositAmount: %@", _infoModel.depositAmount);
         double douValue = [_infoModel.depositAmount doubleValue];
+        WYLog(@"=== dev temp === infoModel depositAmount Double: %f", douValue);
         NSString *des = ELALocalizedString(@"上届CR委员会任期已满，所有委员自动卸任离职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
-        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue];
         subLabel.text = string;
         updateInfoButton.hidden = YES;
         nodeButton.hidden = YES;
@@ -666,7 +671,7 @@
     {
         double douValue = [_infoModel.depositAmount doubleValue];
         NSString *des = ELALocalizedString(@"由于对您的弹劾已通过。您的委员职务已被免职。根据您的世界履职情况及CRC委员节点的运行情况，您的竞选押金返还额度为");
-        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue];
         subLabel.text = string;
         updateInfoButton.hidden = YES;
         nodeButton.hidden = YES;
@@ -697,7 +702,7 @@
     {
         double douValue = [_infoModel.depositAmount doubleValue];
         NSString *des = ELALocalizedString(@"上届CR委员会因故解散，所有委员自动去职。根据您时机履职情况及CRC委员节点的运行情况，您的竞选押金返回金额为");
-        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue / ELAUnitConversion];
+        NSString *string = [NSString stringWithFormat:@"%@%0.4fELA", des, douValue];
         subLabel.text = string;
         updateInfoButton.hidden = YES;
         nodeButton.hidden = YES;
