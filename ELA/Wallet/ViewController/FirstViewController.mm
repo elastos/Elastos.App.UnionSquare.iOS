@@ -527,10 +527,11 @@
     self.table.dataSource =self;
     self.table.delegate = self;
     self.table.rowHeight = 100;
-    HMWaddFooterView *addFooterView=[[HMWaddFooterView alloc]init];
-    addFooterView.delegate=self;
-    
-    self.table.tableFooterView =addFooterView;
+    // FINAL VERSION REMOVE ELEMENT
+//    HMWaddFooterView *addFooterView=[[HMWaddFooterView alloc]init];
+//    addFooterView.delegate=self;
+//    
+//    self.table.tableFooterView =addFooterView;
     UIBarButtonItem *ClickMorenButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"asset_wallet_setting"] style:UIBarButtonItemStyleDone target:self action:@selector(ClickMore:)];
     UIBarButtonItem *saveButton =[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"setting_adding_scan"] style:UIBarButtonItemStyleDone target:self action:@selector(QrCode)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
