@@ -548,8 +548,15 @@
             [[ELWalletManager share]SyncStart:mommand];
         }
         [weakSelf.table.mj_header endRefreshing];
+        dispatch_after(dispatch_time(
+                                     DISPATCH_TIME_NOW,
+                                     (int64_t)(.6 * NSEC_PER_SEC)
+                                     ), dispatch_get_main_queue(), ^{
+                                         self.table.mj_header.hidden = YES;
+                                     });
     }];
     self.table.mj_header=header;
+    self.table.mj_header.hidden = YES;
 }
 //二维码
 -(void)QrCode{
@@ -790,6 +797,7 @@
 }
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     self.isScro=YES;
+    scrollView.mj_header.hidden = NO;
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     self.isScro=NO;
@@ -797,6 +805,9 @@
         assetsListModel *model=self.dataSoureArray[i];
         NSIndexPath *indexPath=[NSIndexPath indexPathForRow:i inSection:0];
         [self updateCellInfoWithModel:model withInde:indexPath];
+    }
+    if(!scrollView.mj_header.isRefreshing) {
+        scrollView.mj_header.hidden = YES;
     }
 }
 -(void)updateCellInfoWithModel:(assetsListModel*)model withInde:(NSIndexPath*)inde{
