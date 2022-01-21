@@ -39,7 +39,9 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"back"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(goBack)];
 }
 -(void)firstNav{
-    [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault]; self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
+//    [self.navigationController.navigationBar setBackgroundImage:[self screenShotView:self.view.subviews.firstObject] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setBackgroundColor:RGB(83, 136, 136)];
+    self.navigationController.navigationBar.barStyle = UIStatusBarStyleLightContent;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
 }
