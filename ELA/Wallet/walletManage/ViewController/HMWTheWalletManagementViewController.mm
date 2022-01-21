@@ -165,7 +165,9 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
                 //                    SingleSign
             case 0:
                 _dataArray =@[
-                    @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},@{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
+                    // FINAL VERSION REMOVE ELEMENT
+//                    @{@"title":NSLocalizedString(@"DID",nil),@"name":@"",@"type":@"1"},
+                    @{@"title":NSLocalizedString(@"修改钱包名称", nil),@"name":self.currentWallet.walletName,@"type":@"1"},
                     @{@"title":NSLocalizedString(@"修改钱包密码",nil),@"name":@"",@"type":@"2"},
                     @{@"title":NSLocalizedString(@"导出Keystore",nil),@"name":@"",@"type":@"1"},
                     @{@"title":NSLocalizedString(@"导出助记词",nil),@"name":@"",@"type":@"1"},
@@ -207,6 +209,9 @@ static NSString *cellString=@"HMWTheWalletManagementTableViewCell";
     self.baseTableView.scrollEnabled=NO;
     self.baseTableView.backgroundColor=[UIColor clearColor];
     self.baseTableView.rowHeight=70;
+    if (@available(iOS 15, *)) {
+        self.baseTableView.sectionHeaderTopPadding = 0;
+    }
     [self.baseTableView registerNib:[UINib nibWithNibName:cellString bundle:nil] forCellReuseIdentifier:cellString];
     self.baseTableView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     

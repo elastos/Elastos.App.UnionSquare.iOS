@@ -834,7 +834,7 @@ static NSString *showOwnerAddressCellString=@"showOwnerAddressTableViewCell";
 }
 
 -(void)makeView{
-    
+    // FINAL VERSION REMOVED ELEMENT
     if ([self.title isEqualToString:@"ELA"]) {
         [self.topUpButton setTitle:NSLocalizedString(@"侧链充值", nil) forState:UIControlStateNormal];
         //        [self.topUpButton setImage:[UIImage imageNamed:@"asset_trade_side_recharge"] forState:UIControlStateNormal];
