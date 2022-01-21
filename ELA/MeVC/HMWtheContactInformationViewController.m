@@ -60,6 +60,7 @@
     
     self.nameLabel.text = NSLocalizedString(@"姓名", nil);
     self.addressLabel.text = NSLocalizedString(@"收款地址", nil);
+    // FINAL VERSION REMOVED ELEMENT
     self.DIDLabel.text = NSLocalizedString(@"DID", nil);
     self.mobileLabel.text = NSLocalizedString(@"联系方式", nil);
     self.emailLabel.text = NSLocalizedString(@"邮箱", nil);

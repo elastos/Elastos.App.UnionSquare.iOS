@@ -33,6 +33,7 @@
     
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField: self.nickNameTextField withTxt:NSLocalizedString(@"请输入姓名（必填）", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.theWalletAddressTextField withTxt:NSLocalizedString(@"请输入收款地址（必填）", nil)];
+    // FINAL VERSION REMOVED ELEMENT
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.DIDAddressTextField withTxt:NSLocalizedString(@"请输入did", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.mobilePhoneNOTextField withTxt:NSLocalizedString(@"请输入手机号码", nil)];
     [[HMWCommView share]makeTextFieldPlaceHoTextColorWithTextField:self.emailTextField withTxt:NSLocalizedString(@"请输入邮箱", nil)];
