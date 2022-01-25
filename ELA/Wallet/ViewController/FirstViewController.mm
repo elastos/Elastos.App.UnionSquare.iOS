@@ -47,8 +47,9 @@
 #import "ELACommitteeInfoModel.h"
 #import "WYLockViewController.h"
 #import "WYDIDUtils.h"
-#include "WYDIDInfoViewController.h"
-#include "WYDIDChainInfoModel.h"
+#import "WYDIDInfoViewController.h"
+#import "WYDIDChainInfoModel.h"
+#import "WYFinalNoteViewController.h"
 
 @interface FirstViewController ()<FLCapitalViewDelegate,UITableViewDelegate,UITableViewDataSource,HMWaddFooterViewDelegate,HMWTheWalletListViewControllerDelegate,HMWpwdPopupViewDelegate,HMWToDeleteTheWalletPopViewDelegate, HMWAddTheCurrencyListViewControllerDelegate,HMWAddTheCurrencyListViewControllerDelegate,HWMCommentPerioDetailsViewControllerDelegate>
 {
@@ -120,9 +121,17 @@
 - (void)viewDidLoad {
     if ([[WYUtils getGlobal:@"APPStart"] isEqual:@YES]) {
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        
+        BOOL noteOff = [prefs boolForKey:@"noteOff"];
+        if (!noteOff) {
+            WYFinalNoteViewController *finalNoteVC = [[WYFinalNoteViewController alloc] init];
+            finalNoteVC.modalPresentationStyle = UIModalPresentationCurrentContext;
+            [self.navigationController presentViewController:finalNoteVC animated:NO completion:nil];
+        }
+        
         BOOL authOn = [prefs boolForKey:@"authOn"];
         if (authOn) {
-            UIViewController *lockVC = [[WYLockViewController alloc] init];
+            WYLockViewController *lockVC = [[WYLockViewController alloc] init];
             lockVC.modalPresentationStyle = UIModalPresentationFullScreen;
             [self.navigationController presentViewController:lockVC animated:NO completion:nil];
         }
@@ -131,6 +140,7 @@
     
     [super viewDidLoad];
     [self setBackgroundImg:@""];
+    
     self.walletIDListArray=[NSArray arrayWithArray:[[HMWFMDBManager sharedManagerType:walletType] allRecordWallet]];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:self.leftView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(updataWalletListInfo:) name:updataWallet object:nil];
@@ -151,6 +161,7 @@
     }
     
 }
+
 -(void)loadNetWorkingPong{
     [HttpUrl NetGETHost:PongUrl url:@"/api/dposNodeRPC/getProducerNodesList" header:nil body:nil showHUD:NO WithSuccessBlock:^(id data) {
         NSArray *urlArray =[NSArray arrayWithArray:data[@"data"]];

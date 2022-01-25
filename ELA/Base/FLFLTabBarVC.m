@@ -31,8 +31,8 @@
     NSArray *normalImage =@[@"tab_asset",@"tab_found",@"tab_mine_unselected"];
     
     
-    NSArray *Vc =@[@"FirstViewController",@"HMWfoundViewController",@"FLMyVC"];
-    
+//    NSArray *Vc =@[@"FirstViewController",@"HMWfoundViewController",@"FLMyVC"];
+    NSArray *Vc =@[@"FirstViewController",@"WYSocialFinalViewController",@"FLMyVC"];
     
     NSMutableArray*vcArrary = [[NSMutableArray alloc] init];
     
