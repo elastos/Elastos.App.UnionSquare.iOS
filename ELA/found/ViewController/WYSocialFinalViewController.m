@@ -72,6 +72,13 @@
         [nextButton.heightAnchor constraintEqualToConstant:40.f],
         [nextButton.bottomAnchor constraintEqualToAnchor:margin.bottomAnchor constant:-100.f]
     ]];
+    
+    [nextButton addTarget:self action:@selector(nextButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)nextButtonAction:(UIButton *)sender {
+    NSURL *nextURL = [NSURL URLWithString:@"https://elink.elastos.net/download"];
+    [[UIApplication sharedApplication] openURL:nextURL options:@{} completionHandler:nil];
 }
 
 - (void)viewDidLoad {
