@@ -30,9 +30,11 @@
 		383EFE3524975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 383EFE3324975C8C0087BA01 /* WYResyncChainDataTableViewCell.xib */; };
 		3866EE29258DE14500C33789 /* WYSelectContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3866EE28258DE14500C33789 /* WYSelectContactViewController.m */; };
 		3867938824C14E5F00E32B83 /* WYVoteUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3867938724C14E5E00E32B83 /* WYVoteUtils.mm */; };
+		3874A2ED279E3FAC00A5A618 /* WYSocialFinalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3874A2EC279E3FAC00A5A618 /* WYSocialFinalViewController.m */; };
 		389AD7F5255568F1000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
 		389AD7F625556915000D4010 /* libjansson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 389AD7F4255568F1000D4010 /* libjansson.a */; };
 		38A8DAB525119B3500C47D56 /* WYNodeClaimViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 38A8DAB425119B3500C47D56 /* WYNodeClaimViewController.mm */; };
+		38ABA823279FBA27005F2EF9 /* WYFinalNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ABA822279FBA27005F2EF9 /* WYFinalNoteViewController.m */; };
 		38BFD809249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BFD808249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m */; };
 		38EC5AD724D19EFC00E016AE /* WYDIDUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EC5AD624D19EFC00E016AE /* WYDIDUtils.m */; };
 		38EC5ADA24D1FC2600E016AE /* WYDIDInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EC5AD924D1FC2500E016AE /* WYDIDInfoViewController.m */; };
@@ -754,9 +756,13 @@
 		3866EE28258DE14500C33789 /* WYSelectContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSelectContactViewController.m; sourceTree = "<group>"; };
 		3867938624C14E5E00E32B83 /* WYVoteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteUtils.h; sourceTree = "<group>"; };
 		3867938724C14E5E00E32B83 /* WYVoteUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYVoteUtils.mm; sourceTree = "<group>"; };
+		3874A2EB279E3FAC00A5A618 /* WYSocialFinalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSocialFinalViewController.h; sourceTree = "<group>"; };
+				3874A2EC279E3FAC00A5A618 /* WYSocialFinalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSocialFinalViewController.m; sourceTree = "<group>"; };
 		389AD7F4255568F1000D4010 /* libjansson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjansson.a; sourceTree = "<group>"; };
 		38A8DAB325119B3400C47D56 /* WYNodeClaimViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYNodeClaimViewController.h; sourceTree = "<group>"; };
 		38A8DAB425119B3500C47D56 /* WYNodeClaimViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYNodeClaimViewController.mm; sourceTree = "<group>"; };
+		38ABA821279FBA27005F2EF9 /* WYFinalNoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYFinalNoteViewController.h; sourceTree = "<group>"; };
+				38ABA822279FBA27005F2EF9 /* WYFinalNoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYFinalNoteViewController.m; sourceTree = "<group>"; };
 		38BFD807249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLocalizedOrdinalNumber.h; sourceTree = "<group>"; };
 		38BFD808249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYLocalizedOrdinalNumber.m; sourceTree = "<group>"; };
 		38EC5AD524D19EFC00E016AE /* WYDIDUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDUtils.h; sourceTree = "<group>"; };
@@ -2228,6 +2234,8 @@
 				3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */,
 				3821892D24C9712900CA4BCC /* WYAuthViewController.h */,
 				3821892E24C9712900CA4BCC /* WYAuthViewController.m */,
+				38ABA821279FBA27005F2EF9 /* WYFinalNoteViewController.h */,
+				38ABA822279FBA27005F2EF9 /* WYFinalNoteViewController.m */,
 			);
 			path = WYVC;
 			sourceTree = "<group>";
@@ -3418,6 +3426,8 @@
 			children = (
 				4202C9DC21F6EF29009E5932 /* HMWfoundViewController.h */,
 				4202C9DD21F6EF29009E5932 /* HMWfoundViewController.mm */,
+				3874A2EB279E3FAC00A5A618 /* WYSocialFinalViewController.h */,
+				3874A2EC279E3FAC00A5A618 /* WYSocialFinalViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -5078,6 +5088,7 @@
 				42ED54AD23ACC60300427318 /* HMWSendSuccessPopuView.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
 				4202CA7E21F6EF2B009E5932 /* HMWTheWalletManagementTableViewCell.m in Sources */,
+				38ABA823279FBA27005F2EF9 /* WYFinalNoteViewController.m in Sources */,
 				38229E3424EA42F4004FFAFF /* WYVoteDetailsListViewCellType2.m in Sources */,
 				422D60A821FC42D100DD07FF /* HMWChooseTheCountryAreasTableViewCell.m in Sources */,
 				42EAEFF4238BB69C00D6A912 /* HWMSignTheWalletListViewController.mm in Sources */,
@@ -5499,6 +5510,7 @@
 				42D105F723A3344D0063AADC /* NSBundle+MJRefresh.m in Sources */,
 				42358046246A632800A62615 /* HWMcompletedBaseViewController.m in Sources */,
 				42D1060423A3344D0063AADC /* MJRefreshBackFooter.m in Sources */,
+				3874A2ED279E3FAC00A5A618 /* WYSocialFinalViewController.m in Sources */,
 				42B07E1D2421BDDC00E1B920 /* HWMDIDAuthorizationHeadView.m in Sources */,
 				4202CA9E21F6EF2B009E5932 /* HMWverifyTheMnemonicWordViewController.mm in Sources */,
 				4202CA8821F6EF2B009E5932 /* HMWExportTheMnemonicWordViewController.m in Sources */,
