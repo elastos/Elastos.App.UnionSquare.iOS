@@ -757,12 +757,12 @@
 		3867938624C14E5E00E32B83 /* WYVoteUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYVoteUtils.h; sourceTree = "<group>"; };
 		3867938724C14E5E00E32B83 /* WYVoteUtils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYVoteUtils.mm; sourceTree = "<group>"; };
 		3874A2EB279E3FAC00A5A618 /* WYSocialFinalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYSocialFinalViewController.h; sourceTree = "<group>"; };
-				3874A2EC279E3FAC00A5A618 /* WYSocialFinalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSocialFinalViewController.m; sourceTree = "<group>"; };
+		3874A2EC279E3FAC00A5A618 /* WYSocialFinalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYSocialFinalViewController.m; sourceTree = "<group>"; };
 		389AD7F4255568F1000D4010 /* libjansson.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libjansson.a; sourceTree = "<group>"; };
 		38A8DAB325119B3400C47D56 /* WYNodeClaimViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYNodeClaimViewController.h; sourceTree = "<group>"; };
 		38A8DAB425119B3500C47D56 /* WYNodeClaimViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYNodeClaimViewController.mm; sourceTree = "<group>"; };
 		38ABA821279FBA27005F2EF9 /* WYFinalNoteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYFinalNoteViewController.h; sourceTree = "<group>"; };
-				38ABA822279FBA27005F2EF9 /* WYFinalNoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYFinalNoteViewController.m; sourceTree = "<group>"; };
+		38ABA822279FBA27005F2EF9 /* WYFinalNoteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYFinalNoteViewController.m; sourceTree = "<group>"; };
 		38BFD807249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLocalizedOrdinalNumber.h; sourceTree = "<group>"; };
 		38BFD808249BBC7E00CDBE6A /* WYLocalizedOrdinalNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYLocalizedOrdinalNumber.m; sourceTree = "<group>"; };
 		38EC5AD524D19EFC00E016AE /* WYDIDUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDUtils.h; sourceTree = "<group>"; };
