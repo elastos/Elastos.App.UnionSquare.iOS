@@ -85,7 +85,7 @@
     titleTextView.textColor = [UIColor whiteColor];
     titleTextView.font = [UIFont systemFontOfSize:14.f];
     titleTextView.textAlignment = NSTextAlignmentCenter;
-    titleTextView.text = NSLocalizedString(@"当前版本是 Ela Wallet 的最终版本，本版仅保留亦来云主链的资产管理功能，更多功能请使用 Essentials App", nil);
+    titleTextView.text = NSLocalizedString(@"当前版本是Ela Wallet v1.5.0版，本版仅保留亦来云主链的资产管理功能，更多功能请使用 Essentials App", nil);
     titleTextView.userInteractionEnabled = YES;
     titleTextView.editable = NO;
     [popupView addSubview:titleTextView];
