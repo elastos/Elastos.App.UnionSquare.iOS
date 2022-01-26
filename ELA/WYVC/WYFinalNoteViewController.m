@@ -86,7 +86,8 @@
     titleTextView.font = [UIFont systemFontOfSize:14.f];
     titleTextView.textAlignment = NSTextAlignmentCenter;
     titleTextView.text = NSLocalizedString(@"当前版本是 Ela Wallet 的最终版本，本版仅保留亦来云主链的资产管理功能，更多功能请使用 Essentials App", nil);
-    titleTextView.userInteractionEnabled = NO;
+    titleTextView.userInteractionEnabled = YES;
+    titleTextView.editable = NO;
     [popupView addSubview:titleTextView];
     
     UIView *spacer1 = [[UIView alloc] init];
@@ -124,8 +125,8 @@
     [NSLayoutConstraint activateConstraints:@[
         [popupView.centerXAnchor constraintEqualToAnchor:margin.centerXAnchor],
         [popupView.centerYAnchor constraintEqualToAnchor:margin.centerYAnchor],
-        [popupView.widthAnchor constraintEqualToConstant:270.f],
-        [popupView.heightAnchor constraintEqualToConstant:230.f]
+        [popupView.widthAnchor constraintEqualToConstant:290.f],
+        [popupView.heightAnchor constraintEqualToConstant:232.f]
     ]];
     
     [NSLayoutConstraint activateConstraints:@[
@@ -139,13 +140,13 @@
         [titleTextView.topAnchor constraintEqualToAnchor:closeBtn.bottomAnchor],
         [titleTextView.centerXAnchor constraintEqualToAnchor:popupView.centerXAnchor],
         [titleTextView.widthAnchor constraintEqualToAnchor:popupView.widthAnchor multiplier:0.85f],
-        [titleTextView.bottomAnchor constraintEqualToAnchor:self.tickBox.topAnchor]
+        [titleTextView.bottomAnchor constraintEqualToAnchor:self.tickBox.topAnchor constant:-10.f]
     ]];
     
     [NSLayoutConstraint activateConstraints:@[
         [spacer1.leadingAnchor constraintEqualToAnchor:popupView.leadingAnchor],
         [spacer1.trailingAnchor constraintEqualToAnchor:self.tickBox.leadingAnchor],
-        [self.tickBox.trailingAnchor constraintEqualToAnchor:tickLabel.leadingAnchor],
+        [self.tickBox.trailingAnchor constraintEqualToAnchor:tickLabel.leadingAnchor constant:-5.f],
         [tickLabel.trailingAnchor constraintEqualToAnchor:spacer2.leadingAnchor],
         [spacer2.trailingAnchor constraintEqualToAnchor:popupView.trailingAnchor],
         [spacer1.widthAnchor constraintEqualToAnchor:spacer2.widthAnchor],
@@ -167,15 +168,15 @@
     [confirmBtn addTarget:self action:@selector(confirmBtnAction:) forControlEvents:UIControlEventTouchUpInside];
 }
 
--(void)closeBtnAction:(UIButton *)sender {
+- (void)closeBtnAction:(UIButton *)sender {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
--(void)tickBoxAction:(TickBox *)sender {
+- (void)tickBoxAction:(TickBox *)sender {
     sender.isChecked = !sender.isChecked;
 }
 
--(void)confirmBtnAction:(UIButton *)sender {
+- (void)confirmBtnAction:(UIButton *)sender {
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs setBool:self.tickBox.isChecked forKey:@"noteOff"];
     [self dismissViewControllerAnimated:NO completion:nil];
