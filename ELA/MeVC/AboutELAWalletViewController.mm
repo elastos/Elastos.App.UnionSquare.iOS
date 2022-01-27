@@ -63,7 +63,7 @@
     [self.navigationController pushViewController:HWMVUpdateLogWebVC animated:YES];
 }
 - (IBAction)TheProblemOfFeedbackAction:(id)sender {
-    [UIPasteboard generalPasteboard].string = @"wallet@elastos.org";
+    [UIPasteboard generalPasteboard].string = @"elawallet@gelaxy.io";
     [[FLTools share]showErrorInfo:NSLocalizedString(@"客服邮箱已复制到粘贴板", nil)];
 }
 - (IBAction)RunLogAction:(id)sender {
