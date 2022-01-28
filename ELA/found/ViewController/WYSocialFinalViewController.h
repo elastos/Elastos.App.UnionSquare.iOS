@@ -1,6 +1,6 @@
 //
 /*
- * Copyright (c) 2022 Elastos Foundation
+ * Copyright (c) 2022 Gelaxy Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
