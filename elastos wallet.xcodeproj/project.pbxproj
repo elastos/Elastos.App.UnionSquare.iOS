@@ -14,6 +14,7 @@
 		380233A824ADD413001DAD52 /* WYCrashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380233A724ADD413001DAD52 /* WYCrashViewController.m */; };
 		380593B7253C78D3000716A8 /* WYShowCustomContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */; };
 		380B459F2555EFE40085709E /* WYDIDCardViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 380B459E2555EFE40085709E /* WYDIDCardViewController.mm */; };
+		381FBE6827A5BDF30077D011 /* libutf8proc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 381FBE6727A5BDF20077D011 /* libutf8proc.a */; };
 		3821892C24C8FD1F00CA4BCC /* WYLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */; };
 		3821892F24C9712900CA4BCC /* WYAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821892E24C9712900CA4BCC /* WYAuthViewController.m */; };
 		3821893224CB90DF00CA4BCC /* WYContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3821893124CB90DF00CA4BCC /* WYContactListViewController.m */; };
@@ -727,6 +728,7 @@
 		380593B6253C78D3000716A8 /* WYShowCustomContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYShowCustomContentViewController.m; sourceTree = "<group>"; };
 		380B459D2555EFE40085709E /* WYDIDCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYDIDCardViewController.h; sourceTree = "<group>"; };
 		380B459E2555EFE40085709E /* WYDIDCardViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WYDIDCardViewController.mm; sourceTree = "<group>"; };
+		381FBE6727A5BDF20077D011 /* libutf8proc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libutf8proc.a; path = "elastos wallet/spvsdk/lib/libutf8proc.a"; sourceTree = "<group>"; };
 		3821892A24C8FD1E00CA4BCC /* WYLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYLockViewController.h; sourceTree = "<group>"; };
 		3821892B24C8FD1E00CA4BCC /* WYLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYLockViewController.m; sourceTree = "<group>"; };
 		3821892D24C9712900CA4BCC /* WYAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAuthViewController.h; sourceTree = "<group>"; };
@@ -2106,6 +2108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				381FBE6827A5BDF30077D011 /* libutf8proc.a in Frameworks */,
 				383EFE2B249727D00087BA01 /* libresolv.tbd in Frameworks */,
 				428476CF243F2A2C00EADFDE /* UIKit.framework in Frameworks */,
 				428476CD243F2A2300EADFDE /* CoreGraphics.framework in Frameworks */,
@@ -2196,6 +2199,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				381FBE6727A5BDF20077D011 /* libutf8proc.a */,
 				383EFE2A249727B50087BA01 /* libresolv.tbd */,
 				428476CE243F2A2C00EADFDE /* UIKit.framework */,
 				428476CC243F2A2300EADFDE /* CoreGraphics.framework */,
@@ -5654,6 +5658,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(inherited)",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_CFLAGS = "";
@@ -5738,6 +5743,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = NO;
@@ -5869,6 +5875,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				OTHER_CFLAGS = "";
@@ -6000,6 +6007,7 @@
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 					"$(PROJECT_DIR)/ELA/ThirdSDK/SVG",
+					"$(PROJECT_DIR)/elastos\\ wallet/spvsdk/lib",
 				);
 				MARKETING_VERSION = "1.4 dev";
 				ONLY_ACTIVE_ARCH = YES;
