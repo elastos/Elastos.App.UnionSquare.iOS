@@ -84,7 +84,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self defultWhite];
     [self setBackgroundImg:@""];
     self.title=NSLocalizedString(@"社区", nil);
 }
