@@ -54,7 +54,7 @@
     
     
     //    self.TheCodeStatementButton.alpha=0.f;
-    self.functionalSpecificationsLabel.text=NSLocalizedString(@"主要功能： \n· 亦来云全生态数字资产支持 \n· 亦来云 DID 数字身份认证 \n· 亦来云 DPoS 选举 \n· CR 社区委员选举 \n· CR 社区提案&投票等", nil);
+    self.functionalSpecificationsLabel.text=NSLocalizedString(@"", nil);
 }
 - (IBAction)seeTheLogAction:(id)sender {
     

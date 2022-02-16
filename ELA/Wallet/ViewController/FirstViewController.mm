@@ -476,11 +476,6 @@
         });
         
         [self hiddLoading];
-        
-        // WYDebug
-        WYLog(@"=== wydebug start ===");
-        
-        WYLog(@"=== wydebug end ===");
     }
 }
 
@@ -491,6 +486,9 @@
     
     int index=0;
     for (NSString *currencyName in arr) {
+        if (![currencyName isEqualToString:@"ELA"]) {
+            continue;
+        }
         invokedUrlCommand *mommand=[[invokedUrlCommand alloc]initWithArguments:@[self.currentWallet.masterWalletID,currencyName,@2] callbackId:self.currentWallet.walletID className:@"Wallet" methodName:@"getBalance"];
         PluginResult * result =[[ELWalletManager share]getBalance:mommand];
         
