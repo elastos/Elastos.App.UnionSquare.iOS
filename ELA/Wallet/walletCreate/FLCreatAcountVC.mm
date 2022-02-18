@@ -89,7 +89,7 @@
         languageStringMword=@"english";
     }else if ([languageString  containsString:@"zh"]){
         
-        languageStringMword=@"chinese";
+        languageStringMword=@"ChineseSimplified";
     }
     
     
